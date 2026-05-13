@@ -1,0 +1,642 @@
+Ana´lise da Qualidade e Efica´cia do Co´digo Gerado por LLMs:
+Um Estudo com Problemas da Plataforma LeetCode
+
+1. Introduc¸a˜o
+Apesar dos avanc¸os significativos ao longo das de´cadas, ainda ha´ um longo caminho a
+se percorrer para alcanc¸ar a gerac¸a˜o de co´digo completamente automa´tica e pra´tica, es-
+pecialmente quando se trata de gerar co´digo com qualidade [MoradiDakheletal. 2023].
+Nos u´ltimos anos, contudo, ferramentas de gerac¸a˜o de co´digo baseadas em Inteligeˆncia
+Artificial (IA) e o surgimento de Large Language Models (LLM) ganharam um consi-
+dera´veldestaque[WangandChen2023]. Umexemplonota´vele´ oGitHub Copilot,1
+impulsionado pelo modelo Codex2 da OpenAI3, que demonstra a habilidade de ge-
+rar co´digo preciso para diversas tarefas de programac¸a˜o [MoradiDakheletal. 2023,
+Vaithilingametal. 2022].
+Existem estudos que focam na correc¸a˜o e avaliac¸a˜o dos co´digos gerados pelo
+GitHub Copilot em diferentes tipos de contexto. Por exemplo, Rubio et al. (2023)
+concentraram-se na avaliac¸a˜o da efica´cia das soluc¸o˜es geradas por LLMs em atividades
+universita´riasenvolvendoproblemasdeprogramac¸a˜odedisciplinasdeumcursosuperior
+de cieˆncia da computac¸a˜o. Ja´ Finnie-Ansley et al. (2022) realizaram uma ana´lise com-
+parativa sobre a assertividade entre alunos e o Davinci (versa˜o beta do modelo Codex)
+em questo˜es de um curso de programac¸a˜o. Adicionalmente, alguns estudos exploram a
+interac¸a˜o humana e a eficieˆncia com que os desenvolvedores utilizam LLMs. Pore´m, es-
+tesestudosaindaseconcentramexclusivamentenaferramentaCopilotena˜oenvolvem
+uma ana´lise do co´digo [MoradiDakheletal. 2023]. Ale´m disso, na˜o houve investigac¸a˜o
+sobreassoluc¸o˜escomdefeitoseposs´ıveissugesto˜esdemelhoriasutilizandoalinguagem
+natural e diferentes entradas. Portanto, e´ poss´ıvel encontrar problemas de qualidade de
+co´digo gerado por estas ferramentas, podendo afetar negativamente a compreensa˜o do
+co´digo, introduzir bugs ou criar vulnerabilidades de seguranc¸a [Liuetal. 2024]. Nesse
+contexto, o problema que este trabalho aborda e´ uma careˆncia de estudos que com-
+paremeanalisemco´digos-fontegeradosporLLMsnoquetangeaspectosdeefica´cia
+equalidade.
+Adicionalmente,devidoaonovoambientecriadopelasIAs,surgempreocupac¸o˜es
+sobre pla´gio e dependeˆncia excessiva. Estudantes podem sentir-se tentados a utilizar
+ferramentas de gerac¸a˜o de co´digo para concluir tarefas de programac¸a˜o sem compre-
+ender os conceitos subjacentes, o que pode comprometer o desenvolvimento de habili-
+dades essenciais, como o pensamento cr´ıtico e a capacidade de resoluc¸a˜o de problemas
+[Reevesetal. 2023]. Usua´rios sem qualquer experieˆncia em programac¸a˜o podem uti-
+lizar LLMs para gerar trechos de co´digo a partir de requisitos em linguagem natural
+[Beckeretal. 2023]. Ale´m disso, a ra´pida e ampla disponibilidade destas ferramentas
+tem levado a` especulac¸o˜es sobre o futuro da educac¸a˜o em computac¸a˜o e programac¸a˜o
+no geral [Welsh2022]. Embora essas ferramentas possam auxiliar e agilizar o processo
+de gerac¸a˜o de co´digo e desenvolvimento, persistem du´vidas quanto a` sua confiabilidade
+e assertividade, especialmente quanto a` qualidade do co´digo produzido e seu poss´ıvel
+impacto na seguranc¸a e na inteligibilidade humana das respostas, uma vez que elas teˆm
+sido cada vez mais utilizadas em diversos ambientes. Trabalhos como o de Liu et al.
+(2024) investigaram mais a fundo o funcionamento e sintetizac¸a˜o mais aprofundado de
+1https://github.com/features/copilot
+2https://openai.com/blog/openai-codex/
+3https://openai.com/about
+diversos LLM, mas eles na˜o abordaram aspectos relacionados a` qualidade do co´digo e
+compreensa˜ohumanadasrespostas.
+Desta forma, o objetivo geral deste trabalho e´ realizar uma ana´lise compara-
+tiva entre quatro LLMs difundidos no mercado: GPT-44, Gemini5, Claude 3
+Haiku6 eLlama 3.17. Osobjetivosespec´ıficossa˜o: (I)analisaraqualidadedoco´digo
+geradopelosLLMs;(II)avaliaraassertividadedasrespostasdasLLMs;e(III)investigar
+sevariac¸o˜esnaformulac¸a˜odasperguntasfeitasa`sLLMsimpactamoco´digogerado.
+Os resultados desta pesquisa indicaram que os modelos Claude 3 Haiku e
+GPT-4 alcanc¸aram alta assertividade (superior a 80%) em problemas de programac¸a˜o,
+demonstrandobomdesempenhotantodemodelosespecializadosquantorobustos. Apesar
+da menor taxa de assertividade (51%), o modelo Llama 3 destacou-se pelos melhores
+indicadores de qualidade estrutural. Ale´m disso, variac¸o˜es nas perguntas influenciaram
+significativamente as soluc¸o˜es, resultando em uma oscilac¸a˜o de cerca de 52% na asser-
+tividade em problemas anteriormente incorretos ou com erros de execuc¸a˜o. Com base
+nessesresultados,foramgeradasimplicac¸o˜esrelevantesparaacomunidadedesoftware.
+As pro´ximas sec¸o˜es do artigo esta˜o divididas da seguinte forma: A Sec¸a˜o 2 apre-
+senta a fundamentac¸a˜o teo´rica e a Sec¸a˜o 3 abrange os trabalhos relacionados. A Sec¸a˜o 4
+descreve a metodologia proposta para a realizac¸a˜o do trabalho. As sec¸o˜es 5 e 6 apresen-
+tamediscutemosresultadosobtidosnapesquisa,respectivamente. ASec¸a˜o7contempla
+as ameac¸as a validade e suas mitigac¸o˜es. Por fim, a Sec¸a˜o 8 apresenta a conclusa˜o e
+trabalhosfuturos.
+2. Fundamentac¸a˜o Teo´rica
+Nesta sec¸a˜o, sa˜o apresentados os conceitos fundamentais para compreender o trabalho.
+Especificamente,naSec¸a˜o2.1e´ discutidaadefinic¸a˜odeLargeLanguageModels(LLM).
+Porfim,naSec¸a˜o2.2sa˜oabordadoosconceitosrelacionadosaQualidadedeSoftware.
+2.1. LargeLanguageModels(LLM)
+Large Language Models (LLM) sa˜o ferramentas de inteligeˆncia artificial baseadas em
+redes neurais multidimensionais, treinadas com vasta quantidades de dados, geralmente
+vindos da internet [Albertsetal. 2023]. LLMs assim como outros modelos de lingua-
+gem, aprendem padro˜es e associac¸o˜es entre palavras nos dados de treinamento, para
+prever a pro´xima palavra em uma sequeˆncia, permitindo gerar sa´ıdas com base na
+probabilidade [Bhayana2024]. Embora modelos de linguagem probabil´ısticos existam
+ha´ de´cadas, os LLMs revolucionaram o processamento de linguagem natural (PLN)
+nos u´ltimos anos [Kasnecietal. 2023]. Isso e´ causado pela adoc¸a˜o da arquitetura de
+transformadores [Devlinetal. 2018, Tayetal. 2022] e o uso do mecanismo de atenc¸a˜o
+[Vaswanietal. 2017], os quais teˆm melhorado significativamente a capacidade dos mo-
+delos de linguagem para lidar com dependeˆncias de grande alcance em textos feitos em
+linguagem natural. Especificamente, a arquitetura de transformadores por Vaswani et al.
+(2017) emprega o mecanismo de autoatenc¸a˜o para avaliar a importaˆncia de diferentes
+4https://chatgpt.com/
+5https://gemini.google.com/
+6https://www.anthropic.com/claude
+7https://www.llama.com/
+partes da entrada ao gerar previso˜es. Isso permite que o modelo compreenda melhor as
+relac¸o˜esentreaspalavrasemumasentenc¸a,independentementedesuaposic¸a˜o.
+Deformageral,LLMssa˜otreinadosparapreveraprova´velpalavraaseguir,dada
+uma sugesta˜o textual [GmeinerandYildirim2023]. No entanto, essa descric¸a˜o de alto
+n´ıvel na˜o captura a ampla gama de coisas que os LLM podem fazer. Novamente como
+exemplo, o ChatGPT que foi treinado utilizando um imenso conjunto de dados, foi a
+primeira inteligeˆncia artificial baseada em LLM que demonstrou amplamente a flexibili-
+dade desses modelos, apresentando bom desempenho em uma ampla gama de tarefas de
+linguagem natural, como escrever e-mails, artigos, fazer resumo de documentos e ate´ a
+escritadeco´digoparaSoftware[Taecharungroj2023].
+2.2. QualidadedeSoftware
+Qualidade de software e´ um conceito crucial que abrange a capacidade de um produto
+atender a`s necessidades expl´ıcitas e impl´ıcitas dos usua´rios [Nistalaetal. 2019]. A com-
+preensa˜o dessa qualidade e´ multidimensional e interdependente, exigindo uma avaliac¸a˜o
+cuidadosaemva´riascamadas[Gillies2011]. Porisso,anormatizac¸a˜odosaspectosdede-
+senvolvimento de software, como proposto pela ISO/IEC 9126, distingue a qualidade em
+diferentestipos,incluindointerna,externaeemuso. Essasnormasestabelecemme´tricase
+caracter´ısticasquedevemserespecificadas,medidaseavaliadasparagarantirumproduto
+finaldealtaqualidade[ISO/IEC25010:20112017].
+Aqualidadedesoftwaree´ umelementoessencialparagarantirqueoprodutofinal
+atendaa`sexpectativasdosusua´riosesejaresilienteafalhas. Me´tricasespec´ıficasdequali-
+dadeestrutural,sa˜odefinidasparagarantiraconfiabilidade,seguranc¸aemanutenibilidade
+doco´digo-fonte[Curtisetal. 2022].
+3. Trabalhos Relacionados
+Nesta sec¸a˜o, sa˜o discutidos os trabalhos de outros autores que ajudam a explicar o con-
+textoemqueesteartigoaborda,emconjuntocomestudosqueanalisamomesmoprocesso
+ou utilizam de metodologias semelhantes a que propomos. De maneira espec´ıfica, os tra-
+balhosrelacionadosdiscutidosenvolvemaana´lisedaqualidadedoco´digoeassertividade
+dasrespostasfornecidaspelasLLMs.
+Nguyen e Nadi (2022) conduziram uma pesquisa emp´ırica para avaliar a corre-
+tude e compreensibilidade das sugesto˜es de co´digo providas pelo GitHub Copilot.
+Para isso, foi utilizada uma abordagem que envolveu quatro linguagens de programac¸a˜o
+a partir de 33 questo˜es do LeetCode. Ale´m disso, a compreensibilidade das soluc¸o˜es foi
+analisadausandome´tricasdecomplexidadecicloma´ticaecomplexidadecognitivadoSo-
+narQube. Osresultadosrevelaramqueassugesto˜esdoCopilotemJavaapresentarama
+maior taxa de corretude (57%), enquanto JavaScript obteve o menor desempenho (27%).
+Ademais, as sugesto˜es do Copilot demonstraram baixa complexidade, sem diferenc¸as
+significativas entre as linguagens de programac¸a˜o. O trabalho tem uma grande relac¸a˜o
+com o estudo proposto neste artigo, pois, avalia a qualidade do co´digo gerado por IAs
+utilizandoquesto˜esdeprogramac¸a˜oeutilizademe´tricassemelhantesparaavaliaracom-
+preensibilidadehumana.
+Rubioetal. (2023)temcomofocoaexplorac¸a˜oexperimental,ana´liseeavaliac¸a˜o
+dassugesto˜esfeitaspelaferramentaGitHub Copilotemto´picosdeprogramac¸a˜ore-
+lacionadosaocursodeCieˆnciasdaComputac¸a˜onaUniversidadedeBio-Bio. Osartefatos
+em questa˜o, envolvem sentenc¸as escritas em linguagem natural, obtidas dos problemas
+de programac¸a˜o das disciplinas de: Introduc¸a˜o a` Programac¸a˜o, Programac¸a˜o Orientada a
+Objetos,EstruturadeDados,Ana´liseeDesenhodeAlgoritmos,FundamentosdeCieˆncias
+da Computac¸a˜o, Administrac¸a˜o e Programac¸a˜o de Bases de Dados e Inteligeˆncia Artifi-
+cial. O estudo observou que, em certos casos, as sugesto˜es do Copilot careciam de
+funcionalidadeadequada,sugerindocomenta´riosouco´digona˜opertinentesa` tarefa. Adi-
+cionalmente, ao utilizar o SonarQube para avaliar a qualidade do co´digo, foram iden-
+tificados bugs e problemas de manutenibilidade nas respostas analisadas. Esse estudo
+e´ relevante para a construc¸a˜o deste trabalho, uma vez que utiliza me´todos semelhantes
+para realizar a correc¸a˜o de sugesto˜es de co´digo gerado pela LLM, ale´m de fornecer uma
+possibilidadedeferramentaaserutilizadonestetrabalho.
+De outra perspectiva, Denny et al. (2023) propo˜em uma ana´lise do desempenho
+atual do GitHub Copilot na resoluc¸a˜o de problemas de programac¸a˜o relacionados
+ao to´pico de introduc¸a˜o a` cieˆncia da computac¸a˜o em um reposito´rio pu´blico. O estudo
+investigou sobre a interac¸a˜o humana com ferramentas de gerac¸a˜o de co´digo, por meio
+da Engenharia de Prompts. As sa´ıdas dos modelos de LLMs sa˜o muito sens´ıveis a`s
+suas entradas, dessa forma foi explorado o desempenho atual do GitHub Copilot
+e a efica´cia da Engenharia de Prompts por meio de uma metodologia que envolveu a
+co´pia das descric¸o˜es dos problemas do CodeCheck para um editor Visual Studio Code
+com a extensa˜o Copilot ativada. Como resultado, identificaram falhas comuns do
+Copilot, categorizando 15 problemas como “Conceituais”, 4 como “Prompts Fracos”,
+11 como “Prompts Verbosos”e 4 como “Amb´ıguos”. Assim, esse estudo e´ relevante no
+contextodestetrabalho,poispartedametodologiautilizadaparacorrec¸a˜oecategorizac¸a˜o
+dosprompts,foramusadasnestetrabalhodemaneiraautomatizada.
+Mastropaolo et al. (2023) realizam uma ana´lise sobre como mudanc¸as na
+descric¸a˜odoproblemaemlinguagemnaturalafetamassugesto˜esdeco´digogeradaspelo
+GitHub Copilot. Investigaram se diferentes formas de descrever a mesma questa˜o
+levam a recomendac¸o˜es de co´digo distintas, o que poderia questionar a consisteˆncia e
+confiabilidade do Copilot. A pesquisa envolveu a gerac¸a˜o automa´tica de 892 me´todos
+Java a partir de suas descric¸o˜es originais no Javadoc, e atrave´s das ferramentas PEGA-
+SUS e Translation Pivoting (TP). Os resultados da ana´lise mostram que, em cerca de
+46% dos casos, alterar a descric¸a˜o resulta em sugesto˜es de co´digo diferentes, com algu-
+mas diferenc¸as ate´ mesmo afetando a correc¸a˜o do co´digo gerado em aproximadamente
+28%. Esse estudo e´ relevante para a construc¸a˜o deste trabalho, uma vez que propo˜e me-
+todologias para gerar descric¸o˜es semanticamente equivalentes por meio de ferramentas
+automatizadasequesera˜ousadasnopresenteestudoparaaperfeic¸oarasrepostasgeradas
+pelasLLMs.
+Por fim, Su et al. (2023) propo˜em um estudo sobre um me´todo de avaliac¸a˜o re-
+lacionado a capacidade de gerac¸a˜o de co´digo de LLMs. O me´todo proposto neste es-
+tudo avalia a capacidade de gerac¸a˜o de co´digo em seis dimenso˜es: validade do co´digo,
+correc¸a˜o do co´digo, complexidade do co´digo, confiabilidade do co´digo, seguranc¸a do
+co´digo e legibilidade do co´digo. Para alcanc¸ar esse objetivo, e´ proposto um conjunto de
+dadosparatestarascapacidadesdeco´digo,quecompreende45perguntasdecodificac¸a˜o.
+Neste estudo foram abordados as ferramentas ChatGPT, Claude, Spark e Bing
+AI. Atrave´s da avaliac¸a˜o experimental e ana´lise de dados, os pesquisadores descobrem
+queosLLMsbaseadosembusca,comooBing AI,apresentamcapacidadesdegerac¸a˜o
+de co´digo mais robustas do que os modelos pre´-treinados, como ChatGPT, Claude e
+Spark. Ale´mdisso,observaramqueosLLMsatuaispossuemforteshabilidadesdecom-
+preensa˜odelinguagemnatural,equeoserrosnassugesto˜esdeco´digosa˜omaispropensos
+a serem causados por problemas no co´digo em si do que por problemas de compreensa˜o.
+Assim, tal estudo comparativo e´ de grande relevaˆncia na construc¸a˜o deste trabalho, uma
+vez que propo˜em metodologias para avaliac¸a˜o de desempenho utilizadas neste estudo,
+em um me´todo similar baseado em testes e ferramentas de gerac¸a˜o de me´tricas com o
+SonarQube.
+4. Materiais e Me´todos
+O estudo descrito neste trabalho e´ de natureza quantitativa com objetivo explorato´rio
+[Wohlinetal. 2012], pois envolve a ana´lise de aspectos de assertividade e qualidade do
+co´digo gerado por quatro modelos de LLMs dispon´ıveis no mercado. A Figura 1 mostra
+umavisa˜ogeraldametodologiaempregadanesteestudo,queenvolveseisgrandesetapas:
+coleta de perguntas provenientes da plataforma LeetCode, gerac¸a˜o de respostas por meio
+de LLMs, ana´lise da assertividade das respostas, avaliac¸a˜o da assertividade apo´s para-
+fraseamento, me´tricas de qualidade, e gerac¸a˜o de visualizac¸o˜es. Nas subsec¸o˜es a seguir,
+cadaumadelase´ detalhada.
+Problemas de Geração de Análise de Métricas de Geração de
+Parafraseamento
+Programação Respostas Assertividade Qualidade Visualizações
+Leetcode GPT-4, Gemini, Claude 3 Haiku, Llama-3.1 SonarQube
+Figura1. Visa˜ogeraldametodologia
+4.1. Selec¸a˜odeProblemasdeProgramac¸a˜onaPlataformaLeetCode
+O conjunto de dados inicial deste trabalho consiste em problemas de programac¸a˜o pro-
+venientes do LeetCode,8 uma plataforma que teˆm sido amplamente utilizada pela comu-
+nidade de software para treinamento, capacitac¸a˜o e por empresas em processos seleti-
+vos [Cuietal. 2024, Leetcode2024]. Utilizando a Application Interface Programming
+(API) provida pela mesma, criou-se um conjunto de scripts para selecionar os proble-
+mas que possuem acesso gratuito e que esta˜o na categoria de algoritmos. Os metadados
+incluem, por exemplo, informac¸o˜es sobre nu´mero de resoluc¸o˜es, n´ıvel de dificuldade,
+nu´mero de likes e dislikes. Em seguida, desta amostra, foram selecionados os top-25%,
+ordenadospelonu´merodesubmisso˜es,porsetratardeumame´tricaquesugereproblemas
+deinteressedacomunidade.
+AFigura2mostraumexemplodeproblemadeprogramac¸a˜opropostoparaapla-
+taforma LeetCode denominado Two Sum.9 Como pode-se observar, a tarefa consiste em
+propor um trecho de co´digo para solucionar um problema de busca de valores em um
+array. O objetivo e´ que o desenvolvedor retorne as duas posic¸o˜es no array que corres-
+pondem a soma do nu´mero alvo (target). Este problema possui aproximadamente 28M
+submisso˜es,comumataxadeassertividadedeaproximadamente54%(Novembro,2024).
+8https://leetcode.com
+9https://leetcode.com/problems/two-sum
+Figura 2. Exemplo de problema de programac¸a˜o da plataforma LeetCode (Two
+Sumproblem)
+4.2. Gerac¸a˜odeRespostasparaosProblemasdeProgramac¸a˜o
+Este trabalho considera respostas geradas por quatro LLMs populares GPT-4, Gemini,
+Claude 3 Haiku e Llama 3.1, desenvolvidas e mantidas por grandes companhias
+de software [OpenAI2024, Google2024, Claude2024, Meta2024]. Para gerar as res-
+postas aos problemas selecionados, adotou-se a biblioteca G4F.10 Esta biblioteca e´ capaz
+desecomunicarcomasLLMsfocodesteestudo,permitindoaautomac¸a˜odagerac¸a˜odas
+respostas. AsperguntasforamestruturadasemarquivosJSON,eemseguida,submetidas
+pararesoluc¸a˜oporcadaLLM.
+O texto a seguir mostra um exemplo da mensagem enviada para os modelos
+atrave´sdabiblioteca G4F,queincluioenunciadodoproblema,especificac¸o˜esdetalhadas
+sobre o formato esperado pelo LeetCode e instruc¸o˜es para o uso da assinatura requerida
+pelo interpretador da plataforma. O co´digo foi gerado em Python, devido a` popularidade
+e simplicidade da linguagem [LopesandHora2022, Buscemi2023], ale´m de estar entre
+aslinguagensmaispopularesnorankingdeLLMs.11
+GenerateonlyPythoncodeforthefollowingproblem:
+[codeproblemfromLeetCodeplatform]
+Ensurethatthefunctionmaintainsthesamenameandthesamenumberofparameters
+asinthisexample:
+[classandmethoddefinitionforPythoncode]
+Onlyusethe “classSolution”. Do notcreateanotherclassanddo notuseanylibra-
+ries. IwantonlythePythoncodewithoutadditionaltextorcomments.
+AFigura3mostraumexemplodaassinaturarequeridaparaoproblemaTwoSum,
+mencionado anteriormente. Como pode-se observar, o trecho de co´digo esperado requer
+umaclassedenominadaSolutioneumme´todotwoSumquerecebetreˆsparaˆmetros.
+10https://g4f.ai
+11https://huggingface.co/spaces/bigcode/bigcode-models-leaderboard
+Figura 3. Exemplo de assinatura requerida parasubmissa˜o de problema napla-
+taformaLeetCode(TwoSumproblem)
+4.3. Ana´lisedaAssertividadeeQualidadedasRespostas
+Apo´s a gerac¸a˜o dos problemas via LLMs, as respostas foram submetidas na plataforma
+LeetCode para verificar a assertividade. Para tanto, elaborou-se um conjunto de scripts,
+que gerencia tokens de sessa˜o e Cross Site Request Forgery (CSRF) para autenticac¸a˜o,
+garantindoavalidadedosmesmosatrave´sdefunc¸o˜esderotac¸a˜oevalidac¸a˜o.
+Os scripts executam requisic¸o˜es GraphQL para obter detalhes dos problemas
+e configurac¸o˜es, utilizando essas informac¸o˜es para interpretar e submeter soluc¸o˜es de
+co´digo geradas pelas LLMs. Em seguida, verifica-se o status das submisso˜es para de-
+terminar a assertividade das soluc¸o˜es, confirmando se elas passam no interpretador e se
+atingemtodososcasosdetestenecessa´riosparaseremconsideradascorretas. Porfim,os
+dadoscoletadosnestaetapasa˜oarmazenadosemumarquivoJSON.12
+Para avaliac¸a˜o da assertividade considera-se o conceito de efica´cia definido em
+trabalhos anteriores [Dennyetal. 2023]. Dessa forma, as respostas sa˜o classificadas nas
+seguintescategoriasbaseadasemseudesempenho:
+• Correta: resposta que passou pelo interpretador e por todos os casos de teste
+propostospelaplataformaLeetCode;
+• Incorreta: resposta que passou pelo interpretador, mas na˜o obteve sucesso em
+todososcasosdetestepropostospelaplataformaLeetCode;
+• Errada: resposta que apresentou erro de sintaxe e que na˜o passou pelo interpre-
+tador.
+Finalmente,paraasrespostascorretas,analisa-setambe´maqualidadedostrechos
+deco´digo,atrave´sdaferramentaSonaQube. Aescolhadeve-seapopularidadedamesma
+no contexto de ana´lise esta´tica de co´digo [Vassalloetal. 2018, Marcilioetal. 2019,
+Rochaetal. 2024]. Especificamente,consideram-seasseguintesme´tricasdetectadaspela
+ferramenta[SonarSource2024]:
+• Manutenibilidade: problemasnoco´digoquedificultamsualeitura,compreensa˜o
+emodificac¸a˜o,incluindo,porexemplo,“codesmells”;
+• D´ıvidaTe´cnica: medidadoesforc¸onecessa´rioparacorrigirproblemasnoco´digo,
+representandoocustoacumuladodemanutenc¸a˜ofutura.
+12Tambe´mfoirealizadaumainspec¸a˜omanualdosresultadosgeradospormeiodescripts,comoobjetivo
+deidentificarfalhaseposs´ıveismelhorias. Porexemplo,umaamostradasrespostasgeradasfoisubmetida
+manualmente a` plataforma LeetCode. Algumas das respostas produzidas pelas LLMs que falharam na
+submissa˜oforaminspecionadasmanualmente.
+4.4. ParafraseamentodosProblemasdeProgramac¸a˜o
+Como u´ltima etapa deste trabalho, verifica-se a assertividade das respostas em caso de
+parafraseamento (isto e´, incorretas ou erradas). Em outras palavras, e´ verificado se a
+reescrita do enunciado do problema, mantendo o significado original, pode impactar na
+taxa de assertividade das LLMs. Nesta etapa sa˜o analisadas todas as respostas que na˜o
+foramaprovadaspelointerpretadordoLeetCodeoupeloscasosdetestes.
+Utilizou-seomodeloPegasusparaoparafraseamentodoenunciadodosproblemas
+de programac¸a˜o [Mastropaoloetal. 2023].13 Apo´s o parafraseamento dos enunciados, o
+fluxo e´ executado novamente, para gerac¸a˜o de novas respostas e avaliac¸a˜o do impacto na
+assertividadedassoluc¸o˜es.
+5. Resultados
+Nesta sec¸a˜o, apresentam-se os resultados obtidos neste trabalho, bem como a
+caracterizac¸a˜odoconjuntodedadosutilizado.
+5.1. Caracterizac¸a˜odoConjuntodeDados
+Inicialmente, foram selecionados 2.894 problemas de programac¸a˜o da plataforma Leet-
+Code. Emseguida,osproblemasforamfiltradosparaincluirapenasosdispon´ıveisgratui-
+tamente. Apo´sisso,elesforamordenadospelonu´merodesubmisso˜es,eoprimeiroquartil
+foi selecionado para ana´lise. Dessa forma, este trabalho inclui a ana´lise da respostas de
+616 problemas de algoritmos mais populares dispon´ıveis na plataforma LeetCode. Para
+cadaproblemaforamgeradasquatrorespostasproduzidasporLLMsdistintas,resultando
+naana´lisede2.464trechosdeco´digo.
+A caracterizac¸a˜o dos dados coletados e´ realizada por meio de gra´ficos boxplot
+na escala logar´ıtmica, conforme apresentado na Figura 4. Especificamente, apresenta-
+se me´tricas de engajamento dos problemas, considerando a quantidade de submisso˜es,
+aceitac¸o˜es, discusso˜es, likes e dislikes. Como pode-se observar, os dados indicam uma
+altavariabilidadenoengajamentodosproblemas.
+107
+106
+106
+106
+105
+)gol(
+seõssimbus
+ed
+oremúN
+107
+106
+106
+1.00M 105
+105
+(a) Submisso˜es
+)gol(
+satieca
+seõssimbus
+ed
+oremúN
+103
+102
+102
+548.62k
+101
+101
+(b) Aceitac¸o˜es
+)gol(
+seõssucsid
+ed
+oremúN
+104
+104
+149.50
+103
+102
+101
+(c) Discusso˜es
+)gol(
+sekil
+ed
+oremúN
+104
+103
+6182.00
+102
+102
+101
+(d) Likes
+)gol(
+sekilsid
+ed
+oremúN 411.50
+(e) Dislikes
+Figura4. Caracterizac¸a˜odosproblemasLeetCode
+Onu´merodesubmisso˜esporproblemavariamentre373.977e26.747.970,sendo
+a mediana igual a 1.000.526 submisso˜es, com 75% dos problemas apresentando ate´ 2
+13https://huggingface.co/tuner007/pegasus_paraphrase
+milho˜es de submisso˜es (Figura 4(a)). A Figura 4(b) mostra que as aceitac¸o˜es variam
+entre 103.157 e 14.327.700, com uma mediana de 548.619,5 e 75% dos problemas com
+aproximadamente 1 milha˜o de aceitac¸o˜es. Na Figura 4(c) o gra´fico de discusso˜es indica
+que a maioria dos problemas possui ate´ 250 discusso˜es, com uma mediana de 149,5.
+Isso sugere que a maioria dos problemas na˜o gera um nu´mero elevado de debates. Em
+termos de popularidade, os nu´mero de likes na figura 4(d) variam entre 80 e 57.813, com
+uma mediana de 6.182, demonstrando que alguns problemas sa˜o significativamente mais
+apreciadosqueoutros. Porfim,onu´merodedislikes,porsuavez,variaentre37e18.882,
+comumamedianade411,5(Figura4(e)).
+Em relac¸a˜o a distribuic¸a˜o dos problemas por n´ıvel de dificuldade, 217 problemas
+sa˜o classificados como fa´ceis pela plataforma LeetCode, 334 como dificuldade me´dia e
+65comodif´ıceis.
+5.2. QualidadedoCo´digoGeradoporLLMs
+Inicialmente, analisam-se a qualidade dos 2.464 trechos de co´digo gerados pelas LLMs,
+para os problemas da plataforma LeetCode. Detectou-se 2.871 issues relacionadas a` pro-
+blemas de manutenibilidade e 13.917 pontos de d´ıvida te´cnica, conforme apresentado na
+Figura5. Nospro´ximospara´grafos,osresultadossa˜odiscutidosporcategoria.
+Llama 3.1 678 Llama 3.1 3309
+GPT-4 747 GPT-4 3689
+Gemini 761 Gemini 3584
+Claude 3 Claude 3
+685 3335
+Haiku Haiku
+0 200 400 600 800 1000 500 1500 2500 3500 4500
+Total Issues de Manutenibilidade Total Dívida Técnica
+(a) Manutenibilidade (b) D´ıvidate´cnica
+Figura5. Quantidadedeissuesdemanutenibilidadeed´ıvidate´cnicaemco´digos
+geradosporLLMs
+Manutenibilidade. A Figura 5(a) mostra o total de issues relacionadas a` manutenibi-
+lidade identificadas por cada LLM. Como pode-se observar, detectou-se 2.871 issues.
+O modelo Gemini apresenta a maior quantidade de issues (761 ocorreˆncias, 26.5%),
+enquanto o modelo Llama 3.1 possui a menor frequeˆncia (678 ocorreˆncias, 23.6%).
+Considerandoadistribuic¸a˜odeissuesporresposta,osvaloressa˜osignificativamentebai-
+xos. Por exemplo, a mediana e´ de aproximadamente uma issue por resposta. O modelo
+Gemini varia de 0 e 10 issues por resposta gerada, Claude 3 Haiku entre 0 e 8,
+GPT-4entre0e9eLlama 3.1variandoentre0e9.
+Para avaliar os valores das me´tricas calculadas para as respostas geradas utiliza-
+se o teste de Kruskal-Wallis [KruskalandWallis1952], um procedimento estat´ıstico na˜o
+parame´trico que avalia as medianas das amostras. Essa metodologia permite inferir a
+presenc¸a de diferenc¸as estat´ısticas significativas entre treˆs ou mais amostras de dados.
+Caso o p-value deste teste for menor ou igual a 0,05 indica que as distribuic¸o˜es sa˜o es-
+tatisticamente diferentes. Neste contexto, obteve-se p-value = 0,019 para a me´trica de
+issuesdemanutenibilidade,sugerindoqueasdistribuic¸o˜essa˜oestatisticamentediferentes.
+OListing1mostraumexemplodeissuedemanutenibilidadegeradapelomodelo
+Llama 3.1 para o problema Second Minimum Node In a Binary Tree,14 que consiste
+em encontrar o segundo menor valor em uma a´rvore bina´ria, onde cada no´ tem dois ou
+nenhum filho. Como pode-se notar, existe um code smell na Linha 8, que indica condici-
+onaisquepodemsersimplificadas(“NestedControlFlow”).
+class Solution(object):
+1
+def findSecondMinimumValue(self, root):
+2
+if not root: return -1
+3
+ar = set()
+4
+def dfs(root):
+5
+ar.add(root.val)
+6
+if root.left:
+7
+if root.left.val != root.val:)
+8
+dfs(root.left)
+9
+Listing1. Exemplodeissueemco´digogeradoporLLM(Llama 3.1)
+D´ıvidate´cnica. AFigura5(b)mostraosresultadosrelacionadosad´ıvidate´cnicatotalpor
+LLM, que compreendem 13.917 ocorreˆncias. O modelo GPT-4 possui a maior taxa de
+d´ıvidate´cnica(3.689ocorreˆncias,26,5%),enquantoomodeloLlama 3.1possuiame-
+norfrequeˆncia(3.309ocorreˆncias,23,8%). Considerandoadistribuic¸a˜oded´ıvidate´cnica
+por co´digo gerado, os valores variam entre aproximadamente 0 e 44 issues (Gemini 0–
+50; Claude 3 Haiku 0–35; GPT-4 0–51; Llama 3.1 0–41). A mediana gira em
+torno de cinco pontos de d´ıvida te´cnica por resposta gerada. O teste de Kruskal-Wallis
+resultou em um p-value = 0,03 entre os grupos, sugerindo que as distribuic¸o˜es sa˜o esta-
+tisticamentediferentes.
+5.3. AssertividadedoCo´digoGeradoporLLMs
+A Tabela 1 mostra um visa˜o geral das aproximadamente 2.5 mil respostas geradas pelas
+LLMs, em relac¸a˜o a assertividade. Obteve-se 1.777 respostas corretas e 111 incorretas.
+Existem tambe´m erros de sintaxe, impedindo a interpretac¸a˜o pela plataforma LeetCode
+(573respostaserradas).
+Tabela1. FrequeˆnciadaassertividadeporLLM
+Modelo Soluc¸o˜es Corretas Incorretas Erradas Assertividade(%)
+Llama3.1 616 314 24 278 50.97
+GPT-4 616 500 22 92 81.17
+Gemini 616 420 29 166 68.18
+Claude3Haiku 616 543 36 37 88.15
+Total 2,464 1,777 111 573 -
+Me´dia 616.00 444.25 27.75 143.25 72.12
+Observa-sequeamaioriadosmodelosapresentamumaaltataxadeassertividade,
+indicandoumaboaprecisa˜onagerac¸a˜odeco´digo.
+Por exemplo, o modelo GPT-4 teve uma taxa de assertividade de 81,17%, en-
+quanto o modelo Claude 3 Haiku apresentou uma taxa de 88,15%. Em contraste,
+14https://leetcode.com/problems/second-minimum-node-in-a-binary-tree/
+o modelo Gemini teve uma taxa de assertividade de 68,18%. Por fim, o modelo
+Llama 3.1, teve uma taxa de assertividade de 50,97%, mostrando um desempenho
+intermedia´rio.
+Como consequeˆncia, o nu´mero de respostas incorretas e erradas e´ relativamente
+menor. OmodeloGPT-4teve92casosdeerroe29casosincorretos,enquantoomodelo
+Claude 3 Haikuapresentou37casosdeerroe36casosincorretos. Asmaiorestaxas
+de falhas foram encontradas nos modelos Gemini e Llama 3.1. Especificamente, o
+modeloGemini,teve166casosdeerroe29casosincorretos,enquantoomodeloLlama
+3.1teve24casosdeerroe278casosincorretos.
+5.4. Ana´lisedaAssertividadedosProblemasapo´sParafraseamento
+Para as 684 respostas incorretas ou erradas, realizou-se o parafraseamento do enunciado
+do problema correspondente. O trecho a seguir mostra um exemplo de enunciado apo´s a
+reescrita do mesmo atrave´s do modelo Pegasus (ver mais detalhes na Sec¸a˜o 4.4). Como
+pode-se observar, a mesma instruc¸a˜o e´ apresentada de formas distintas, solicitando que
+doisnu´merossejamsomadoseapresentadosemformatodeumalista.15
+Enunciado original: “You are given two non-empty linked lists representing two
+non-negative integers. The most significant digit comes first and each of their nodes
+contains a single digit. Add the two numbers and return the sum as a linked list. You
+may assume the two numbers do not contain any leading zero, except the number 0
+itself.”
+Enunciado parafraseado: “Two non-empty linked lists that represent two non-
+negativenumbersareprovidedtoyou. Eachoftheirnodeshasasingledigit,withthe
+most important digit appearing first. Return the total as a linked list after adding the
+two numbers. You might suppose that, except from the number 0 itself, neither of the
+twonumberscontainaleadingzero.”
+Este processo foi realizado para todas as respostas incorretas, resultando em uma
+taxa de assertividade de aproximadamente 52%. A Tabela 2 mostra os resultados por
+LLM. Como pode-se observar, o modelo Llama 3.1 possui os maiores valores de asser-
+tividade apo´s o parafraseamento, enquanto apenas 11 respostas foram assinaladas como
+corretas no modelo Claude 3 Haiku apo´s a reescrita do enunciado. A melhoria de asser-
+tividade nesta etapa, como a do Llama 3.1, na˜o indica necessariamente um desempenho
+superior, uma vez que, ele falhou em problemas simples na primeira etapa de ana´lise da
+assertividade,ondeosoutrosmodelossesa´ırammelhor.
+OListing2mostraumexemplodeco´digoquefoigeradopelomodeloGPT-4. Esta
+resposta corresponde a um problema que solicita a maior substring ´ımpar presente em
+uma string nume´rica (Largest Odd Number in String16). Entretanto, o modelo forneceu
+um co´digo incorreto, isto e´, que na˜o atende aos casos de testes propostos. O Listing 3
+exibe um co´digo distinto, gerado para o mesmo problema. Desta vez, o modelo recebeu
+oenunciadoparafraseado,oqueresultouemumarespostacorreta.
+15https://leetcode.com/problems/add-two-numbers-ii
+16https://leetcode.com/problems/largest-odd-number-in-string
+Tabela2. Frequeˆnciadaassertividadedosmodelosapo´sparafraseamento
+Modelo Soluc¸o˜es Corretos Incorretos Erros Assertividade(%)
+Llama3.1 302 213 21 68 70.37
+Gemini 114 65 9 40 56.67
+GPT-4 195 127 14 54 65.22
+Claude3Haiku 73 11 4 58 15.22
+Total 684 416 48 220 -
+Me´dia 171 104 12 55 51.87
+class Solution:
+1
+def largestOddNumber(self, num: str) -> str:
+2
+for char in reversed(num):
+3
+if int(char) % 2 != 0:
+4
+return num[:len(num) - num.index(char
+5
+)]
+return ""
+6
+Listing2. Co´digogeradopeloGPT-4(respostaincorreta)
+class Solution:
+1
+def largestOddNumber(self, num: str) -> str:
+2
+for i in range(len(num) - 1, -1, -1):
+3
+if int(num[i]) % 2 != 0:
+4
+return num[:i+1]
+5
+return ""
+6
+Listing3. Co´digogeradopeloGPT-4(respostacorreta)
+6. Discussa˜o de Resultados
+A alta taxa de assertividade das LLMs revela o seu potencial para aplicac¸o˜es
+pra´ticas. O modelo Claude 3 Haiku apresentou uma alta taxa de assertividade para
+a gerac¸a˜o de respostas para problemas de programac¸a˜o (88,15%), o que o torna promis-
+sor para aplicac¸o˜es onde precisa˜o e´ cr´ıtica [NguyenandNadi2022]. Os demais modelos
+tambe´m apresentaram uma taxa significativa de assertividade, reforc¸ando a possibilidade
+de uso de LLMs em contextos profissionais e educacionais que possuem preocupac¸o˜es
+comaconfiabilidadedosresultados.
+Aana´lisedaqualidadedoco´digopodecomplementardeciso˜esrelacionadasa` escolha
+deLLMs. EmboraoLlama 3.1tenhaapresentadobaixaassertividade(50,97%),seus
+bons resultados em manutenibilidade sugerem que a qualidade estrutural do co´digo na˜o
+garante, necessariamente, a resoluc¸a˜o correta de problemas [Coignionetal. 2024]. Isso
+sugere que, ao selecionar um modelo para desenvolvimento de soluc¸o˜es de software, e´
+importante considerar tanto a assertividade quanto a qualidade, equilibrando a precisa˜o
+necessa´riacomafacilidadedemanutenc¸a˜odoco´digogerado.
+Oparafraseamentodeinstruc¸o˜esrevelaoportunidadesparamelhoriasnainterac¸a˜o
+com LLMs. A ana´lise mostra que a assertividade geral dos modelos aumentou apo´s
+o parafraseamento dos problemas (Tabela 2). Esse aumento destaca a importaˆncia de
+uma formulac¸a˜o cuidadosa das instruc¸o˜es, visto que este tipo de te´cnica teˆm sido ampla-
+menteinvestigadaparaaumentodaprodutividadenodesenvolvimentosoftware,comopor
+exemplo,paradetecc¸a˜odecodesmells[Silvaetal. 2024],migrac¸a˜odeAPIsdeformaau-
+toma´tica[Almeidaetal. 2024],emelhoriasnaescritadetestes[Alshahwanetal. 2024].
+A facilidade de uso e assertividade das LLMs levanta questo˜es sobre o seu uso em
+processos seletivos. Assim como o LeetCode, existem outras plataformas populares que
+disponibilizam diversos problemas e desafios de programac¸a˜o, com HackerRank17 e Co-
+deChef.18 Grandes empresas de software teˆm utilizado estes sistemas em processos sele-
+tivos. Dessa forma, os resultados deste trabalho mostram uma possibilidade de fraudes
+nestas etapas, visto que foi poss´ıvel resolver um conjunto significativo de problemas de
+forma fa´cil utilizando LLMs. Em outras palavras, candidatos podem fazer uso modelos
+LLMs para atingir bons resultados com esforc¸o m´ınimo, um desafio que teˆm sido discu-
+tido na literatura recente [CanagasuriamandLukacik2024]. Isso ressalta a importaˆncia
+dedesenvolverme´todosdeavaliac¸a˜omaisrobustosecomplementares,quena˜odependam
+apenas do desempenho em plataformas de algoritmos. E´ fundamental que recrutadores
+levem em considerac¸a˜o essas limitac¸o˜es e combinem avaliac¸o˜es com entrevistas te´cnicas
+pra´ticas e supervisionadas para obter uma visa˜o mais precisa das habilidades reais dos
+candidatos.
+7. Ameac¸as a` Validade
+Nesta sec¸a˜o, sa˜o apresentadas as ameac¸as a` validade deste estudo, assim como as es-
+trate´giasadotadasparamitiga´-las[Wohlinetal. 2012].
+Primeiramente, em relac¸a˜o a` validade externa, os resultados obtidos podem na˜o
+ser generaliza´veis para outros contextos, como problemas de algoritmos fora da plata-
+formaLeetCodeouemlinguagensdeprogramac¸a˜ona˜oabordadas. Ale´mdisso,asLLMs
+utilizadas neste estudo sa˜o modelos espec´ıficos, e suas performances podem na˜o refletir
+o comportamento de outros modelos dispon´ıveis no mercado. A escolha dos problemas
+maispopularesegratuitosdaplataformatambe´mpodeintroduzirvie´s,poisha´ umapredo-
+minaˆnciadequesto˜esden´ıvelfa´cil,querefletemprincipalmenteocontextoacadeˆmico,li-
+mitandoarepresentatividadeemcena´riosmaiscomplexos. Noentanto,esteestudoinclui
+uma amostra significativa, composta por 616 problemas de algoritmos mais populares, o
+que,juntoa`squatroLLMs,proporcionaumabasede2.464respostasparaasconcluso˜es.
+Adicionalmente, pode-se identificar uma ameac¸a a` validade de construc¸a˜o, uma
+vez que as me´tricas de qualidade adotadas, manutenibilidade e d´ıvida te´cnica, podem
+na˜o cobrir todos os aspectos qualitativos na avaliac¸a˜o das respostas geradas pelas LLMs.
+Para minimizar essa limitac¸a˜o, foram definidas me´tricas predefinidas e documentadas
+[SonarSource2024],etodasasrespostasforamrevisadassobasmesmascondic¸o˜es. Ale´m
+disso, a ana´lise da assertividade foi realizada em larga escala atrave´s da automac¸a˜o com
+scripts, sendo pass´ıvel de falhas. Entretanto, utilizou-se a API oficial disponibilizada
+pela plataforma LeetCode. Ademais, o processo descrito na metodologia tambe´m foi
+executado de forma manual para uma amostra de problemas, visando validar e comparar
+asrespostasobtidas.
+Por fim, uma ameac¸a importante a` replicabilidade do estudo esta´ relacionada a`
+volatilidadedasLLMsea` variabilidadedesuasrespostasaolongodotempo. Comoessas
+17https://www.hackerrank.com
+18https://www.codechef.com
+ferramentas passam por atualizac¸o˜es cont´ınuas, tanto nos modelos quanto em seus dados
+subjacentes, o mesmo problema submetido em momentos diferentes pode resultar em
+respostas distintas. Essa caracter´ıstica das LLMs pode dificultar a reproduc¸a˜o exata dos
+resultados obtidos neste estudo, sendo recomenda´vel que futuras pesquisas considerem
+um ambiente controlado ou verso˜es fixas dos modelos, se poss´ıvel, para garantir maior
+estabilidadeeconsisteˆncianosresultados.
+8. Conclusa˜o
+Este estudo teve como objetivo investigar a qualidade e assertividade do co´digo gerado
+por diferentes Large Language Models ao resolver problemas de algoritmos. Para tanto,
+utilizou-se 616 problemas de programac¸a˜o populares na plataforma LeetCode. Para cada
+problema, uma soluc¸a˜o foi gerada utilizando quatro LLMs: GPT-4, Gemini, Claude
+3 Haiku e Llama 3.1. A ana´lise concentrou-se na assertividade das respostas, bem
+como na avaliac¸a˜o da qualidade do co´digo gerado. Adicionalmente, os enunciados dos
+problemas foram parafraseados, visando verificar o impacto na assertividade das respos-
+tas. Apresentam-seaseguirosprincipaisresultados:
+• O modelo Claude 3 Haiku apresentou uma maior taxa de assertividade, enquanto
+o Llama 3.1 teve a menor taxa de acertos, sugerindo que a estrutura interna e o
+treinamento dos modelos impactam diretamente sua capacidade de resolver pro-
+blemasdeprogramac¸a˜o.
+• A ana´lise do parafraseamento mostrou que, a reformulac¸a˜o dos enunciados de
+problemaspodemelhorarataxadeassertividadedasLLMs. Porexemplo,obteve-
+seumaumentode51,87%dataxadesucessoemrelac¸a˜oasrespostasincorretase
+com erros, isso destaca a ambiguidade dos enunciados como uma barreira para a
+assertividadedosmodelos.
+• Amaioriadosproblemasdeco´digogeradospelosmodelosna˜ofoigrave,comum
+impactomenoremtermosdemanutenibilidadeeconfiabilidade,oquesugereque
+osmodelospodemgerarco´digossuficientementebonsparaumagrandevariedade
+deproblemas.
+Como trabalhos futuros, recomenda-se investigar a qualidade e assertividade em
+problemasecontextos demaiorcomplexidade,comeˆnfaseema´reascr´ıticas,como siste-
+mas financeiros e de seguranc¸a. Sugere-se, ainda, a realizac¸a˜o de um estudo qualitativo
+para aprofundar a ana´lise dos problemas de co´digo identificados, incluindo a explorac¸a˜o
+da perspectiva de desenvolvedores sobre as caracter´ısticas e a complexidade do co´digo
+gerado pelos modelos. Por fim, e´ recomendada a utilizac¸a˜o de outras ferramentas de
+ana´lise da qualidade de co´digo, de modo a avaliar categorias distintas de problemas ale´m
+dasquesto˜esrelacionadasa` manutenibilidadeed´ıvidate´cnica.
+9. Pacote de Replicac¸a˜o
+Opacotedereplicac¸a˜odestetrabalhoencontra-sedispon´ıvelem:
+https://github.com/ICEI-PUC-Minas-PPLES-TI/
+plf-es-2024-1-tcci-0393100-pes-bernardo-aquino
