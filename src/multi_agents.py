@@ -2,18 +2,20 @@ import os
 import time
 from crewai import Agent, Task, Crew, Process, LLM
 from dotenv import load_dotenv
+from utils.custo import registrar_custo
 
 load_dotenv()
 
 CAMINHO_BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PASTA_PROCESSADOS = os.path.join(CAMINHO_BASE, "data", "processed")
+PASTA_PROCESSADOS = os.path.join(CAMINHO_BASE, "data", "processed_sem_abstract")
 PASTA_OUTPUT = os.path.join(CAMINHO_BASE, "data", "outputs", "multi_agent")
+CAMINHO_CUSTO = os.path.join(CAMINHO_BASE, "data", "resultados", "custo.csv")
 
 os.makedirs(PASTA_OUTPUT, exist_ok=True)
 
 llm_padrao = LLM(model="gpt-4o-mini", temperature=0.2)
 
-def gerar_abstract_multiagente(texto_artigo):
+def gerar_abstract_multiagente(nome_arquivo, texto_artigo):
    
     agente_problema = Agent(
         role='Extrator de Problema e Lacuna',
@@ -87,30 +89,41 @@ def gerar_abstract_multiagente(texto_artigo):
         process=Process.sequential 
     )
 
+    inicio = time.time()
     resultado = equipe.kickoff()
+    tempo = time.time() - inicio
+
+    metricas = equipe.calculate_usage_metrics()
+    registrar_custo(CAMINHO_CUSTO, {
+        "arquivo": nome_arquivo,
+        "abordagem": "multi_agent",
+        "tempo_segundos": round(tempo, 2),
+        "tokens_prompt": metricas.prompt_tokens,
+        "tokens_completion": metricas.completion_tokens,
+        "tokens_total": metricas.total_tokens,
+        "numero_chamadas": metricas.successful_requests,
+    })
+    print(f"  {nome_arquivo}: {tempo:.2f}s, {metricas.total_tokens} tokens, {metricas.successful_requests} chamadas")
+
     return resultado
 
 def executar():
     arquivos = [f for f in os.listdir(PASTA_PROCESSADOS) if f.endswith(".txt")]
     
     for nome in arquivos:
-        print(f"Processando com multiagentes: {nome}...")
+        print(f"Gerando resumo (multiagentes): {nome}")
         caminho_leitura = os.path.join(PASTA_PROCESSADOS, nome)
         
         with open(caminho_leitura, "r", encoding="utf-8") as f:
             conteudo = f.read()
             
-        inicio = time.time()
-        resumo_gerado = gerar_abstract_multiagente(conteudo)
-        fim = time.time()
-        
-        print(f"Tempo de execução para {nome}: {fim - inicio:.2f} segundos")
+        resumo_gerado = gerar_abstract_multiagente(nome, conteudo)
         
         caminho_salvamento = os.path.join(PASTA_OUTPUT, nome)
         with open(caminho_salvamento, "w", encoding="utf-8") as f:
             f.write(str(resumo_gerado))
             
-    print("Geração de abstracts concluida")
+    print("resumo concluido")
 
 if __name__ == "__main__":
     executar()

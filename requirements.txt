@@ -1,7 +1,6 @@
 openai
 python-dotenv
 crewai
-langchain-openai
 pdfplumber
 rouge-score
 bert-score
