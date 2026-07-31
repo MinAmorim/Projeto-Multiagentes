@@ -28,7 +28,9 @@ def abstract_reflection_agent (texto_artigo):
             messages = [
                 {"role": "system", "content": prompt_sistema},
                 {"role": "user", "content": texto_artigo}
-            ]    
+            ],
+            temperature=0
+    
     ).choices[0].message.content
 
     prompt_reflexao = f"""
@@ -45,7 +47,9 @@ def abstract_reflection_agent (texto_artigo):
         messages=[
             {"role": "system", "content": "Você é um revisor sênior."},
             {"role": "user", "content": prompt_reflexao}
-        ]
+        ],
+        temperature=0
+
     ).choices[0].message.content
     
     return resposta_final
@@ -55,7 +59,7 @@ def executar():
     arquivos = [f for f in os.listdir(PASTA_PROCESSADOS) if f.endswith(".txt")]
 
     for nome in arquivos:
-        print(f"Refletindo sobre: {nome}...")
+        print(f"Refletindo sobre: {nome}")
         with open(os.path.join(PASTA_PROCESSADOS, nome), "r", encoding="utf-8") as f:
             conteudo = f.read()
         

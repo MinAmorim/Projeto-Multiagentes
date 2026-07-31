@@ -14,7 +14,7 @@ def abstract_single_agent(nome_arquivo, texto_artigo):
     prompt_sistema = """
     Você é um pesquisador acadêmico.
     Sua tarefa é ler o corpo de um artigo científico e escrever um abstract científico claro e conciso.
-    O resumo deve ser escrito obrigatoriamente em PORTUGUÊS do Brasil.
+    O resumo deve ser escrito obrigatoriamente em português do Brasil.
 
     O abstract deve conter:
     - problema
@@ -31,7 +31,7 @@ def abstract_single_agent(nome_arquivo, texto_artigo):
             {"role": "system", "content": prompt_sistema},
             {"role": "user", "content": f"Artigo para processar: {texto_artigo}"}
         ],
-        temperature=0.2
+        temperature=0.0
     )
     return response.choices[0].message.content
 

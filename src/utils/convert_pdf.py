@@ -1,26 +1,52 @@
-import pdfplumber
 import os
+import re
+import pdfplumber
 
-caminho_base = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-pasta_entrada = os.path.join(caminho_base, "data", "raw")
-pasta_saida = os.path.join(caminho_base, "data", "processed")
-
-def converter_pdf ():
+CAMINHO_BASE = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+PASTA_ENTRADA = os.path.join(CAMINHO_BASE, "data", "raw")
+PASTA_SAIDA = os.path.join(CAMINHO_BASE, "data", "processed")
 
 
-    for arquivo in os.listdir(pasta_entrada):
-        if arquivo.endswith(".pdf"):
-            caminho_pdf = os.path.join(pasta_entrada, arquivo)
-            nome_txt = arquivo.replace(".pdf", ".txt")
-            caminho_txt = os.path.join(pasta_saida, nome_txt)
+def limpar_texto(texto):
+    texto = re.sub(r"(\w)-\n(\w)", r"\1\2", texto)
+    texto = re.sub(r"[ \t]+", " ", texto)
+    texto = re.sub(r"\n{3,}", "\n\n", texto)
+    texto = re.sub(r" +\n", "\n", texto)
+    return texto.strip()
 
-            with pdfplumber.open(caminho_pdf) as pdf:
-                texto = ""
-                for pagina in pdf.pages:
-                    texto += pagina.extract_text() + "\n"
-                with open(caminho_txt, "w", encoding="utf-8") as f:
-                    f.write(texto)
-                print(f"convertido{arquivo}")
+
+def converter_pdf():
+
+    os.makedirs(PASTA_SAIDA, exist_ok=True)
+
+    for arquivo in os.listdir(PASTA_ENTRADA):
+
+        if not arquivo.endswith(".pdf"):
+            continue
+
+        caminho_pdf = os.path.join(PASTA_ENTRADA, arquivo)
+        caminho_txt = os.path.join(
+            PASTA_SAIDA,
+            arquivo.replace(".pdf", ".txt")
+        )
+
+        texto = ""
+
+        with pdfplumber.open(caminho_pdf) as pdf:
+
+            for pagina in pdf.pages:
+
+                texto_pagina = pagina.extract_text()
+
+                if texto_pagina:
+                    texto += texto_pagina + "\n\n"
+
+        texto = limpar_texto(texto)
+
+        with open(caminho_txt, "w", encoding="utf-8") as f:
+            f.write(texto)
+
+        print(f"Convertido: {arquivo}")
 
 
 if __name__ == "__main__":

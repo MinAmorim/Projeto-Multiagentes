@@ -1,17 +1,17 @@
 import os
 import time
-from crewai import Agent, Task, Crew, Process
-from langchain_openai import ChatOpenAI
+from crewai import Agent, Task, Crew, Process, LLM
 from dotenv import load_dotenv
 
 load_dotenv()
 
-PASTA_PROCESSADOS = os.path.join("..", "data", "processed")
-PASTA_OUTPUT = os.path.join("..", "data", "outputs", "multi_agent")
+CAMINHO_BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PASTA_PROCESSADOS = os.path.join(CAMINHO_BASE, "data", "processed")
+PASTA_OUTPUT = os.path.join(CAMINHO_BASE, "data", "outputs", "multi_agent")
 
 os.makedirs(PASTA_OUTPUT, exist_ok=True)
 
-llm_padrao = ChatOpenAI(model="gpt-4o-mini", temperature=0.2)
+llm_padrao = LLM(model="gpt-4o-mini", temperature=0.2)
 
 def gerar_abstract_multiagente(texto_artigo):
    
@@ -43,9 +43,9 @@ def gerar_abstract_multiagente(texto_artigo):
     )
 
     agente_sintetizador = Agent(
-        role='Sintetizador de Abstract Final',
-        goal='Escrever um abstract científico claro, conciso e completo em PORTUGUÊS do Brasil, unindo os achados dos outros especialistas.',
-        backstory='Você é um redator chefe e editor de uma renomada revista científica. Sua especialidade é redigir resumos perfeitos que englobem problema, objetivo, método e resultados, sem inventar informações.',
+        role='Sintetizador de Resumo Final',
+        goal='Escrever um resumo científico claro, conciso e completo em PORTUGUÊS do Brasil, unindo os achados dos outros especialistas e mantendo fidelidade absoluta ao artigo.',
+        backstory='Você é um redator chefe e editor de uma renomada revista científica. Você nunca inventa dados. Você usa as notas dos especialistas apenas como um roteiro estrutural, mas sempre valida e extrai os termos, números e conclusões exatas do artigo original fornecido.',
         verbose=False,
         allow_delegation=False,
         llm=llm_padrao
@@ -70,10 +70,15 @@ def gerar_abstract_multiagente(texto_artigo):
     )
 
     tarefa_sintese = Task(
-        description='A partir do problema, método e resultados extraídos, redija o abstract final. O resumo deve ser escrito obrigatoriamente em PORTUGUÊS do Brasil.',
-        expected_output='Um abstract científico completo e fluido, escrito em português do Brasil.',
+        description=f'''A partir do problema, método e resultados extraídos pelos outros especialistas, redija o resumo final.
+        
+        Você deve ancorar toda a sua redação no texto original abaixo. 
+        Não invente métricas, nomes, métodos ou conclusões que não estejam explicitamente no texto.
+        Texto original do artigo: {texto_artigo}
+        O resumo deve ser escrito obrigatoriamente em português do Brasil e ser um texto coeso e fluido.''',
+        expected_output='Um resumo científico completo e fluido, 100% fiel ao texto original, escrito em português do Brasil.',
         agent=agente_sintetizador,
-        context=[tarefa_problema, tarefa_metodo, tarefa_resultados] # Agente 4 recebe o output dos Agentes 1, 2 e 3
+        context=[tarefa_problema, tarefa_metodo, tarefa_resultados] 
     )
 
     equipe = Crew(
