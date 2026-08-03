@@ -1,0 +1,8 @@
+O artigo tem como objetivo analisar os fatores de sucesso que influenciaram na
+qualidade do software após a aplicação de testes automatizados e como as metodologias
+de testes podem influenciar nos resultados. Foi utilizado um projeto real em uma
+empresa de desenvolvimento de software da cidade de São Paulo que teve ganhos de
+qualidade e produtividade após a aplicação de testes automatizados em seu processo de
+desenvolvimento. Os resultados do projeto foram confrontados com números de
+manutenção, inovação e as boas práticas propostas em embasamento teórico para
+entender onde a literaturase confirma na prática.

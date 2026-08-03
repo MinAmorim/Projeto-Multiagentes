@@ -1,0 +1,10 @@
+Este estudo teve como objetivo investigar a automatização de testes
+funcionais no envio de documentos via integração com web service, em uma
+plataforma de soluções fiscais, com o intuito de diminuir o tempo de execução
+dos testes e consequentemente melhorar a qualidade do produto. Como
+resultado obteve-se a diminuição em noventa por cento (90%) do tempo
+despendido na realização de testes funcionais realizados pela equipe de
+qualidade. A principal contribuição científica deste trabalho foi a geração de
+dados e informações da utilização da ferramenta JMeter para a realização de
+testes funcionais por meio de envio de XML via comunicação web service.
+Palavras–chave: Sistemas de Informação, Testes de Software, Automatização.

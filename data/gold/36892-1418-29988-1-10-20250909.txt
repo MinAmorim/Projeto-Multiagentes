@@ -1,0 +1,16 @@
+Garantir a confiabilidade e a qualidade de APIs REST é
+um desafio, sobretudo em sistemas de setores regulados que
+demandam transparência, rastreabilidade e auditabilidade.
+Este artigo apresenta o Zettalenium, um framework de testes
+automatizados para o desenvolvimento, execução e documentação de casos de teste em APIs RESTful. O estudo de caso
+relata sua aplicação no Sistema Nacional de Informações
+sobre Irrigação (SisNIR), onde viabilizou a automação de
+testes que verificaram funcionalidades essenciais do sistema,
+assegurando confiabilidade e consistência nas operações. O
+Zettalenium combina a execução de requisições HTTP com
+asserções automatizadas, oferece utilitários reutilizáveis e gera
+relatórios abrangentes – recursos que apoiaram os processos
+de aceite do Ministério da Integração e do Desenvolvimento
+Regional (MIDR). Os resultados evidenciam melhorias na
+estrutura e na manutenibilidade dos testes, além da redução
+de redundâncias e de intervenções manuais.

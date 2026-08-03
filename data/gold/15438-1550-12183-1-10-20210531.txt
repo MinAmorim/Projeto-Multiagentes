@@ -1,0 +1,8 @@
+Este artigo descreve a experiência prática de se automatizar
+atividades de teste utilizando um processo de desenvolvimento baseado no
+método ágil Scrum. Quando se adota um processo de teste, nota-se a melhora,
+estabilidade e o amadurecimento do software. Os resultados da experiência
+mostraram a viabilidade e as vantagens de se adequar e automatizar
+atividades de teste com ferramentas abertas que vão desde o ganho em tempo
+de execução dos testes e detecção de defeitos, até a confiabilidade do cliente
+pelo produto final, sem o aumento de custos.

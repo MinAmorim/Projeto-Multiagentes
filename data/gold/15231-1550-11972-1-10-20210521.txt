@@ -1,0 +1,9 @@
+Garantia da qualidade por meio de testes é essencial no processo de
+desenvolvimento de software. Entretanto, o alto custo da execução de testes
+manuais e o número cada vez maior de ambientes de testes web solicitados
+pelos clientes dificultam manter a qualidade do produto e cumprir o prazo
+estabelecido. Para solucionar este problema é proposto o uso da técnica
+Behavior-Driven Development em conjunto com Selenium WebDriver e JUnit.
+Este artigo apresenta um estudo de caso da técnica, relatando os ganhos
+obtidos como redução no esforço de execução de testes em uma aplicação
+web. Também são apresentadas as lições aprendidas do estudo de caso.

@@ -1,0 +1,17 @@
+**Resumo**
+
+O teste de software é crucial para garantir a qualidade dos produtos em desenvolvimento, 
+mas sua automação ainda enfrenta desafios significativos na indústria, como a falta de 
+sistematização e a complexidade dos sistemas. Este artigo apresenta o AutoTest, um framework 
+reutilizável para automação de testes funcionais, desenvolvido com base nas técnicas 
+data-driven e keyword-driven. O objetivo do AutoTest é facilitar a automação da 
+execução de casos de teste, minimizando a necessidade de codificação e permitindo a 
+reutilização em diferentes projetos. A metodologia inclui a criação de planilhas para 
+dados e procedimentos de teste, que são interpretadas pelo framework durante a execução. 
+Um estudo de caso foi realizado em um sistema de faturamento, onde o AutoTest demonstrou 
+uma redução significativa no tempo de execução dos testes e um aumento na detecção de erros em 
+comparação com abordagens manuais. Os resultados indicam que o AutoTest não apenas melhora a 
+eficiência e a qualidade do processo de teste, mas também contribui para a padronização e a 
+reutilização de esforços em automação de testes. O artigo conclui que a adoção de frameworks
+como o AutoTest pode ser uma solução eficaz para os desafios enfrentados na automação de testes
+de software.

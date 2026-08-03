@@ -55,7 +55,7 @@ def abstract_reflection_agent(nome_arquivo, texto_artigo):
             {"role": "system", "content": "Você é um revisor sênior."},
             {"role": "user", "content": prompt_reflexao}
         ],
-        temperature=0
+        temperature=0.0
     )
     resposta_final = resposta_final_obj.choices[0].message.content
 

@@ -1,0 +1,17 @@
+O teste de software e uma atividade-chave para o desenvolvimento de ´
+software de qualidade, sendo tao ou mais custoso do que o desenvolvimento do ˜
+codigo de produc¸ ´ ao. De modo a reduzir os custos de projetos de software, o uso ˜
+de ferramentas de gerac¸ao automatizada de testes, tais como Randoop e Evo- ˜
+suite tem sido fortemente encorajado. No entanto, e necess ´ ario obter evid ´ encias ˆ
+sobre como o uso dessas ferramentas afeta a qualidade dos testes. Neste sentido, o presente estudo apresenta uma avaliac¸ao emp ˜ ´ırica da qualidade de testes
+gerados automaticamente, sob a perspectiva de test smells. O estudo contemplou o desenvolvimento de uma ferramenta open source de coleta e analise au- ´
+tomatizada de test smells, a JNose Test, no desenvolvimento da ferramenta
+foi realizado estudo utilizando 11 projetos open source para verificar a relac¸ao˜
+entre test smells e a cobertura dos testes, e posteriormente no segundo estudo
+que avaliou a qualidade de testes gerados automaticamente para 21 projetos
+open source. No primeiro estudo encontramos relac¸oes fortes entre m ˜ etricas ´
+de cobertura e test smells, e no segundo estudo os resultados indicam uma alta
+difusao dos test smells e co-ocorr ˜ encias entre diferentes tipos de test smells nos ˆ
+projetos avaliados. Alem disso, foi identificada uma alta difus ´ ao de test smells ˜
+nos codigos de teste gerados pelas ferramentas Evosuite e Randoop que, fre- ´
+quentemente, estao correlacionados. 

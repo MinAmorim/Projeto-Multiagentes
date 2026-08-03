@@ -1,0 +1,15 @@
+A execução confiável de tarefas assíncronas é essencial para garantir a eficiência e a escalabilidade de sistemas distribuídos em larga
+escala. Nesse contexto, o Celery se destaca como uma das ferramentas mais utilizadas em aplicações Python para o processamento
+de tarefas em segundo plano, oferecendo uma abordagem prática
+e direta para a construção de sistemas robustos. No entanto, sistemas de filas de tarefas como o Celery frequentemente enfrentam
+gargalos de desempenho que só se manifestam sob cargas reais de
+trabalho. Diante disso, os testes de resiliência surgem como uma
+estratégia eficaz para antecipar possíveis falhas, por meio da injeção controlada de erros e da análise do comportamento resultante
+do sistema. Atualmente, o Celery não oferece suporte nativo para
+esse tipo de teste, o que dificulta a análise de seu comportamento
+em ambientes críticos. Nesse cenário, este trabalho propõe uma
+avaliação experimental da resiliência do Celery por meio da injeção
+de falhas controladas. Os resultados indicam que, com as configurações adequadas, a ferramenta é capaz de manter a continuidade
+do processamento e demonstrar um bom nível de resiliência mesmo
+sob alta demanda, evidenciando seu potencial como uma solução
+robusta e confiável para a execução de tarefas assíncronas.

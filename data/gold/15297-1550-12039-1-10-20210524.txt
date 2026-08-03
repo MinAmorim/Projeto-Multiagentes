@@ -1,0 +1,10 @@
+Teste é uma atividade indispensável no processo de desenvolvimento
+de software. Porém, sua execução manual tem um alto custo e, muitas vezes o
+cliente requer um feedback rápido, assim comprometendo a qualidade do
+produto. Uma forma de atuar nesse problema é por meio do uso do BDD
+(Behavior-Driven Development), em conjunto com o framework para
+automatização de testes web Selenium WebDriver. Este artigo apresenta um
+relato de experiência da utilização dessa técnica com automatização de testes
+no desenvolvimento de um software, permitindo a colaboração entre os
+integrantes do time, aumentando a qualidade do software e dando uma
+resposta ágil ao cliente.

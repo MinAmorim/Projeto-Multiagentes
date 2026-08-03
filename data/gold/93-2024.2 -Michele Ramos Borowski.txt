@@ -1,0 +1,15 @@
+Atualmente os testes de usabilidade são fundamentais para o
+desenvolvimento de software, especialmente diante de um mercado altamente
+competitivo, onde as expectativas dos usuários em relação à qualidade e à
+experiência de uso são cada vez mais elevadas. O objetivo deste trabalho é
+avaliar a eficácia dos testes de usabilidade como um fator determinante para a
+melhoria da satisfação do cliente, identificando práticas e estratégias que
+contribuam para a criação de softwares mais alinhados com as expectativas dos
+usuários. Foi realizada uma pesquisa bibliográfica acompanhada de uma
+análise qualitativa de dois artigos relevantes sobre o tema. Identificou-se que a
+adoção de estratégias, como o planejamento antecipado dos testes, a definição
+clara de objetivos e a avaliação da efetividade das tarefas ou da satisfação dos
+usuários, contribui significativamente para a eficiência dos processos de teste.
+Os resultados também indicam que a automação, quando aplicada de forma
+estratégica, não apenas melhora a qualidade do produto, mas também aprimora
+a percepção do cliente em relação à solução desenvolvida.

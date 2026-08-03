@@ -1,0 +1,8 @@
+Este artigo apresenta um estudo de caso sobre o uso de automação de testes de regressão com integração
+contínua para tornar o processo de desenvolvimento mais célere, eficiente e reduzir custos. Um conjunto
+de testes foi realizado manualmente em um sistema do Tribunal de Contas do Estado de Mato Grosso,
+depois foram recriados de forma automatizada e com integração contínua com ferramentas gratuitas. Por
+fim, foi analisada a qualidade da metodologia utilizada comparando os resultados de testes manuais com
+testes automatizados. Os resultados mostraram que uso de testes automatizados com integração contínua
+potencializa recursos, dinamiza o processo de testes e aumenta a qualidade do software.
+

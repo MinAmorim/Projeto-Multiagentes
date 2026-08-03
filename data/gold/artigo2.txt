@@ -1,0 +1,10 @@
+Este artigo aborda métodos para garantir a qualidade do software com foco na melhoria da
+cobertura e eficiência dos testes automatizados. Com sistemas cada vez mais complexos, a
+garantia da sua qualidade a partir da implementação de testes robustos se torna algo
+essencial para garantir sua confiabilidade. O objetivo principal é apresentar e analisar
+diferentes métodos que facilitam a implementação de testes automatizados e buscar
+demonstrar como essas práticas contribuem para a detecção precoce de falhas,
+aumentando a credibilidade do sistema. Por fim, o artigo conclui que a adoção dessas
+abordagens, em conjunto com um ciclo contínuo de adaptação e aprendizado, é crucial para
+tornar a melhoria da qualidade do software uma prática natural no processo de
+desenvolvimento, maximizando os benefícios da automação de testes.

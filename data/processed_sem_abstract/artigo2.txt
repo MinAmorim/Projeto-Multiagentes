@@ -1,0 +1,144 @@
+16
+Métodos para garantir a qualidade do software e melhorar a Flávia I. B. Witter; Julia C. da S.
+cobertura e eficiência dos testes automatizados. Sousa; Mariângela F. F. Molina.
+MÉTODOS PARA GARANTIR A QUALIDADE DO SOFTWARE E MELHORAR A
+COBERTURA E EFICIÊNCIA DOS TESTES AUTOMATIZADOS.
+FLÁVIA ISHIZAKI BROCANELLA WITTER1
+JULIA CAROLINA DA SILVA SOUSA2
+MARIÂNGELA FERREIRA FUENTES MOLINA3
+
+1 keploy/keply 1009
+2 microsoft/playwright 623
+3 grafana/k6 563
+4 SeleniumHQ/selenium 365
+5 puppeteer/puppeteer 301
+6 cypress-io/cypress 185
+7 appium/appium 119
+8 metersphere/metersphere 88
+9 robotframework/robotframework 85
+10 apache/jmeter 69
+Fonte: Adaptado de OSS Insight, (2024).
+Além dessas ferramentas, a tendência à integração de inteligência artificial e
+machine learning nos testes é cada vez mais explorada no mercado, possibilitando
+testes adaptativos a partir da identificação de padrões, geração de testes e análises
+de código automatizadas e a detecção de anomalias.
+_____________________________________________________________________________________
+Revista Eletrônica Anima Terra, Faculdade de Tecnologia de Mogi das Cruzes – FATEC-MC.
+Mogi das Cruzes-SP., n21, ano X, p.16-27, 2° semestre, 2025. ISSN 2526-1940.
+
+24
+Métodos para garantir a qualidade do software e melhorar a Flávia I. B. Witter; Julia C. da S.
+cobertura e eficiência dos testes automatizados. Sousa; Mariângela F. F. Molina.
+RESULTADOS E DISCUSSÃO
+Alguns pontos que devem ser considerados na decisão de automatizar os
+testes em um projeto de desenvolvimento de software são:
+1. a manutenção dos scripts dos testes: conforme o software vai evoluindo, os
+testes devem sofrer alterações para acompanhar essas mudanças e isso pode
+incluir a implementação de boas práticas na codificação e da revisão periódica dos
+scripts definidos
+2. a cobertura dos testes: o uso de diferentes tipos de testes é essencial para
+garantir uma melhor análise do código, evitando que possíveis falhas passem
+despercebidas
+3. o custo: automatizar os testes traz um custo de investimento inicial, tanto em
+ferramentas quanto com o desenvolvimento de scripts, porém, a longo prazo, a
+redução de erros e o aumento na eficiência dos testes e do software contrapõe esse
+peso inicial.
+No intuito de aumentar a eficiência dos testes automatizados é preciso analisar
+os testes que estão sendo realizados para identificarmos os pontos mais críticos e
+com maior possibilidade de falhas, dando prioridades a essas áreas e assim
+aumentando a cobertura efetiva dos testes.
+Com relação ao uso de ferramentas como as apresentadas nesse artigo, o uso
+de frameworks pode auxiliar na otimização dos testes, permitindo a realização de
+testes em diferentes ambientes paralelamente, reduzindo o tempo total necessário.
+O uso de serviços em nuvem também pode ajudar na redução de custos com
+infraestrutura e permitindo a execução de testes em diversas configurações, o que
+pode ser uma alternativa para empresas com recursos menores para investimento
+em garantia da qualidade de software.
+Embora não sejam conceitos novos, o uso da inteligência artificial e machine
+learning de forma integrada a automação de testes pode facilitar a adaptabilidade
+dos frameworks e scripts de teste com relação às mudanças nos softwares em
+_____________________________________________________________________________________
+Revista Eletrônica Anima Terra, Faculdade de Tecnologia de Mogi das Cruzes – FATEC-MC.
+Mogi das Cruzes-SP., n21, ano X, p.16-27, 2° semestre, 2025. ISSN 2526-1940.
+
+25
+Métodos para garantir a qualidade do software e melhorar a Flávia I. B. Witter; Julia C. da S.
+cobertura e eficiência dos testes automatizados. Sousa; Mariângela F. F. Molina.
+desenvolvimento. Uma forma disso ocorrer seria o uso de testes baseado em
+modelos, onde essas tecnologias auxiliam no desenvolvimento de casos de teste
+para prever possíveis falhas futuras usando como base os padrões de
+comportamento conhecidos.
+CONCLUSÃO
+A busca por métodos capazes de garantir a qualidade do software e aprimorar
+a cobertura e eficiência dos testes automatizados é fundamental no ambiente de
+desenvolvimento tecnológico e está em constante evolução. Os diferentes métodos
+discutidos, como a automação de testes com o uso ou não de frameworks e a
+integração contínua, demonstram o impacto que a identificação precoce de
+possíveis falhas e bugs na redução de custos a longo prazo.
+O uso de metodologias ágeis alinhadas com ferramentas de teste, não apenas
+otimiza o processo de desenvolvimento, mas também traz mais qualidade para o
+produto, o tornando mais confiável. Embora a automação de testes traga um
+investimento inicial que muitas vezes não se encaixa na realidade de empresas
+menores e desenvolvedores autônomos, fica claro que este investimento é
+rapidamente compensado com os benefícios atrelados ao uso dessas tecnologias.
+Assim, é essencial que os profissionais da área de desenvolvimento de
+software se mantenham atualizados e dispostos a se adaptar a novas estratégias de
+teste, uma vez que a possibilidade de integração da inteligência artificial e machine
+learning abrem um novo leque no qual a qualidade do software deixa de ser apenas
+um objetivo, mas uma prática contínua e integrada ao ciclo de desenvolvimento.
+REFERÊNCIAS BIBLIOGRÁFICAS
+ALMEIDA, D. E. T. de. Avaliação de uso de automação de testes. 2019. 60 f.
+Curso de Tecnologia em Análise e Desenvolvimento de Sistemas, Universidade
+Federal Fluminense, Niteroi, 2019.
+_____________________________________________________________________________________
+Revista Eletrônica Anima Terra, Faculdade de Tecnologia de Mogi das Cruzes – FATEC-MC.
+Mogi das Cruzes-SP., n21, ano X, p.16-27, 2° semestre, 2025. ISSN 2526-1940.
+
+26
+Métodos para garantir a qualidade do software e melhorar a Flávia I. B. Witter; Julia C. da S.
+cobertura e eficiência dos testes automatizados. Sousa; Mariângela F. F. Molina.
+ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS. NBR ISO 8402: Gestão da
+qualidade – Vocabulário. Rio de Janeiro, 2000.
+BARTIÉ, A. Garantia Da Qualidade De Software: Adquirindo Maturidade
+Organizacional. São Paulo: Elsevier Brasil, 2013.
+BONI, N. Inteligência artificial para testes de software. 2024. 39 f. Curso de
+Ciência da Computação, Universidade Federal de São Carlos – Ufscar, São Carlos,
+2024.
+CAMARGO, W. Controle de Qualidade Total. 2011. 150 f. Curso de Ciência e
+Tecnologia, Instituto Federal de Educação, Ciência e Tecnologia, Curitiba, 2011.
+COLLINS, E. F.; LOBÃO, L. M. de A. Experiência em automação do processo de
+testes em ambiente ágil com SCRUM e ferramentas Open Source. 2010. Curso
+de Tecnologia em Sistemas de Informação, Instituto Nokia de Tecnologia (Indt),
+Universidade do Estado do Amazonas (UEA), Manaus, 2010.
+DUVALL, P. M.; MATYAS, S.; GLOVER, A. Continuous Integration: Improving
+Software Quality and Reducing Risk. Boston: Addison-Wesley Professional, 2007.
+366 p.
+FANTINATO, M.; CUNHA, A. C. R. da; DIAS, S. V.; MIZUNO, S. A.; CUNHA, C. A.
+Q. AutoTest – Um framework reutilizável para a automação de teste funcional
+de software. 2004. Curso de Ciência da Computação, Unicamp – Universidade
+Estadual de Campinas, Campinas, 2004.
+LIMA, T. L. L.; DANTAS, A.; VASCONCELOS, L. M. R. S. NETO, A. N. Usando o
+SilkTest para automatizar testes: um relato de experiência. 2012. Curso de
+Tecnologia em Análise e Desenvolvimento de Sistemas, Universidade Federal da
+Paraíba (UFPB), João Pessoa, 2012.
+OSS INSIGHT. Testing tools. 2024. Disponível em:
+https://ossinsight.io/collections/testing-tools/. Acesso em: 14 out. 2024.
+PRESSMAN, R. S. Engenharia De Software. 7. ed. Porto Alegre: AMGH, 2011. 780
+p.
+RAPOZA, J. “Open-source Testers offer low-cost alternatives” in eWeek.com.
+2003. Disponível em: http://www.opensourcetesting.org/articles/2003_Aug
+11_Eweek.pdf. Acesso em: 03 out. 2024.
+_____________________________________________________________________________________
+Revista Eletrônica Anima Terra, Faculdade de Tecnologia de Mogi das Cruzes – FATEC-MC.
+Mogi das Cruzes-SP., n21, ano X, p.16-27, 2° semestre, 2025. ISSN 2526-1940.
+
+27
+Métodos para garantir a qualidade do software e melhorar a Flávia I. B. Witter; Julia C. da S.
+cobertura e eficiência dos testes automatizados. Sousa; Mariângela F. F. Molina.
+VASCONCELOS, A. M. L. de; ROUILLER, A. C.; MACHADO, C. Â. F.; MEDEIROS,
+T. M. M. de. Introdução à engenharia de software e à qualidade de software.
+2006. 163 f. Curso de Tecnologia em Análise e Desenvolvimento de Sistemas,
+Universidade Federal de Lavras, Lavras, 2006.
+_____________________________________________________________________________________
+Revista Eletrônica Anima Terra, Faculdade de Tecnologia de Mogi das Cruzes – FATEC-MC.
+Mogi das Cruzes-SP., n21, ano X, p.16-27, 2° semestre, 2025. ISSN 2526-1940.

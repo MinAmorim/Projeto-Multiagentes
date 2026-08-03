@@ -1,0 +1,12 @@
+Com o avanço da tecnologia móvel e a crescente procura por um
+smartphone, a qualidade de software tem sido cada vez mais exigente para os
+usuários. A automação de testes na tecnologia móvel, não é algo muito comum no
+mercado. Nas empresas de desenvolvimento de software, as prioridades atendidas
+são o custo e o prazo de um projeto. Portanto, o presente trabalho tem como
+objetivo o desenvolvimento de uma ferramenta para teste em dispositivos móveis
+possibilitando a melhoria contínua por meio de atividades automatizadas de testes,
+reduzindo o trabalho repetitivo em tarefas simples. Como resultado, o protótipo
+conseguiu apresentar ótimo desempenho encontrando problemas com seus scripts
+em aplicativos, o Appium provou ser uma ferramenta poderosa para automatizar
+testes em dispositivos móveis, possuindo excelentes recursos a serem explorados.
+

@@ -1,0 +1,16 @@
+Este trabalho apresenta uma análise acerca de diferentes
+aspectos da aplicação de testes automatizados em comparação
+aos testes manuais. Como estudo de caso, foram observadas e
+comentadas as experiências no desenvolvimento de um sistema
+para a área da saúde, desenvolvido por uma equipe utilizando
+metodologia ágil. Neste estudo é apresentado a aplicação de
+técnicas de testes automatizados, utilizando as ferramentas
+Selenium e SpecFlow, no qual são analisadas as vantagens e
+desvantagens frente às questões sociais, humanas e econômicas.
+A análise final mostrou principalmente que: (i) no aspecto
+social há vantagem na impessoalidade ao apontar as falhas; (ii)
+no aspecto humano os testes automatizados não possuem as
+desvantagens com relação às características emocionais das
+pessoas e da possibilidade de rotatividade nas empresas; (iii) no
+aspecto econômico o tempo economizado em comparação ao
+teste manual é de mais de 3 vezes.

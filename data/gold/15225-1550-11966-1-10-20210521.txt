@@ -1,0 +1,8 @@
+Este artigo relata uma experiência de teste automatizado de uma
+aplicação desenvolvida com o apoio de sistemas de gestão de processos de
+negócio (Business Process Management Systems – BPMS). Para isso,
+implementou-se um mesmo processo usando dois diferentes BPMS: Bonita e
+Activiti. Submeteu-se as aplicações Web resultantes a testes de carga e testes
+funcionais, utilizando-se as ferramentas Apache JMeter, Selenium e
+Cucumber. Os resultados evidenciam a viabilidade e as limitações na
+automação de testes deste tipo de aplicação.

@@ -1,0 +1,328 @@
+Implementac¸a˜o de Testes Automatizados
+Mobile em Servidores Linux:
+Um Relato de Experieˆncia em um Banco Pu´blico
+JonnathanRiquelmo1,MaiconBernardino1,ElderdeMacedoRodrigues1
+1LaboratoyofEmpiricalStudiesinSoftwareEngineering(LESSE),
+EngenhariadeSoftware,UniversidadeFederaldoPampa(UNIPAMPA)
+Av. Tiaraju´,810-BairroIbirapuita˜ -Alegrete,RS
+jonnathan.riquelmo@gmail.com, bernardino@acm.org, eldermr@gmail.com
+Abstract. Test automation is crucial to ensuring software quality and security
+infinancialinstitutions,particularlyinapublicbankwherereliabilityiscritical
+for transactions. Traditionally, mobile test execution was restricted to Windows
+serversduetoinfrastructurelimitations. ThestudyreportstheexperienceofmigratingtoaLinux-basedarchitectureusingSeleniumGridandAppium,integratedwithJenkins. Thisshiftenabledgreaterflexibility,scalability,andefficiency,
+significantly improving the test automation process. The study also addresses
+the technical challenges overcome, such as authentication system integration
+andsecuritywithinthebank’snetwork.
+Resumo. A automac¸a˜o de testes e´ essencial para garantir a qualidade e a
+seguranc¸a do software em instituic¸o˜es financeiras, especialmente em um banco
+pu´blico, onde a confiabilidade e´ cr´ıtica para as transac¸o˜es. Tradicionalmente,
+a execuc¸a˜o de testes mobile estava restrita a servidores Windows, devido a
+limitac¸o˜es de infraestrutura. O estudo relata a experieˆncia de migrac¸a˜o para
+umaarquiteturabaseadaemservidoresLinux,usandoSeleniumGrideAppium
+integrados ao Jenkins. Essa mudanc¸a permitiu maior flexibilidade, escalabilidade e eficieˆncia, resultando em na melhoria no processo de automac¸a˜o de
+testes. Tambe´m aborda os desafios te´cnicos superados, como a integrac¸a˜o com
+sistemasdeautenticac¸a˜oeaseguranc¸adentrodarededobanco.
+1. Introduc¸a˜o
+A qualidade do software e´ um fator cr´ıtico em qualquer organizac¸a˜o, especialmente em
+instituic¸o˜es financeiras, onde a confiabilidade e a seguranc¸a das aplicac¸o˜es sa˜o essenciais para a operac¸a˜o cont´ınua e segura das transac¸o˜es. No contexto de um banco pu´blico,
+em que a demanda por qualidade e precisa˜o e´ elevada, a automac¸a˜o dos testes funcionais
+surgecomoumasoluc¸a˜oestrate´gicaparaassegurarsoftwaredealtaqualidadecommaior
+rapidez. Tradicionalmente, os testes funcionais de aplicac¸o˜es web e mobile foram realizados de forma manual ou parcialmente automatizada, limitando a cobertura de testes e
+expondoossistemasapotenciaisriscosdefalhasnoambientedeproduc¸a˜o.
+Neste cena´rio, a implementac¸a˜o de uma soluc¸a˜o de automac¸a˜o completa e integrada, capaz de lidar com a complexidade dos sistemas banca´rios, torna-se um objetivo
+estrate´gico. Este artigo apresenta a experieˆncia de implementar uma arquitetura de testes automatizados para aplicac¸o˜es mobile em um banco pu´blico, utilizando o Selenium
+
+Grid e o Appium, e integrando essa soluc¸a˜o na esteira DevOps do Jenkins. A principal
+motivac¸a˜o para este trabalho foi a necessidade de superar as restric¸o˜es da infraestrutura
+existente,aqualdependiadeservidoresWindows®paraaexecuc¸a˜odostestesmobiledevido a limitac¸o˜es te´cnicas, como o uso de DLLs (Dynamic-Link Library) espec´ıficas. A
+novaabordagem,baseadaemservidoresLinux,possibilitouflexibilidadeeescalabilidade,
+otimizando a performance dos testes ao reduzir a carga de dependeˆncias proprieta´rias
+[MozgovoyandPyshkin2018].
+Ale´mdisso,aintegrac¸a˜ocomoJenkinsfacilitouaautomac¸a˜ocont´ınuadostestes,
+permitindo que as equipes de QA (Quality Assurance) desenvolvessem e executassem os
+testesdeformamaisa´gileeficaz. Aimplementac¸a˜odestasoluc¸a˜oenvolveuva´riasetapas,
+desde a PoC (Proof of Concept ou Prova de Conceito) inicial, que validou a viabilidade
+te´cnica, ate´ a adaptac¸a˜o da arquitetura existente para suportar os novos requisitos. Este
+estudo detalha cada uma dessas etapas, discutindo as deciso˜es de projeto, os desafios
+te´cnicos enfrentados e as soluc¸o˜es adotadas, ale´m de apresentar uma ana´lise dos resultadosobtidoscomanovaarquiteturadetestes.
+A estrutura do artigoe´ organizada da seguinte forma: na Sec¸a˜o 2, e´ apresentada a
+fundamentac¸a˜oteo´rica,queincluiumavisa˜ogeralsobreSeleniumGrid,Appiumetestes
+funcionais paralelos. Na Sec¸a˜o 3, sa˜o discutidos os trabalhos relacionados ao tema. A
+Sec¸a˜o4descreveasdeciso˜esdeprojetotomadasduranteaimplementac¸a˜o. NaSec¸a˜o5,a
+arquitetura adotada e´ detalhada. Em seguida, a Sec¸a˜o 6 apresenta os resultados obtidos e
+adiscussa˜odasmelhoriasrealizadas. ASec¸a˜o7trazconsiderac¸o˜essobreainfraestrutura
+utilizada,e,finalmente,aSec¸a˜o8concluioestudoesugeretrabalhosfuturos.
+2. Fundamentac¸a˜o Teo´rica
+Esta sec¸a˜o explora o Selenium Grid, o Appium, os Testes Funcionais Paralelos e Distribu´ıdos,assimcomoadificuldadesdeintegraressastecnologiasemumaredealtamente
+seguraemonitorada.
+2.1. SeleniumGrid
+O Selenium Grid e´ uma ferramenta amplamente usada na execuc¸a˜o distribu´ıda de testes
+automatizados. Elepermitequeostestessejamexecutadosemmu´ltiplasma´quinassimultaneamente, usando uma arquitetura Hub-nodes. O Hub e´ responsa´vel por gerenciar os
+testes e distribu´ı-los para os no´s, os quais sa˜o ma´quinas configuradas para executar esses testes em diferentes ambientes [Fischeretal. 2023]. Isso e´ u´til em cena´rios em que a
+diversidadedeplataformasenavegadorese´ cr´ıticaparagarantiraqualidadedaaplicac¸a˜o.
+No contexto do banco pu´blico, o motivo da escolha pelo Selenium Grid foi pela
+necessidadederealizartestesemmu´ltiplasverso˜esdeSOsedispositivosmo´veis. Noentanto,aimplementac¸a˜oemumarededealtaseguranc¸aapresentoudesafiossignificativos.
+A intranet do banco, projetada para proteger dados sens´ıveis, impoˆs va´rias restric¸o˜es de
+comunicac¸a˜oeacesso,oquecomplicouaconfigurac¸a˜oeaoperac¸a˜odoSeleniumGrid. A
+comunicac¸a˜o entre o Hub e os no´s, por exemplo, precisou ser meticulosamente configuradaparagarantirqueasconexo˜esfossemsegurasequeostestesna˜ocomprometessema
+integridade da rede. Isso envolveu a implementac¸a˜o de medidas adicionais de seguranc¸a,
+como autenticac¸o˜es via protocolos HTTPS e o uso de tu´neis VPN, ale´m de ajustes nas
+pol´ıticasdefirewallparaotra´fegodedadosentreoscomponentesdoSeleniumGrid.
+
+2.2. Appium
+O Appium e´ uma ferramenta de co´digo aberto que permite a automac¸a˜o de testes em
+aplicativos mo´veis, suportando tanto Android® quanto iOS. Ele utiliza uma arquitetura
+semelhante ao Selenium WebDriver, o que facilita a integrac¸a˜o com o Selenium Grid e
+permite a execuc¸a˜o de testes automatizados em uma ampla gama de dispositivos e sistemasoperacionaismo´veis[Villanesetal. 2017].
+No ambiente do banco, o Appium foi escolhido pela sua flexibilidade e compatibilidadecomainfraestruturaexistente,ale´mdesuacapacidadederealizartestestantoem
+dispositivos f´ısicos quanto em emuladores. Contudo, a integrac¸a˜o do Appium dentro da
+intranet do banco tambe´m apresentou desafios. A necessidade de garantir que os testes
+na˜o comprometessem a seguranc¸a dos dados exigiu uma ana´lise minuciosa de como o
+Appiuminteragiacomosdispositivoseemuladores.
+A configurac¸a˜o dos emuladores Android®, e.g. precisou ser ajustada para operar
+dentro das limitac¸o˜es impostas pela rede do banco. Isso incluiu a restric¸a˜o de acesso a
+certosrecursosdosistemaeaimplementac¸a˜odecontrolesrigorososdevisibilidadeelogs
+sobre a comunicac¸a˜o entre o Appium e os dispositivos de teste. Ale´m disso, a execuc¸a˜o
+dos testes em um ambiente de rede vigiada exigiu a adoc¸a˜o de pra´ticas de seguranc¸a adicionais,comooisolamentodeambientesdetesteparapreveniracessosna˜oautorizados.
+2.3. TestesFuncionaisParaleloseDistribu´ıdos
+Os Testes Funcionais Paralelos e Distribu´ıdos sa˜o uma pra´tica que envolve a execuc¸a˜o
+simultaˆnea de mu´ltiplos testes em diferentes ambientes. Essa pra´tica e´ fundamental para acelerar o processo de testes, especialmente em pipelines de CI/CD
+(Integrac¸a˜o Cont´ınua/Entrega Cont´ınua), em que a rapidez e a eficieˆncia sa˜o essenciais
+[Vilaetal. 2017]. A possibilidade de distribuir testes em diferentes no´s e executa´-los em
+paralelo permite reduzir drasticamente o tempo total de testes, melhorando a cobertura e
+avelocidadedefeedback [Alenzietal. 2022].
+No caso do contexto deste estudo, a implementac¸a˜o de testes paralelos e distribu´ıdosfoicrucialparalidarcomacomplexidadedossistemaseanecessidadedetestar
+em va´rias plataformas mobile. No entanto, a execuc¸a˜o desses testes dentro de uma rede
+altamente monitorada trouxe desafios adicionais. Cada teste executado precisava ser cuidadosamente controlado para garantir que o tra´fego gerado na˜o violasse as pol´ıticas de
+seguranc¸a do banco. Isso incluiu a configurac¸a˜o de canais de comunicac¸a˜o seguros entre os no´s do Selenium Grid e o Hub, bem como o monitoramento constante do uso de
+recursosderedeparaevitarqualquerimpactonegativonoambienteprodutivo.
+Ale´m disso, a escalabilidade dos testes distribu´ıdos exigiu ajustes na arquitetura
+da rede do banco para acomodar a execuc¸a˜o de mu´ltiplos testes simultaneamente, sem
+comprometeraseguranc¸aouodesempenho. Aadoc¸a˜odepra´ticascomoasegmentac¸a˜ode
+rede e o uso de VPNs internas - neste caso a HPE Aruba Networking - foram necessa´rias
+paragarantirqueostestespudessemserrealizadosdemaneiraeficienteesegura.
+3. Trabalhos Relacionados
+Esta sec¸a˜o apresenta uma revisa˜o de estudos relacionados que abordam a implementac¸a˜o
+e os desafios da automac¸a˜o de testes mobile, especialmente em ambientes que utilizam
+
+ferramentas como Appium e Selenium Grid. Ao apresentar esses trabalhos, buscamos
+contextualizar o relato da experieˆncia apresentada neste artigo, destacando as pra´ticas e
+te´cnicas aplicadas em diferentes cena´rios de testes automatizados. A comparac¸a˜o com
+trabalhos anteriores permite validar as abordagens empregadas e demonstrar a relevaˆncia
+danossasoluc¸a˜oimplementadanobancopu´blico.
+Costa e Miranda (2023) realizou uma ana´lise comparativa de diversas ferramentas open-source voltadas para testes funcionais de interfaces gra´ficas (GUI) mobile em
+ambientesdeIntegrac¸a˜oCont´ınua(CI).OestudoavaliouosframeworksDetox,Appium,
+Calabash e Maestro, levando em considerac¸a˜o crite´rios como popularidade, facilidade de
+uso, tempos de execuc¸a˜o e integrac¸a˜o com pipelines de CI. Atrave´s de testes pra´ticos
+realizados em aplicativos Android, o Appium se destacou pela sua flexibilidade e compatibilidade com diferentes plataformas, facilitando a integrac¸a˜o em diversos ambientes
+CI/CD. Embora na˜o seja a ferramenta mais ra´pida, a pesquisa concluiu que o Appium
+e´ adequado para cena´rios que exigem alta flexibilidade e personalizac¸a˜o, alinhando-se a`
+necessidadedeadaptac¸a˜oemambientescomplexos,comoodeumbancopu´blico.
+Outro estudo relevante e´ o de Li (2023), que explorou a implementac¸a˜o de testes automatizados em dispositivos mo´veis utilizando Appium e Selenium WebDriver. O
+foco do trabalho foi na validac¸a˜o de funcionalidades em diferentes verso˜es do sistema
+operacional Android, abordando os desafios da fragmentac¸a˜o no ecossistema mobile. Os
+resultados indicaram que a combinac¸a˜o do Selenium Grid com Appium permitiu uma
+execuc¸a˜o mais eficiente e paralela dos testes, o que se relaciona diretamente com a abordagemadotadanesteartigo.
+Yu et al. (2021) propo˜em um framework de automac¸a˜o de testes mobile que usa
+visa˜o computacional para reconhecimento de layout e imagens, permitindo a execuc¸a˜o
+de scripts de teste em va´rias plataformas. Esse framework, chamado LIRAT, gera scripts
+independentes de plataforma e melhora a flexibilidade dos testes em diferentes sistemas
+operacionais. Usando Appium e Selenium, a abordagem oferece uma soluc¸a˜o robusta
+paratestesfuncionaisdeinterface,superandolimitac¸o˜esespec´ıficasdeportabilidadeentre
+plataformas,algosimilaraoframework utilizadonobanco.
+Por fim, o trabalho de AbuSalim (2021) foca na ana´lise de desempenho de testes
+mobileemumainfraestruturabaseadaemSeleniumGrid,comparandodiferenteste´cnicas
+deparalelizac¸a˜o. Osautoresidentificaramqueaorquestrac¸a˜odostestesemmu´ltiplosno´s
+resulta em uma melhoria significativa nos tempos de execuc¸a˜o. Este resultado e´ consistente com as melhorias observadas na nossa implementac¸a˜o, que utiliza um conjunto de
+no´s Linux para executar testes mobile em paralelo, reduzindo o tempo de feedback para
+asequipesdedesenvolvimento.
+4. Deciso˜es de Projeto
+A decisa˜o de migrar a execuc¸a˜o dos testes mobile de servidores Windows® para Linux
+foiimpulsionadaporva´riasconsiderac¸o˜este´cnicaseoperacionais. Aprincipalmotivac¸a˜o
+foi a necessidade de superar as limitac¸o˜es impostas pela infraestrutura existente, que dependia de DLLs espec´ıficas desenvolvidas em C# para autenticac¸a˜o e comunicac¸a˜o com
+outrossistemas. EssasDLLsna˜oeramcompat´ıveiscomoambienteLinux,oqueimpedia
+aexecuc¸a˜odostestesforadoambienteWindows®.
+Para validar a viabilidade da migrac¸a˜o, foi realizada uma POC que envolveu a
+
+configurac¸a˜o de um ambiente de teste com o Selenium Grid e Appium em servidores Linux. O fluxo original da POC e´ apresentado na Figura 1. A POC demonstrou que era
+poss´ıvel configurar emuladores Android® em servidores Linux e executar testes automatizados de forma eficiente. Ale´m disso, a utilizac¸a˜o de Linux ofereceu vantagens adicionais, como maior flexibilidade na gesta˜o de recursos e a possibilidade de escalabilidade
+horizontal,permitindoadicionarnovosno´sdetesteconformenecessa´rio.
+Figura 1. Fluxo em alto
+n´ıveldoPOC. Figura2. ArquiteturaAtual.
+Com base nos resultados da POC, foi decidido seguir em frente com a migrac¸a˜o,
+adaptando a arquitetura do sistema para suportar a execuc¸a˜o distribu´ıda dos testes em
+Linux. Isso envolveu a reconfigurac¸a˜o do Jenkins para integrar-se ao novo ambiente e a
+implementac¸a˜odesoluc¸o˜esalternativasparaasdependeˆnciasdeDLLs,comoodesenvolvimento de APIs para autenticac¸a˜o na intranet do banco, ale´m da reescrita de partes do
+co´digodoframework internoproprieta´riodetesteswebemobile.
+5. Arquitetura
+AFigura2apresentaaarquiteturadanovasoluc¸a˜odesenhadaparamaximizaraeficieˆncia,
+escalabilidade e seguranc¸a dos testes automatizados em um ambiente banca´rio cr´ıtico. O
+nu´cleo da arquitetura e´ composto pelo Hub do Selenium Grid, configurado em um servidor Linux, que atua como ponto central de orquestrac¸a˜o de testes. Os projetos de teste
+sa˜o desenvolvidos pelos QAs e versionados no SVN ou GitLab internos do banco. Nos
+jobs do Jenkins e´ indicado o reposito´rio de onde deve ser feito o clone, bem como ambiente (desenvolvimento, homologac¸a˜o ou produc¸a˜o) e o AVD (Android Virtual Device, ou
+DispositivovirtualAndroid). OHubrecebeasrequisic¸o˜esdetesteenviadaspeloJenkins,
+e apo´s o clone ele realiza basicamente um comando Gradle buildFunctionalTest do projetoedistribuiessastarefasparaosno´sdispon´ıveis,quesa˜oservidoresconfiguradoscom
+emuladoresAndroid®dediferentesverso˜es.
+Cada no´ e´ responsa´vel por emular ambientes Android® espec´ıficos, variando de
+verso˜esmaisantigasa`smaisrecentesdosistemaoperacional. Issopermiteumacobertura
+abrangente dos cena´rios de teste, garantindo que os aplicativos sejam validados em uma
+diversidade de configurac¸o˜es. Os no´s tambe´m operam em modo headless, ou seja, sem
+interface gra´fica, o que melhora a eficieˆncia de processamento ao reduzir o consumo de
+recursos [Suetal. 2021]. O modo headless e´ particularmente importante para garantir
+queousodememo´riaeCPUdosservidoressejaotimizado,aumentandoacapacidadede
+execuc¸a˜odemu´ltiplostestessimultaneamente.
+
+Adistribuic¸a˜odetestespeloSeleniumGride´ umdosmaioresganhosdeeficieˆncia
+destaarquitetura. Aorquestrac¸a˜ointeligenterealizadapeloHubpermitequetestessejam
+redirecionados para no´s ociosos, mesmo que esses no´s pertenc¸am a diferentes ambientes
+no´s. Isso ocorre de forma transparente, ja´ que os emuladores Android® sa˜o ideˆnticos,
+e a separac¸a˜o dos servidores como diferentes labels e´ semaˆntica, destinada apenas a organizar a infraestrutura e garantir relato´rios de testes agrupados por tipo de APK (Android Application Package) testado, ou seja, se sa˜o APKs de versa˜o de desenvolvimento,
+homologac¸a˜oouproduc¸a˜o. Essaflexibilidadereduziuotempodeesperaemaproximadamente40%paraaexecuc¸a˜odostestes,dandoumautilizac¸a˜omaiseficientedosrecursos.
+Outro aspecto importante da arquitetura e´ a integrac¸a˜o cont´ınua com o Jenkins,
+queatuacomoocoordenadordosjobsdeteste. OJenkinsseconectadiretamenteaoHub
+do Selenium Grid, iniciando a execuc¸a˜o de cada tarefa de teste e gerando os relato´rios
+finais apo´s a conclusa˜o. A comunicac¸a˜o entre o Jenkins e o Hub e´ simplificada e direta,
+o que minimiza falhas e atrasos na execuc¸a˜o dos testes, mesmo em grandes conjuntos de
+casos de teste (su´ıtes). Apo´s a conclusa˜o dos testes, os resultados sa˜o agregados no Hub,
+processadoseenviadosdevoltaparaoJenkins,emqueficamdispon´ıveisparaasequipes
+deQAedesenvolvimentoanalisarem.
+Ale´m disso, a arquitetura foi desenhada com uma preocupac¸a˜o rigorosa em
+relac¸a˜o a` seguranc¸a e integridade dos dados. Em um ambiente banca´rio, a seguranc¸a
+e´ uma prioridade, e a arquitetura adotada leva isso em considerac¸a˜o. A comunicac¸a˜o entre o Hub e os no´s, bem como entre o Jenkins e o Hub, e´ protegida por mecanismos de
+autenticac¸a˜o (sistemas internos de gerac¸a˜o de tickets para testes, produc¸a˜o de logs e rastreamentoparaauditoria)ecriptografiaSSL(SecureSocketsLayer),garantindoquedados
+sens´ıveis na˜o sejam expostos durante a execuc¸a˜o dos testes. Cada no´ esta´ isolado de maneiraaevitaroacessona˜oautorizado,eacriptografiadosdadosemtraˆnsitoasseguraque
+informac¸o˜esconfidenciaisna˜osejamcomprometidas.
+Por fim, o design modular da arquitetura facilita a escalabilidade. Novos no´s
+podem ser facilmente adicionados a` estrutura existente, permitindo que a capacidade
+de execuc¸a˜o de testes seja aumentada conforme necessa´rio, sem a necessidade de
+reconfigurac¸o˜es complexas. Essa flexibilidade permite que o banco ajuste sua infraestrutura de acordo com a demanda, adicionando servidores quando o volume de testes
+aumenta,oudesativandono´semmomentosdemenoruso.
+6. Resultados e Discussa˜o de Melhorias
+A implementac¸a˜o da nova arquitetura de testes automatizados trouxe melhorias significativas em comparac¸a˜o com a infraestrutura pre´via. Antes da migrac¸a˜o, os testes mobile
+eram executados exclusivamente em servidores Windows®, o que resultava em va´rias
+limitac¸o˜es, incluindo dependeˆncia de recursos proprieta´rios, maior tempo de execuc¸a˜o
+dos testes e dificuldades na integrac¸a˜o cont´ınua com o Jenkins. A nova soluc¸a˜o, baseadaemservidoresLinux,eliminouessasrestric¸o˜es,proporcionandomaiorflexibilidadee
+eficieˆncia na execuc¸a˜o dos testes. Ainda, a visualizac¸a˜o da execuc¸a˜o dos testes era feita
+pelologdoJenkins,oquedificultavaoseuacompanhamento. ComoSeleniumGrid possibilitou o acesso a uma visualizac¸a˜o centralizada dos no´s e seus emuladores, tornando
+maisintuitivoavisualizac¸a˜odaatividades,aqualaFigura3apresentaessavisa˜o.
+A reduc¸a˜o do tempo total de execuc¸a˜o das su´ıtes de testes e´ uma me´trica impor-
+
+Figura3. Visa˜ogeralfornecidapeloHubdoSeleniumGrid.
+tante, que consistem em uma me´dia de 300 casos de teste em cada projeto por sistema.
+O ganho me´dio de tempo foi de aproximadamente 40%, grac¸as ao alto poder de processamento dos servidores de no´s e ao uso de emuladores em modo headless (sem interface
+gra´fica), o que reduz a sobrecarga de execuc¸a˜o. Ale´m disso, o Selenium Grid orquestrou a distribuic¸a˜o dos testes para emuladores ociosos de no´s diferentes, independente da
+segmentac¸a˜osemaˆnticaentreambientesdedesenvolvimento,homologac¸a˜oouproduc¸a˜o.
+Sendoassim,umadasprincipaismelhoriasobservadasfoiareduc¸a˜onotempototaldeexecuc¸a˜odostestes. Comacapacidadedeexecutartestesemparaleloemmu´ltiplos
+no´s,otemponecessa´rioparatestarumaversa˜ocompletadasaplicac¸o˜esfoidrasticamente
+reduzido. Isso permitiu que as equipes de QA entregassem resultados mais rapidamente,
+acelerando o ciclo de feedback para os desenvolvedores e permitindo a detecc¸a˜o precoce
+deproblemas. AFigura4apresentaumdostestesrealizadosnaPOCsendoexecutados.
+Figura4. TestesendoexecutadoevisualizadonoHUB.
+KPIs (Key Performance Indicators, ou Indicadores-Chave de Desempenho) importantes utilizados no monitoramento da efica´cia da soluc¸a˜o foram definidos, como a
+cobertura de testes, que aumentou em 25% apo´s a implementac¸a˜o da nova arquitetura,
+permitindo uma execuc¸a˜o me´dia de 150 casos de teste por no´. Ainda, a taxa de sucesso
+das execuc¸o˜es subiu para 98%, e o tempo me´dio do ciclo de feedback, que dentro do
+bancoe´ quantotempodevelevarpararesolverbugsouincidentesquandoosmesmossa˜o
+comunicadosaosdesenvolvedores,poˆdeserredefinidoparaate´ 6horas(tempopadra˜odo
+
+expediente) apo´s in´ıcio dos testes, frente ao teto anterior que era de 18 horas, representandoumareduc¸a˜ode66,7%.
+Ale´m disso, a integrac¸a˜o cont´ınua com o Jenkins foi significativamente aprimorada. Com a nova arquitetura, os testes sa˜o executados automaticamente como parte do
+processo de CI/CD, garantindo que todas as mudanc¸as no co´digo sejam testadas antes
+de serem integradas ao branch principal. Isso na˜o so´ melhora a qualidade do co´digo,
+como tambe´m reduz o risco de introduzir falhas em produc¸a˜o, algo que e´ imposs´ıvel de
+ser aceito no caso de grandes aplicac¸o˜es financeiras. A Figura 5 apresenta os dados de
+uma sessa˜o iniciada com sucesso para testes funcionais de um aplicativo que faz parte da
+esteiradedesenvolvimento.
+Figura5. Informac¸o˜esdasessa˜ovistasnoHUB.
+Outra vantagem da nova soluc¸a˜o foi a capacidade de escalabilidade. Em vez de
+dependerdeumaquantidadelimitadadeservidoresWindows®,quenogeralapresentam
+maiores dificuldades para configurac¸a˜o da infraestrutura, a nova arquitetura permite adicionar no´s Linux conforme necessa´rio, aumentando a capacidade de execuc¸a˜o de testes
+sem comprometer o desempenho. Isso e´ especialmente importante em momentos de alta
+demanda, como durante a finalizac¸a˜o dos ciclos de desenvolvimento antes dos per´ıodos
+defreezing,ouantesdeentregasimportantes.
+Como autor e colaborador no banco pu´blico, e´ importante ressaltar que, devido a`
+natureza confidencial dos dados e relato´rios gerados durante o processo de testes, na˜o e´
+poss´ıvelapresentaressesresultadosdeformaconcretaedetalhada. Essesdadossa˜otodos
+classificados como informac¸o˜es internas e sigilosas da instituic¸a˜o, e seu acesso e´ restrito
+a`s equipes autorizadas. No entanto, os resultados descritos neste artigo sa˜o baseados em
+observac¸o˜eseana´lisesdodesempenhogeraldasoluc¸a˜oimplementada.
+7. Considerac¸o˜es sobre Infraestrutura e Desafios
+Implementar uma arquitetura de testes automatizados distribu´ıdos e paralelos dentro de
+uma rede banca´ria altamente segura e´ uma tarefa complexa que envolve superar diversos
+desafios te´cnicos e de infraestrutura. A migrac¸a˜o dos testes mobile para servidores Linux, e.g. exigiu na˜o apenas um conhecimento profundo das tecnologias utilizadas, mas
+tambe´mumaadaptac¸a˜odaspol´ıticasdeseguranc¸aedosprocessosdeautenticac¸a˜o.
+Aconfigurac¸a˜odosemuladoresAndroid®comono´sdoSeleniumGrid,porexemplo, foi um processo que exigiu a considerac¸a˜o de diversas restric¸o˜es impostas pela
+
+seguranc¸a da rede do banco. Isso incluiu a implementac¸a˜o de controles de acesso rigorosos,acriptografiadedadosemtraˆnsito,eaadaptac¸a˜odosemuladoresparaoperarde
+maneiraisolada,garantindoquecadaambientedetestefosseseguroeimpenetra´vel.
+Aintegrac¸a˜odoSeleniumGridedoAppiumcomoJenkinsqueoperaemumambienteWindows®e´ outroaspectocr´ıtico. Acomunicac¸a˜oentreessesdiferentesSOs,dentro
+de uma rede altamente controlada, apresentou desafios significativos. Foi necessa´rio desenvolver soluc¸o˜es que permitissem a comunicac¸a˜o segura e eficiente entre os servidores
+Linux que hospedavam o Selenium Grid e o servidor Windows® que operava o Jenkins,
+garantindoqueaautomac¸a˜odetestesfuncionassedemaneirafluidaeintegrada.
+Em resumo, a implementac¸a˜o de testes automatizados em um ambiente banca´rio
+na˜o se limita apenas a` configurac¸a˜o te´cnica das ferramentas. Ela tambe´m envolve uma
+adaptac¸a˜o a`s exigeˆncias de seguranc¸a e uma integrac¸a˜o cuidadosa com a infraestrutura
+existente, tudo isso enquanto se garante que os testes possam ser executados de maneira
+eficienteesegura,semcomprometeraintegridadedosdadosouaseguranc¸adarede.
+8. Conclusa˜o e Trabalhos Futuros
+A migrac¸a˜o da execuc¸a˜o dos testes mobile de servidores Windows® para Linux, utilizando Selenium Grid e Appium, representou um avanc¸o significativo no processo de
+automac¸a˜o de testes no banco. A nova soluc¸a˜o superou as limitac¸o˜es da infraestrutura,
+oferecendo maior flexibilidade, escalabilidade e eficieˆncia na execuc¸a˜o dos testes. A
+integrac¸a˜o cont´ınua com o Jenkins foi aprimorada, permitindo uma automac¸a˜o mais robustaeconfia´vel,essencialparamanteraqualidadedosoftwareemumambientecr´ıtico.
+O relato do caso apresentado demonstra que, com as deciso˜es de projeto corretas
+e uma abordagem estruturada, e´ poss´ıvel superar desafios te´cnicos significativos e implementarumasoluc¸a˜odeautomac¸a˜odetesteseficaz. Osresultadosalcanc¸adosmostramque
+a nova arquitetura na˜o apenas melhorou a eficieˆncia operacional, mas tambe´m contribuiu
+paraaentregadesoftwaredemaiorqualidade,commenorriscodefalhasemproduc¸a˜o.
+Para trabalhos futuros, esta˜o sendo realizados estudos preliminares com o objetivo de aprimorar a integrac¸a˜o com os sistemas internos de autenticac¸a˜o e comunicac¸a˜o,
+incluindoosmicrosservic¸osdesenvolvidoscomumframeworkpro´prioemJavaeasAPIs
+desenvolvidascomframeworkproprieta´rioemC#. Todosessesframeworks,criadospelos
+pro´prios colaboradores, possuem um legado de mais de 15 anos de existeˆncia e teˆm sido
+continuamenteevolu´ıdosparaatendera`screscentesdemandaslegaisedainstituic¸a˜o.
+Paralelamente, o framework de testes funcionais web/mobile, desenvolvido internamenteemJavaeimplementadodesde2019,esta´emconstanteatualizac¸a˜oparaacompanhar as necessidades de qualidade e eficieˆncia nos processos de desenvolvimento. Essas
+soluc¸o˜es foram projetadas para atender a`s necessidades espec´ıficas do banco, uma vez
+que nenhuma oferta de mercado cobria adequadamente o contexto da organizac¸a˜o, seja
+porrestric¸o˜esdeseguranc¸aouporquesto˜esdecontroleesuportecont´ınuo.
+Ale´m disso, esta´ sendo estudado o uso de Containers Podman em runners no
+novo GitLab interno do banco para evoluc¸a˜o da soluc¸a˜o, embora dificuldades estejam
+surgindo ao tentar executar emuladores Android® dentro de containers, uma vez que
+isso configura uma emulac¸a˜o dentro de outra. Ainda, esta˜o sendo implementados scripts
+para gerenciamento de toda a infraestrutura utilizando o OpenTofu, a alternativa open-
+
+source ao Terraform. O objetivo e´ a substituic¸a˜o completa dos scripts .sh, usados na
+construc¸a˜oe/oudestruic¸a˜odainfraestrutura,quehojesa˜oinvocadosdiretamentepormeio
+deaplicac¸o˜escomooPuTTyeoMobaXterm.
+Por fim, e´ importante destacar que o fluxo de testes web, o qual o framework de
+testesfuncionaistambe´msuporta,esta´ emprocessodemigrac¸a˜oparaambientesLinux,o
+quepermitira´ umamaioruniformidadeeeficieˆncianaexecuc¸a˜odostestesautomatizados.
+Refereˆncias
+AbuSalim,S.W.,Ibrahim,R.,andWahab,J.A.(2021). Comparativeanalysisofsoftware
+testing techniques for mobile applications. In Journal of Physics: Conference Series,
+volume1793,KualaLumpur,Malaysia.IOPPublishing.
+Alenzi, A., Alhumud, W., Bryce, R., and Alshammari, N. (2022). A survey of software
+testingtoolsinthewebdevelopmentdomain. J.Comput.Sci.Coll.,38(2).
+Costa, G. and Miranda, B. (2023). A comparative analysis of mobile ui testing frameworks in continuous integration environments. In Proceedings of the 8th Brazilian
+SymposiumonSystematicandAutomatedSoftwareTesting,SAST’23,NewYork,NY,
+USA.AssociationforComputingMachinery.
+Fischer, S., Ramler, R., Assunc¸a˜o, W. K. G., Egyed, A., Gradl, C., and Auberger, S.
+(2023). Model-based testing for a family of mobile applications: Industrial experiences. InProceedingsofthe27thACMInternationalSystemsandSoftwareProductLine
+Conference-VolumeA,SPLC’23,NewYork,NY,USA.ACM.
+Li, J. and Cao, H. (2024). Design and implementation of api automation testing system
+for mobile hybrid mode based on appium technology. In Proceedings of the 2023 7th
+International Conference on Electronic Information Technology and Computer Engineering,EITCE’23,NewYork,NY,USA.AssociationforComputingMachinery.
+Mozgovoy,M.andPyshkin,E.(2018). Mobilefarmforsoftwaretesting. InProceedings
+of the 20th International Conference on Human-Computer Interaction with Mobile
+Devices and Services Adjunct, MobileHCI ’18, New York, NY, USA. Association for
+ComputingMachinery.
+Su, T., Yan, Y., Wang, J., Sun, J., Xiong, Y., Pu, G., Wang, K., and Su, Z. (2021). Fully
+automated functional fuzzing of android apps for detecting non-crashing logic bugs.
+Proc.ACMProgram.Lang.,5(OOPSLA).
+Vila, E., Novakova, G., and Todorova, D. (2017). Automation testing framework for
+web applications with selenium webdriver: Opportunities and threats. In Proceedings
+of the International Conference on Advances in Image Processing, ICAIP ’17, New
+York,NY,USA.AssociationforComputingMachinery.
+Villanes, I. K., Ascate, S. M., Gomes, J., and Dias-Neto, A. C. (2017). What are software engineers asking about android testing on stack overflow? In Proceedings of the
+XXXIBrazilianSymposiumonSoftwareEngineering,SBES’17,NewYork,NY,USA.
+AssociationforComputingMachinery.
+Yu, S., Fang, C., Yun, Y., and Feng, Y. (2021). Layout and image recognition driving
+cross-platform automated mobile testing. In Proceedings of the 43rd International
+ConferenceonSoftwareEngineering(ICSE’21).IEEE.

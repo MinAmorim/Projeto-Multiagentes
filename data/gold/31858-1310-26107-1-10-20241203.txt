@@ -1,0 +1,9 @@
+. A automac¸a˜o de testes e´ essencial para garantir a qualidade e a
+seguranc¸a do software em instituic¸o˜es financeiras, especialmente em um banco
+pu´blico, onde a confiabilidade e´ cr´ıtica para as transac¸o˜es. Tradicionalmente,
+a execuc¸a˜o de testes mobile estava restrita a servidores Windows, devido a
+limitac¸o˜es de infraestrutura. O estudo relata a experieˆncia de migrac¸a˜o para
+umaarquiteturabaseadaemservidoresLinux,usandoSeleniumGrideAppium
+integrados ao Jenkins. Essa mudanc¸a permitiu maior flexibilidade, escalabilidade e eficieˆncia, resultando em na melhoria no processo de automac¸a˜o de
+testes. Tambe´m aborda os desafios te´cnicos superados, como a integrac¸a˜o com
+sistemasdeautenticac¸a˜oeaseguranc¸adentrodarededobanco.

@@ -1,0 +1,9 @@
+. A dificuldade na escolha de ferramentas de automação é um problema
+que acarreta um alto nível de complexidade e custos. Escolher e relacionar as
+ferramentas mais adequadas para determinados tipos de testes exige uma grande
+quantidade de tempo, experiência e conhecimento dos engenheiros de testes. Isso
+torna o seu trabalho mais difícil, já que não existe uma análise descritiva e
+comparativa das ferramentas disponíveis no mercado. A ausência de informações
+sobre essas ferramentas reduz a produtividade e aumenta as rotinas de testes. Este
+trabalho tem como objetivo avaliar ferramentas de automação para engenheiros de
+testes, auxiliando-os na escolha da melhor ou mais adequada ferramenta.

@@ -1,0 +1,10 @@
+No âmbito de desenvolvimento de software, as organizações têm
+buscado qualidade dos produtos que constroem, a fim de satisfazer clientes e se
+manterem competitivas no mercado. Grandes esforços têm sido empenhados em
+melhorar as atividades de teste, uma vez que estas avaliam a qualidade do
+produto final. A automação de testes é uma forma amplamente difundida de
+melhorar o processo de testes, porém, não favorece qualquer projeto. Este artigo
+apresenta experiências em automação de testes sistêmicos funcionais em uma
+organização avaliada SW-CMM nível 2 e uma análise da automação de testes
+funcionais em projetos de desenvolvimento de software de acordo com estratégias
+adotadas.

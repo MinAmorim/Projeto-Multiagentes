@@ -44,10 +44,27 @@ def calcular_bertscore(gold, gerado):
 def avaliar_cobertura_semantica(texto_original, abstract_gerado):
     prompt = f"""
 Analise o resumo gerado com base no trecho do artigo original fornecido.
-Verifique objetivamente a presença de cinco elementos estruturais no resumo.
-Para cada elemento, atribua 1 se estiver claramente identificável, ou 0 caso contrário.
-Forneça o resultado exclusivamente no formato JSON abaixo, sem texto adicional:
-{{"problema": 0 ou 1, "objetivo": 0 ou 1, "metodo": 0 ou 1, "resultados": 0 ou 1, "contribuicao": 0 ou 1}}
+Verifique a presença de cinco elementos estruturais no resumo: problema,
+objetivo, método, resultados e contribuição.
+
+Seja RIGOROSO: só marque presente=1 se o elemento estiver explicitamente e
+inequivocamente no abstract, com um trecho concreto que comprove isso. Não
+marque 1 por inferência, insinuação, ou porque "parece que está implícito".
+Um abstract bem escrito ainda pode deixar de contemplar um ou mais desses
+elementos com clareza -- não hesite em marcar 0 nesses casos.
+
+Para cada elemento, retorne presente (0 ou 1) e evidencia (uma citação curta
+e literal do abstract gerado que comprove a marcação; string vazia "" se
+presente=0).
+
+Retorne exclusivamente este JSON, sem texto adicional:
+{{
+  "problema": {{"presente": 0 ou 1, "evidencia": "..."}},
+  "objetivo": {{"presente": 0 ou 1, "evidencia": "..."}},
+  "metodo": {{"presente": 0 ou 1, "evidencia": "..."}},
+  "resultados": {{"presente": 0 ou 1, "evidencia": "..."}},
+  "contribuicao": {{"presente": 0 ou 1, "evidencia": "..."}}
+}}
 
 Artigo original: {texto_original[:6000]}
 
@@ -61,19 +78,43 @@ Abstract gerado: {abstract_gerado}
     ).choices[0].message.content
 
     try:
-        cobertura = json.loads(_limpar_json(resposta))
-    except json.JSONDecodeError:
+        bruto = json.loads(_limpar_json(resposta))
+        cobertura = {
+            elemento: bruto.get(elemento, {}).get("presente")
+            for elemento in ELEMENTOS_COBERTURA
+        }
+        evidencias = {
+            elemento: bruto.get(elemento, {}).get("evidencia", "")
+            for elemento in ELEMENTOS_COBERTURA
+        }
+    except (json.JSONDecodeError, AttributeError):
         cobertura = {elemento: None for elemento in ELEMENTOS_COBERTURA}
-    return cobertura
+        evidencias = {elemento: "" for elemento in ELEMENTOS_COBERTURA}
+
+    return cobertura, evidencias
 
 def avaliar_fidelidade(texto_original, abstract_gerado):
     prompt = f"""
 Compare o resumo gerado com o artigo original.
-Identifique qualquer afirmação, dado numérico, método ou conclusão presente no abstract que não tenha suporte direto no texto original.
-Avalie a fidelidade geral com uma nota de 1 (invenção ou distorção de dados cruciais) a 5 (totalmente fiel e ancorado no artigo).
-Liste as afirmações não suportadas, se existirem. Se o resumo for totalmente fiel, retorne uma lista vazia.
+Primeiro, identifique qualquer afirmação, dado numérico, método ou conclusão
+presente no abstract que não tenha suporte direto no texto original.
+
+Depois, atribua a nota_fidelidade seguindo ESTRITAMENTE esta régua, para
+manter a nota consistente com a lista de afirmações não suportadas que você
+levantou:
+- 5: nenhuma afirmação não suportada
+- 4: 1 afirmação não suportada, de importância secundária
+- 3: 2 a 3 afirmações não suportadas, ou 1 de importância central
+- 2: 4 ou mais afirmações não suportadas, ou distorção de um resultado central
+- 1: invenção de dado central (número, conclusão ou método incorretos)
+
+A nota_fidelidade deve ser sempre coerente com o tamanho e a gravidade da
+lista de afirmacoes_nao_suportadas -- não atribua uma nota alta se a lista
+tiver várias afirmações, nem uma nota baixa se a lista estiver vazia.
+
+Se o resumo for totalmente fiel, retorne uma lista vazia.
 Retorne estritamente um JSON neste formato, sem explicações adicionais:
-{{"nota_fidelidade": <1 a 5>, "afirmacoes_nao_suportadas": ["...", "..."]}}
+{{"afirmacoes_nao_suportadas": ["...", "..."], "nota_fidelidade": <1 a 5>}}
 
 Artigo original: {texto_original[:6000]}
 
@@ -109,7 +150,7 @@ def avaliar_arquivo(nome_arquivo, abordagem):
 
     rouge = calcular_rouge(gold, gerado)
     bert = calcular_bertscore(gold, gerado)
-    cobertura = avaliar_cobertura_semantica(original, gerado)
+    cobertura, evidencias_cobertura = avaliar_cobertura_semantica(original, gerado)
     fidelidade = avaliar_fidelidade(original, gerado)
 
     linha = {
@@ -127,6 +168,7 @@ def avaliar_arquivo(nome_arquivo, abordagem):
     }
     for elemento in ELEMENTOS_COBERTURA:
         linha[f"cobertura_{elemento}"] = cobertura.get(elemento)
+        linha[f"cobertura_{elemento}_evidencia"] = evidencias_cobertura.get(elemento, "")
 
     return linha
 

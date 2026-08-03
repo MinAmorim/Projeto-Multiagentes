@@ -1,0 +1,8 @@
+A automação de testes funcionais tem se tornado um evidente atrativo para equipes de
+desenvolvimento de software. Tal fato se deve principalmente à grande redução de custo
+observada a médio e a longo prazos com o uso desta prática. Este artigo propõe a aplicação de
+padrões para otimizar a automação de testes funcionais de software, introduzindo benefícios
+como o aumento da reusabilidade e da manutenibilidade de scripts de teste, e a facilidade de
+inclusão de novos casos de teste. O uso de padrões na automação de testes funcionais
+representa uma aplicação inovadora de padrões e um diferencial em relação às técnicas de
+automação de testes funcionais citadas na literatura.

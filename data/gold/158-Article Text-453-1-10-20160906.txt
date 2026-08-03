@@ -1,0 +1,9 @@
+Aplicativos móveis estão sendo cada vez mais utilizados. Com esse
+crescimento, a exigência pela qualidade é cada vez maior. Sistemas
+operacionais, como o Android, possuem uma grande fragmentação de
+dispositivos e versões, sendo este um desafio em garantir a qualidade do
+software produzido. Este trabalho apresenta um cenário de estudo contendo
+cinco cenários de teste e cinco dispositivos. Para isso foram executados testes
+manuais e automatizados, com o objetivo de comparar a sua eficiência. Ao
+final, foi observado que a execução dos testes automatizados em paralelo
+apresentaram uma eficiência de 45,86% no tempo de execução.

@@ -1,0 +1,13 @@
+O Teste de Software se constitui em uma das principais atividades no ciclo de vida do processo de
+desenvolvimento de software para controlar a qualidade. Geralmente a atividade de teste é realizada
+de forma manual e tem um alto custo no processo de desenvolvimento de software. Ferramentas
+para automação das atividades de teste de software podem reduzir o esforço e os custos associados,
+melhorando o processo de desenvolvimento e consequentemente a qualidade do produto. O
+principal objetivo deste trabalho é investigar o uso de ferramentas para geração automática de scripts
+de teste. Foi realizado um estudo empírico para avaliar a eficácia em revelar falhas, cobertura de
+código e qualidade das condições de teste comparando duas ferramentas para geração de casos de
+teste automatizados a EvoSuite e Randoop. As ferramentas foram submetidas ao mesmo projeto e a
+cobertura de código bem como a qualidade dos casos de teste foram analisados. Os resultados
+mostram que ainda existe a necessidade de mais pesquisas e melhorias para que ferramentas
+automatizadas na geração de casos de testes sejam amplamente adotadas na comunidade de
+desenvolvimento de software.

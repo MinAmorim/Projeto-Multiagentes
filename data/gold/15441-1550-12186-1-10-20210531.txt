@@ -1,0 +1,9 @@
+It is well known that the development of software supported by CASE
+tools improves product quality assurance. In this paper, we describe our
+experience in the use of automation tools during the process of developing
+software for embedded systems. They are called: FlexCA, which is designed to
+provide flexibility in information processing, and Auto Sanity Tool, which is
+designed for testing. These tools are used in the stage of adaptive maintenance
+and testing. We also show significant results regarding the increase of
+production speed of the generated software as well as the decrease in the
+amount of errors with the use of these tools.

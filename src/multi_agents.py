@@ -13,9 +13,9 @@ CAMINHO_CUSTO = os.path.join(CAMINHO_BASE, "data", "resultados", "custo.csv")
 
 os.makedirs(PASTA_OUTPUT, exist_ok=True)
 
-llm_padrao = LLM(model="gpt-4o-mini", temperature=0.2)
-
 def gerar_abstract_multiagente(nome_arquivo, texto_artigo):
+
+    llm_padrao = LLM(model="gpt-4o-mini", temperature=0.0)
    
     agente_problema = Agent(
         role='Extrator de Problema e Lacuna',
@@ -46,7 +46,7 @@ def gerar_abstract_multiagente(nome_arquivo, texto_artigo):
 
     agente_sintetizador = Agent(
         role='Sintetizador de Resumo Final',
-        goal='Escrever um resumo científico claro, conciso e completo em PORTUGUÊS do Brasil, unindo os achados dos outros especialistas e mantendo fidelidade absoluta ao artigo.',
+        goal='Escrever um resumo científico claro, conciso e completo em português do Brasil, unindo os achados dos outros especialistas e mantendo fidelidade absoluta ao artigo.',
         backstory='Você é um redator chefe e editor de uma renomada revista científica. Você nunca inventa dados. Você usa as notas dos especialistas apenas como um roteiro estrutural, mas sempre valida e extrai os termos, números e conclusões exatas do artigo original fornecido.',
         verbose=False,
         allow_delegation=False,
@@ -111,7 +111,7 @@ def executar():
     arquivos = [f for f in os.listdir(PASTA_PROCESSADOS) if f.endswith(".txt")]
     
     for nome in arquivos:
-        print(f"Gerando resumo (multiagentes): {nome}")
+        print(f"Processando com multiagentes: {nome}...")
         caminho_leitura = os.path.join(PASTA_PROCESSADOS, nome)
         
         with open(caminho_leitura, "r", encoding="utf-8") as f:
@@ -123,7 +123,7 @@ def executar():
         with open(caminho_salvamento, "w", encoding="utf-8") as f:
             f.write(str(resumo_gerado))
             
-    print("resumo concluido")
+    print("Geração de resumos concluido")
 
 if __name__ == "__main__":
     executar()

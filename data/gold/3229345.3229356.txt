@@ -1,0 +1,11 @@
+Software testing is an essential activity for software quality, since it
+allows the identification of bugs. However, testing is an expensive
+activity, because it requires time and experts. As a means of reducing
+the testing costs, many software companies have bet on the tests
+automation. As the main benefit, this automation cuts down the
+time spent to execute the tests. Nevertheless, there are few studies
+in the literature about the effort required to automate tests. This
+experience report describes a test automation experience in a Test
+Factory, describing the time spent, challenges faced, and lessons
+learned. In addition, this article presents a process for this activity,
+which was defined based on the gained experience.
