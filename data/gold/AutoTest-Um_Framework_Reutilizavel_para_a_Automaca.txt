@@ -1,7 +1,8 @@
-O teste de software é uma atividade de alto impacto no processo de desenvolvimento de sistemas de grande
-porte. A automação de parte do teste tem sido vista como a principal medida para melhorar a eficiência desta
-atividade. Entretanto, o sucesso da aplicação de uma abordagem automatizada depende da utilização de uma
-estratégia sistemática. Este artigo apresenta um framework reutilizável para a automação de teste funcional de
-software, chamado AutoTest, cuja aplicação visa a obtenção de reais ganhos com a automação. Além disso, são
-apresentados os resultados da aplicação do framework proposto na automação de teste de um sistema
-desenvolvido por uma empresa de telecomunicações.
+O teste de software é uma atividade de alto impacto no processo de desenvolvimento de 
+sistemas de grande porte. A automação de parte do teste tem sido vista como a principal 
+medida para melhorar a eficiência desta atividade. Entretanto, o sucesso da aplicação de 
+uma abordagem automatizada depende da utilização de uma estratégia sistemática. Este artigo 
+apresenta um framework reutilizável para a automação de teste funcional de software, chamado 
+AutoTest, cuja aplicação visa a obtenção de reais ganhos com a automação. Além disso, são 
+apresentados os resultados da aplicação do framework proposto na automação de teste de um 
+sistema desenvolvido por uma empresa de telecomunicações.

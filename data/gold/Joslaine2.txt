@@ -1,9 +1,7 @@
-Existem muitas ferramentas de teste de software que podem ser
-utilizadas para aumentar a qualidade dos programas produzidos. O presente
-trabalho, ainda em andamento, fará uma comparação de algumas ferramentas
-de teste automatizado. Devido ao grande quantidade de micro e pequenas
-empresas produtoras de software existentes no Brasil, o trabalho tem um
-enfoque em fazer uma avaliação de algumas destas ferramentas
-automatizadas. Espera-se ao término da pesquisa contribuir com essas
-empresas tornando mais viável a inclusão do teste de software no processo de
-produção de programas.
+ Existem muitas ferramentas de teste de software que podem ser utilizadas para aumentar 
+ a qualidade dos programas produzidos. O presente trabalho, ainda em andamento, fará uma 
+ comparação de algumas ferramentas de teste automatizado. Devido ao grande quantidade de 
+ micro e pequenas empresas produtoras de software existentes no Brasil, o trabalho tem um 
+ enfoque em fazer uma avaliação de algumas destas ferramentas automatizadas. Espera-se ao 
+ término da pesquisa contribuir com essas empresas tornando mais viável a inclusão do teste 
+ de software no processo de produção de programas.

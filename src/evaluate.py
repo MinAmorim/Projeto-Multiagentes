@@ -66,7 +66,7 @@ Retorne exclusivamente este JSON, sem texto adicional:
   "contribuicao": {{"presente": 0 ou 1, "evidencia": "..."}}
 }}
 
-Artigo original: {texto_original[:6000]}
+Artigo original: {texto_original}
 
 Abstract gerado: {abstract_gerado}
 """.strip()
@@ -116,7 +116,7 @@ Se o resumo for totalmente fiel, retorne uma lista vazia.
 Retorne estritamente um JSON neste formato, sem explicações adicionais:
 {{"afirmacoes_nao_suportadas": ["...", "..."], "nota_fidelidade": <1 a 5>}}
 
-Artigo original: {texto_original[:6000]}
+Artigo original: {texto_original}
 
 Abstract gerado: {abstract_gerado}
 """.strip()
@@ -165,6 +165,7 @@ def avaliar_arquivo(nome_arquivo, abordagem):
         "cobertura_score": sum(v for v in cobertura.values() if v is not None),
         "fidelidade_nota": fidelidade["nota_fidelidade"],
         "fidelidade_qtd_nao_suportadas": len(fidelidade["afirmacoes_nao_suportadas"]),
+        "fidelidade_afirmacoes_nao_suportadas": " | ".join(fidelidade["afirmacoes_nao_suportadas"]),
     }
     for elemento in ELEMENTOS_COBERTURA:
         linha[f"cobertura_{elemento}"] = cobertura.get(elemento)

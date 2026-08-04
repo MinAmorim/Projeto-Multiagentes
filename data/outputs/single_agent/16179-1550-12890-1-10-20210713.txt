@@ -1,20 +1,3 @@
 **Resumo**
 
-O mercado de software enfrenta desafios significativos em 
-relação à qualidade, impulsionados pela crescente exigência 
-dos clientes e pela competitividade. Este artigo tem como objetivo
-analisar a aplicabilidade da automação de testes funcionais no 
-Instituto Atlântico, buscando identificar os benefícios e a 
-eficiência dessa abordagem em projetos de desenvolvimento de 
-software. Para isso, foi adotada uma metodologia que inclui a 
-implementação de testes automatizados em um projeto piloto, 
-seguido de uma análise comparativa entre testes manuais e
-automatizados em diferentes níveis de complexidade de casos 
-de uso. Os resultados demonstraram que a automação pode reduzir
-significativamente o esforço necessário para a execução de 
-testes, especialmente em projetos com ciclos de vida iterativos
-e incrementais. A contribuição deste trabalho reside na 
-apresentação de uma abordagem estruturada para a automação de 
-testes, evidenciando sua eficácia e sugerindo diretrizes para
-sua implementação em organizações que buscam aprimorar a 
-qualidade de seus produtos de software.
+O mercado de software enfrenta desafios significativos em relação à qualidade, impulsionados pela alta competitividade e exigências dos clientes. Este artigo tem como objetivo analisar a aplicabilidade da automação de testes funcionais no Instituto Atlântico, visando melhorar a eficiência do processo de testes. A metodologia adotada inclui a implementação de uma estratégia de automação em projetos de desenvolvimento de software, com foco na execução de testes sistêmicos funcionais. Os resultados demonstram que a automação gera ganhos significativos em termos de esforço, especialmente em casos de uso de complexidade intermediária, reduzindo o tempo necessário para a execução de testes em comparação aos testes manuais. A contribuição deste trabalho reside na apresentação de uma abordagem estruturada para a automação de testes, evidenciando a importância de um planejamento adequado e da escolha da estratégia de teste mais eficiente, o que pode levar a um aumento na qualidade do produto final entregue ao cliente.

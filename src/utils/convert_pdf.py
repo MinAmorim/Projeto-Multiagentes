@@ -23,20 +23,31 @@ def eh_duas_colunas(pagina, margem_frac=0.02, limiar=0.01):
     return proporcao < limiar
 
 
+def extrair_tabelas_pagina(pagina):
+    blocos = []
+    for tabela in pagina.extract_tables():
+        linhas_formatadas = []
+        for linha in tabela:
+            celulas = [(c or "").strip().replace("\n", " ") for c in linha]
+            linhas_formatadas.append(" | ".join(celulas))
+        blocos.append("\n".join(linhas_formatadas))
+    return blocos
+
 def extrair_texto_pagina(pagina):
-    if not eh_duas_colunas(pagina):
-        return pagina.extract_text() or ""
+    if eh_duas_colunas(pagina):
+        largura = pagina.width
+        meio = largura / 2
+        coluna_esquerda = pagina.crop((0, 0, meio, pagina.height))
+        coluna_direita = pagina.crop((meio, 0, largura, pagina.height))
+        texto = (coluna_esquerda.extract_text() or "") + "\n" + (coluna_direita.extract_text() or "")
+    else:
+        texto = pagina.extract_text() or ""
 
-    largura = pagina.width
-    meio = largura / 2
-    coluna_esquerda = pagina.crop((0, 0, meio, pagina.height))
-    coluna_direita = pagina.crop((meio, 0, largura, pagina.height))
+    tabelas = extrair_tabelas_pagina(pagina)
+    if tabelas:
+        texto += "\n\n[TABELAS DA PÁGINA]\n" + "\n\n".join(tabelas)
 
-    texto_esquerda = coluna_esquerda.extract_text() or ""
-    texto_direita = coluna_direita.extract_text() or ""
-
-    return texto_esquerda + "\n" + texto_direita
-
+    return texto
 
 def converter_pdf():
     for arquivo in os.listdir(pasta_entrada):
@@ -52,7 +63,6 @@ def converter_pdf():
                 with open(caminho_txt, "w", encoding="utf-8") as f:
                     f.write(texto)
                 print(f"convertido {arquivo}")
-
 
 if __name__ == "__main__":
     converter_pdf()

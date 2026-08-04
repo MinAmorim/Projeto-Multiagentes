@@ -1,14 +1,9 @@
-A realização de testes demonstra cada vez mais sua importância nas
-organizações que desenvolvem software. Realizar testes, no
-entanto, é caro e demorado e automatizar testes é uma alternativa
-interessante e tecnicamente viável. Sistemas legados comumente
-apresentam limitações para a automação de testes e isso ocorre
-também em sistemas Web desenvolvidos utilizando a plataforma
-Flex. Assim, este trabalho apresenta o desenvolvimento da
-automação de testes para plataforma Flex. Casos de teste são
-elaborados, uma ferramenta é selecionada, os scripts de teste são
-desenvolvidos e executados em um estudo de caso em uma empresa
-de desenvolvimento de software. Os resultados observados
-apontam indícios de que a automação de que testes pode aumentar
-inicialmente os esforços de elaboração dos casos de teste mas
-reduzem o tempo de execução, tendendo a gerar benefícios futuros.
+A realização de testes demonstra cada vez mais sua importância nas organizações que desenvolvem 
+software. Realizar testes, no entanto, é caro e demorado e automatizar testes é uma alternativa 
+interessante e tecnicamente viável. Sistemas legados comumente apresentam limitações para a 
+automação de testes e isso ocorre também em sistemas Web desenvolvidos utilizando a plataforma 
+Flex. Assim, este trabalho apresenta o desenvolvimento da automação de testes para plataforma 
+Flex. Casos de teste são elaborados, uma ferramenta é selecionada, os scripts de teste são desenvolvidos 
+e executados em um estudo de caso em uma empresa de desenvolvimento de software. Os resultados observados
+apontam indícios de que a automação de que testes pode aumentar inicialmente os esforços de elaboração dos 
+casos de teste mas reduzem o tempo de execução, tendendo a gerar benefícios futuros.

@@ -1,19 +1,26 @@
 Estudo e aplicação de ferramenta para automatização de
 testes em Software as a Service
+
 Polyana De Carli Ellwanger1, M.Sc. Priscila Guarienti2
-1Sistemas de Informação – Sociedade Educacional Três de Maio (SETREM)
+
+1 Sistemas de Informação – Sociedade Educacional Três de Maio (SETREM)
 Caixa Postal 98.910-000 – Três de Maio – RS – Brasil
-2Professora Orientadora, Sistemas de Informação – Sociedade Educacional Três de
+
+2 Professora Orientadora, Sistemas de Informação – Sociedade Educacional Três de
 Maio (SETREM) - Caixa Postal 98.910-000 – Três de Maio – RS - Brasil
+
 polyana.tm@gmail.com, guarienti.priscila@gmail.com
 
+
 1. Introdução
+
 Cada vez mais os sistemas computacionais são uma realidade no cotidiano das
 empresas. Assim como a demanda por tecnologia e a necessidade de automatização dos
 processos aumentam consideravelmente, os sistemas se tornam mais complexos e
 suscetíveis a defeitos. Diante disso, torna-se imprescindível que no processo de
 desenvolvimento de software sejam aplicadas técnicas que garantem a entrega de um
 produto ou serviço confiável e que atenda às necessidades do cliente.
+
 De acordo com Avizienis et all [3], a habilidade de entregar um serviço que
 pode, justificadamente, ser confiável é conhecida como dependabilidade. Muitas
 técnicas têm sido desenvolvidas com o intuito de atingir estes atributos, dentre elas
@@ -28,28 +35,36 @@ Diante disso, este estudo teve como objetivo investigar a automatização de tes
 funcionais no envio de documentos via integração web service em uma plataforma de
 soluções fiscais, com o intuito de diminuir o retrabalho e o tempo de execução dos
 testes e consequentemente melhorar a qualidade do produto.
+
 Para a automatização dos testes foi utilizada a ferramenta JMeter. A mesma foi
 selecionada por ser open source e gratuita e pelo fato de ser utilizada em projetos
 desenvolvidos pela empresa onde o estudo foi executado. No entanto, hoje seu uso é
 limitado na execução de testes de desempenho.
+
 A proposta com a realização deste estudo foi utilizar a ferramenta JMeter na
 execução de testes funcionais, uma vez que a mesma permite configurar as interações
-dos usuários e avaliar o comportamento do sistema com base em parâmetros prédefinidos.
+dos usuários e avaliar o comportamento do sistema com base em parâmetros pré-definidos.
+
 A automatização foi realizada em uma plataforma de soluções fiscais com o
 intuito de diminuir o retrabalho da equipe de qualidade na execução de testes funcionais
 no envio de documentos fiscais via web service para a Secretaria da Fazenda.
+
 Sharp (2011) informa que a tecnologia mais utilizada é o web service, pois
 permite a comunicação de sistemas de diferentes linguagens, banco de dados e
 servidores. O presente trabalho tem foco no modelo de integração via web service uma
 vez que a maioria dos clientes que utilizam a plataforma de soluções fiscais realizam
 esta forma de integração.
+
 O presente artigo está organizado em seis seções, sendo a introdução, a
 metodologia utilizada no desenvolvimento deste trabalho, o referencial teórico, o estudo
 de caso detalhando o processo de automatização no envio de arquivos via web service e
 por fim, os resultados obtidos e as considerações finais.
+
 2. Metodologia
+
 O presente trabalho foi composto por métodos de abordagem, métodos de
 procedimentos e técnicas.
+
 Os métodos de abordagem utilizados foram dedutivo, quali-quantitativo e
 realismo crítico. Se utilizou do método dedutivo pois partiu do estudo de um ente
 abstrato, no caso deste projeto, a teoria e hipóteses ditas como verdade para em seguida
@@ -57,25 +72,29 @@ resultar na automatização de testes funcionais com a ferramenta JMeter. O mét
 abordagem quali-quantitativo tem conclusões descritivas e podem ser obtidas a partir de
 dados numéricos e informativos, neste projeto de automatização de testes funcionais foi
 utilizado no processo de obtenção de dados com a realização do estudo de caso.
+
 Por fim, o método de abordagem realismo crítico entende-se que pelo domínio
 do conhecimento que se possui, e com base neste, é aplicado o projeto e observado os
 resultados. No caso deste projeto é considerada a observação das atividades executadas
 na automatização dos testes funcionais da plataforma avaliando os resultados obtidos
 com a realização do estudo.
+
 Os procedimentos utilizados foram estudo de caso e pesquisa exploratória. O
 estudo de caso teve como objetivo avaliar a abordagem proposta. Já a pesquisa
 exploratória foi utilizada para analisar o atual processo em que são realizados os testes
 funcionais na aplicação, a fim de entender os gaps, identificar melhorias e estruturar o
 plano de testes junto à ferramenta de automatização.
+
 As técnicas utilizadas no referente projeto foram pesquisa bibliográfica, que
 auxiliou na etapa da fundamentação teórica e serviu como base no processo de
 automatização de testes com a ferramenta; a técnica de entrevista possibilitou a
-
 compreensão dos processos e a necessidade da empresa com reuniões junto a equipe de
 qualidade; e por meio da técnica de observação foi possível analisar de que forma o
 processo de teste é realizado atualmente.
+
 Para melhor exemplificar as etapas que serão realizadas para atingir o objetivo
 do estudo, foi elaborado o desenho de pesquisa, representado pela figura 1.
+
 A fase exploratória consiste em analisar a necessidade da empresa, onde foi
 realizado o estudo de caso e identificar o problema da pesquisa, além de definir os
 objetivos e os resultados esperados. A fundamentação teórica foi elaborada por meio de
@@ -85,68 +104,92 @@ principal contribuição do estudo e elaborar a proposta de pesquisa. Na fase de
 desenvolvimento foram realizadas reuniões com a equipe de trabalho com o intuito de
 definir o escopo do projeto e as atividades a serem desenvolvidas e configurar o
 ambiente para a execução dos testes automatizados por meio da ferramenta definida.
-Figura 1 – Desenho da pesquisa
+
+[Figura 1 – Desenho da pesquisa]
+(Diagrama com três fases: Fase 1 - Exploratória: Necessidade da empresa, Objetivos e
+resultados esperados, Fundamentação teórica e trabalhos relacionados, Problema da
+pesquisa, Identificar principal contribuição do trabalho, levando à Elaboração da
+Proposta; Fase 2 - Desenvolvimento: Reunião com a equipe, Configuração do
+ambiente, Automatização dos testes; Fase 3 - Validação: Estudo de caso (Testes em
+ambiente de homologação - Projeto piloto), Análise e documentação dos resultados.)
+
 Na fase de validação foi realizado um estudo de caso em um projeto piloto para
 validar a abordagem proposta, que consiste na automatização de testes funcionais no
 envio de documentos fiscais com o web service da plataforma de soluções fiscais, em
 que o sistema recebe o documento do cliente, processa e realiza o envio do mesmo a
 SEFAZ. Finalizando, foram analisados e documentados os resultados obtidos.
+
 3. Teste de Software
+
 A etapa de desenvolvimento de software é complexa e dependendo de sua dimensão
 podem ocorrer diversos tipos de problemas que, em alguns casos, resultam em geração
 de informações incorretas para o cliente. Para auxiliar na manutenção da qualidade do
 sistema, a etapa de testes de software visa diminuir a quantidade de erros, falhas e
 defeitos com o uso de técnicas e princípios de testes.
+
 Na área de teste de software um dos principais objetivos é a manutenção da
 confiabilidade do sistema. Contudo, os testes não garantem totalmente que o sistema
 não irá mais possuir defeitos e que o mesmo sempre irá funcionar conforme sua
 especificação. No entanto, para Wazlawick (2013) o teste não consegue provar de que o
 software está livre de defeitos, o teste apenas consegue provar que o sistema apresenta
 algum defeito, podendo assim realizar sua correção.
+
 Diante disso, o processo de automatização de testes está sendo visto pelas
 empresas como uma medida de qualidade de software, além da redução de
-
 envolvimento humano em atividades manuais e repetitivas.
+
 Neste projeto a automatização dos testes foi executada com a ferramenta Apache
 JMeter (2013) software de código aberto e projetado em Java para testar o
 comportamento funcional e medir o desempenho de sistemas. Inicialmente foi projetada
 para testar o desempenho de aplicações web, mas se expandiu para outros tipos de teste
 e.g. testes funcionais, proposta do presente trabalho.
+
 4. Estudo de Caso
+
 Nesta seção estão descritos os resultados obtidos com a realização do estudo de caso na
 Plataforma de Soluções Fiscais– InvoiCy.
+
 4.1. Plataforma de Soluções Fiscais
+
 A plataforma de soluções fiscais é uma aplicação web constituída por módulos de
 documentos fiscais disponibilizados pela Secretaria da Fazenda e prefeituras. A
 plataforma permite a centralização dos módulos oferecidos em um único local, sendo de
 fácil gestão e integração dos parceiros com a empresa, agilizando o processamento dos
 documentos. A seguir são apresentados os módulos da plataforma de soluções fiscais.
+
 - NF-e: a Nota Fiscal Eletrônica tem o intuito de documentar uma operação de
 circulação de mercadorias ou prestação de serviços, cuja validade jurídica é garantida
 pela assinatura digital do emitente e a Autorização de Uso fornecida pela administração
 tributária do estado do contribuinte.
+
 - CT-e: a Conhecimento de Transporte Eletrônico tem o intuito de documentar
 uma prestação de serviços de transportes, cuja validade jurídica é garantida pela
 assinatura digital do emitente.
+
 - NFC-e: a Nota Fiscal do Consumidor é um documento eletrônico que
 substituirá as notas fiscais de venda ao consumidor e o cupom fiscal emitido pelo
 equipamentos ECF (Emissor de Cupom Fiscal).
+
 - MDF-e: o Manifesto Eletrônico de Documentos Fiscais é emitido e
 armazenado eletronicamente com o intuito de substituir a sistemática atual de emissão
 do documento em papel, para vincular os documentos fiscais utilizados na operação
 e/ou prestação, à unidade de carga utilizada no transporte, cuja validade jurídica é
 garantida pela assinatura digital do emitente e autorização de uso pela administração
 tributária da unidade federada do contribuinte.
+
 - NFS-e: a Nota Fiscal de Serviços Eletrônica é um documento gerado e
 armazenado eletronicamente pela prefeitura ou por outra entidade conveniada, para
 documentar as operações de prestação de serviços.
+
 - CF-e SAT: o Sistema Autenticador e Transmissor de Cupons Fiscais
 Eletrônicos (CF-e-SAT) é um projeto da Secretaria da Fazenda de São Paulo, que tem
 por finalidade documentar eletronicamente as operações comerciais do varejo dos
 contribuintes do estado de São Paulo, em substituição aos atuais equipamentos ECF. Na
 plataforma de soluções fiscais é possível utilizar os recursos de consulta e importação
 de documentos.
+
 4.2. Automatização com a ferramenta JMeter
+
 Atualmente na área da qualidade da empresa os testes funcionais são realizados de
 forma manual por meio de envios de arquivos XML ao web service da plataforma de
 soluções fiscais, a fim de garantir que os requisitos de emissão e retorno do
@@ -158,31 +201,42 @@ requisições HTTPS ao web service da plataforma. Os envios dos documentos fisca
 realizados para todos os módulos da plataforma conforme já mencionados. Podendo ser
 enviado por meio de dois tipos de assinatura fiscal, certificado digital A1 e A3, exceto
 para NFS-e que permite apenas a emissão com assinatura digital A1.
+
 A ferramenta permite a automatização dos envios de documentos eletrônicos à
 plataforma de solução fiscal por meio da criação de novos projetos e casos de testes
 configurando o local para ser enviado, o documento eletrônico, a forma de envio,
 quantidade de usuários, o tipo de retorno a ser esperado pelo web service, dentre outras
 funcionalidades.
+
 Neste projeto foi realizada a configuração do JMeter com a leitura de arquivo
 CSV, arquivo que armazena a chave MD5 de cada documento eletrônico a ser enviado,
 pois o web service somente recebe documentos com a chave de criptografia MD5 para
 cada documento, sendo única a cada envio. Para esta geração automática da chave de
 criptografia foi utilizado um executável parametrizável em prompt do Windows com o
 intuito de auxiliar na automatização.
+
 Para entendimento do processo de testes na figura 2 consta o fluxo de testes com
 a ferramenta aplicada no projeto. O mesmo está dividido em dois processos, o processo
 interno onde consta a caixa pontilhada é a infraestrutura de testes e o processo externo é
 a comunicação com a SEFAZ.
-Figura 2 – Fluxo de testes com JMeter via integração web service
+
+[Figura 2 – Fluxo de testes com JMeter via integração web service]
+(Diagrama mostrando o fluxo: JMeter <-> Web Service <-> Plataforma Solução
+Fiscal <-> SEFAZ, com setas amarelas indicando "Envio - busca" e setas verdes
+indicando "Retorno - busca", dentro de uma caixa pontilhada representando a
+"Infraestrutura de testes".)
+
 Inicialmente é construído o XML com as informações de emissão dos
 documentos fiscais, seguindo, é realizado o envio (seta amarela) do XML para a
 ferramenta conforme configurações aplicadas para identificar o XML e executar o
 processo de envio do documento ao web service da plataforma de solução fiscal, e em
 seguida para a SEFAZ.
+
 O retorno do processo é iniciado na SEFAZ onde disponibiliza as informações
 do documento enviado (seta verde) para a plataforma de solução fiscal e em seguida, o
 JMeter recebe o retorno do processamento da operação via web service, enviando ao
 cliente as informações da SEFAZ.
+
 Na finalização do envio do caso de teste espera-se as informações técnicas do
 processamento da SEFAZ, informando tempo de execução, retorno do XML processado
 com sucesso ou com erros a serem resolvidos, bem como o tempo de envio dos
@@ -192,16 +246,19 @@ Para a realização do plano de testes, conforme mencionado anteriormente para
 cada envio de documento é utilizado um gerador de código hash a fim de facilitar os
 processos dos testes automatizados. Este gerador é um aplicativo win desenvolvido pela
 área de desenvolvimento da empresa.
+
 Realizada as gerações de hash para cada requisição ao web service, é iniciada as
 configurações na ferramenta. É adicionado um plano de teste principal, definindo todas
 as parametrizações, neste caso, são definidas as quantidades de usuários, os controles de
 iteração, as requisições HTTP, configuração CSV, os resultados possíveis, e o retorno.
+
 Sobre as configurações no grupo de usuários foi definido como dez (10) o
 número de usuários virtuais e o contador de iteração como um (1), ou seja, foi realizado
 10 envios de documentos a cada 1 segundo ao web service configurado. Na requisição
 HTTP é realizada a configuração do serviço web a ser comunicado, o time-out, o tipo de
 requisição e o documento a ser enviado, neste caso, um soap de envio em formato de
 texto.
+
 Na requisição HTTP é possível adicionar vários elementos, dentre eles, a
 configuração de dados CSV, onde é possível configurar via parâmetros as informações a
 serem modificadas no documento de envio que consta no item de requisição HTTP. Para
@@ -209,117 +266,99 @@ isso, é necessário informar o diretório e o nome do arquivo, qual suas variá
 de separador. Com isso, a ferramenta realiza a substituição do texto contido no arquivo
 CSV para as variáveis do documento configurado no elemento body data da requisição
 HTTP. No grupo de gerenciador de cabeçalhos HTTP é informado o content-type do
-documento, para este projeto sendo a codificação “txt/xml; charset=utf-8.”.
+documento, para este projeto sendo a codificação "txt/xml; charset=utf-8.".
+
 Um dos últimos processos configurados para os testes funcionais via web service
 é o retorno esperado do documento enviado. Em cada caso pode ser diferente, contendo
 um ou mais, padrões a serem testados. Realizada estas configurações é possível, em
 seguida, realizar o envio do documento por meio de um clique na seta verde contida no
 centro superior da tela do JMeter (Figura 3).
-Figura 3 – JMeter – Árvore de resultados
+
+[Figura 3 – JMeter – Árvore de resultados]
+(Captura de tela do JMeter mostrando a árvore de resultados dos testes)
+
 A imagem na Figura 3 apresenta o retorno dos testes (verde ou vermelho), onde
 o verde sinaliza que o resultado configurado nas asserções de resposta foi confirmado, e
 o vermelho de que o resultado obtido foi diferente do esperado no retorno.
+
 Neste trabalho foram realizadas as parametrizações e envios de documentos dos
 módulos NF-e e CT-e, a fim de automatizar o processo e treinar a equipe de qualidade,
-
 para que todos estejam aptos a utilizarem a ferramenta e automatizarem os demais
 módulos fiscais (NFS-e, NFC-e, CF-e SAT e MDF-e).
+
 Para cada envio há uma parametrização diferente de requisição HTTP,
 configuração de CSV e asserção de resposta. Ou seja, todos os XMLs são diferentes e
 possui um tratamento diferenciado que, após o envio, será possível analisar quais
 retornaram com erro de forma individualizada.
+
 No envio do módulo CT-e foram configurados os documentos de envio,
 consulta, inutilização, evento de cancelamento, evento de Carta de Correção,
 contingência SVC (SEFAZ Virtual de Contingência) e contingência EPEC (Evento
 Prévio de Emissão em Contingência).
+
 5. Resultados Obtidos
+
 Durante o processo de automatização dos testes o tempo envolvido em conhecimento da
 ferramenta e configurações iniciais não foram contabilizados, em função de que é um
 processo que foi realizado apenas uma vez na criação dos planos de teste.
+
 Os testes manuais realizados nos módulos NF-e e CT-e foram registrados e a
 execução do plano de teste no JMeter tiveram o registro do tempo total envolvido no
 processo. Para este registro foi utilizada uma ferramenta de gerenciamento de tempo
 conforme demonstra a figura 4.
-Figura 4 – Registro de Tempos
+
+[Figura 4 – Registro de Tempos]
+(Captura de tela de sistema de registro de tempos "Minhas Tarefas do Projeto: InvoiCy
+Sprint Março", mostrando tarefas e tempos realizados: Módulo NF-e 4:40, Módulo
+CT-e 3:10, Módulo MDF-e 0:00, Módulo NFC-e 0:00, Módulo CF-e SAT 0:00, Módulo
+NFS-e 0:00, Automatização Teste| Módulo NF-e 0:30, Automatização Teste| Módulo
+CT-e 0:21, Automatização Teste| Módulo MDF-e 0:00, Automatização Teste| Módulo
+NFC-e 0:00, Automatização Teste| Módulo CF-e SAT 0:00, Automatização Teste|
+Módulo NFS-e 0:00.)
+
 Na figura consta uma parte da tela de um sistema de registro de tempos,
 apresentando a tarefa de execução do teste de forma manual com 04:40 horas (quatro
 horas e quarenta minutos) para o módulo NF-e. Já o tempo de execução do teste de
-forma automatizada em 00:30 (trinta) minutos neste mesmo módulo. Para o módulo CTe o teste manual teve no total 3:10 horas (três horas e dez minutos) de envolvimento, e
+forma automatizada em 00:30 (trinta) minutos neste mesmo módulo. Para o módulo CT-
+e o teste manual teve no total 3:10 horas (três horas e dez minutos) de envolvimento, e
 no modelo automatizado se utilizou de 00:21 (vinte e um) minutos.
+
 Com o intuito de exemplificar o tempo de execução dos testes realizados, consta
 no quadro 1 as funcionalidades contempladas de forma manual e de forma
 automatizada, apresentando a descrição do processo do modulo NF-e (nota fiscal
 eletrônica) e do módulo CT-e (conhecimento de transporte eletrônico) e o tempo de
 execução.
-Quadro 1 – Comparativo de tempo em testes
-Módulo Funcionalidade Tempo de execução
-Emissão
-NF-e Manual Consulta 04:40:00 horas
-Inutilização
 
-Contingência SEFAZ
-Cancelamento
-Carta de Correção
-Manifestação do Destinatário
-Evento Manifestação
-Distribuição DF-e
-Descarte de documentos
-Substituição de documentos
-Cadastro de empresa
-Emissão
-Consulta
-Inutilização
-Contingência SEFAZ
-Cancelamento
-NF-e
-Carta de Correção
-Automatizado 00:30:00 horas
-Manifestação do Destinatário
-JMeter
-Evento Manifestação
-Distribuição DF-e
-Descarte de documentos
-Substituição de documentos
-Cadastro de empresa
-Emissão
-Consulta
-Inutilização
-CT-e Manual Evento de cancelamento 03:10:00 horas
-Evento de Carta de Correção
-Contingência SVC
-Contingência EPEC
-Emissão
-Consulta
-CT-e Inutilização
-Automatizado Evento de cancelamento 00:21:00 horas
-JMeter Evento de Carta de Correção
-Contingência SVC
-Contingência EPEC
+Quadro 1 – Comparativo de tempo em testes
+
+Módulo                          | Funcionalidade                                                                                                                                                                              | Tempo de execução
+---------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------
+NF-e Manual                     | Emissão, Consulta, Inutilização, Contingência SEFAZ, Cancelamento, Carta de Correção, Manifestação do Destinatário, Evento Manifestação, Distribuição DF-e, Descarte de documentos, Substituição de documentos, Cadastro de empresa | 04:40:00 horas
+NF-e Automatizado JMeter        | Emissão, Consulta, Inutilização, Contingência SEFAZ, Cancelamento, Carta de Correção, Manifestação do Destinatário, Evento Manifestação, Distribuição DF-e, Descarte de documentos, Substituição de documentos, Cadastro de empresa | 00:30:00 horas
+CT-e Manual                     | Emissão, Consulta, Inutilização, Evento de cancelamento, Evento de Carta de Correção, Contingência SVC, Contingência EPEC                                                             | 03:10:00 horas
+CT-e Automatizado JMeter        | Emissão, Consulta, Inutilização, Evento de cancelamento, Evento de Carta de Correção, Contingência SVC, Contingência EPEC                                                             | 00:21:00 horas
+
 Analisando a tabela é possível identificar que o tempo do teste manual em
 comparação com o tempo de execução do teste automatizado é relativamente menor,
 conseguindo assim diminuir o tempo despendido na realização de testes da equipe de
 qualidade, bem como, manter a qualidade da plataforma para os clientes.
+
 Nos gráficos apresentados na figura 5 é possível analisar de forma clara e
 objetiva que a diferença de tempo entre o teste manual e o teste automatizado nos dois
 módulos, NF-e e CT-e, é de 90%, ou seja, o teste com o JMeter utilizou-se de apenas
 10% do tempo em relação à execução do processo manual, conforme já demonstrado no
 quadro acima com as delimitações das funcionalidades implementadas.
 
-Tempo em Testes
-04:40
-04:48
-03:10
-03:36
-02:24
-01:12 00:30 00:21
-00:00
-NF-e CT-e
-Manual JMeter
-Figura 5 – Tempo utilizado com JMeter
+[Figura 5 – Tempo utilizado com JMeter]
+(Gráfico de barras "Tempo em Testes" comparando Manual x JMeter para os módulos
+NF-e (04:40 vs 00:30) e CT-e (03:10 vs 00:21))
+
 Com os resultados obtidos na realização dos testes é possível garantir que a
 equipe tem diminuição do tempo despendido na execução dos testes funcionais via
 integração com web service.
+
 6. Considerações Finais
+
 Com o crescente número de aplicativos e sistemas computacionais avançados no
 mercado, é imprescindível o uso da tecnologia para garantir a qualidade do software e
 satisfazer as necessidades do cliente. Diante disso, torna-se necessário a automatização
@@ -329,26 +368,36 @@ automatização de testes dos demais módulos de emissão fiscal: NFC-e, MDF-e, 
 e CF-e SAT, além de acompanhar os testes automatizados a fim de avaliar se além da
 diminuição do tempo de execução dos testes, o número de erros encontrados na
 homologação também diminuirá.
+
 Referências
-APACHE SOFTWARE FOUNDATION. Apache JMeter User’s Manual. North
+
+APACHE SOFTWARE FOUNDATION. Apache JMeter User's Manual. North
 America: JMeter, 2013. Disponível em:
 <http://jmeter.apache.org/usermanual/index.html>.
+
 ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS. Engenharia de software -
 Qualidade de produto. NBR ISO/IEC 9126-1, Rio de Janeiro, 2003.
+
 AVIZIENIS, Algirdas; RANDELL, Brian; LAPRIE, Jean-Claude; LANDWEHR, Carl.
 Basic Concepts and Taxonomy of Dependable and Secure Computing. IEEE
 Transactions on Dependable and Secure Computing, USA, v. 1, 2014.
+
 DELAMARO, M. E.; MALDONADO, J. C.; JINO, M. Introdução ao Teste de
 Software. 1ª. ed. Rio de Janeiro: Elsevier, 2007. ISBN 9788535226348.
+
 IEEE STANDARDS. Software Engineering. IEEE, EUA, 1993. ISSN 610.12-1990.
+
 LOVATO, A.; GÜLLICH, R. I. D. C.; EVANGILISTA, M. D. S. Metodologia da
 pesquisa: normas para apresentação de trabalhos, redação, formatação e editoração.
 2°. ed. Três de Maio: Kunde, 2007.
+
 PAULA FILHO, W. D. P. Engenharia de Software: fundamentos, métodos e padrões.
 3ª. ed. Rio de Janeiro: LTC, 2009.
 
 PRESSMAN, R. S. Engenharia de Software. São Paulo: McGraw Hill Brasil, 2006.
 ISBN 8580550440;9788580550443;8586804576.
+
 SHARP, J. Microsoft Visual C# 2010: Passo a Passo. Porto Alegre: Bookman, 2011.
+
 WAZLAWICK, R. S. Engenharia de Software: conceitos e práticas. Rio de Janeiro:
 Elsevier, 2013. ISBN 9788535260847.

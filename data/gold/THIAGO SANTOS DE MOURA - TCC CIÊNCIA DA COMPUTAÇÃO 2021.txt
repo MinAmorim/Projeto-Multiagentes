@@ -1,17 +1,10 @@
-Em aplicações web, muitas vezes, não são investidos tempo e
-recursos na realização de testes automáticos, além de ser comum
-que apenas testes manuais sejam realizados pelos próprios
-desenvolvedores. Tal problemática pode introduzir falhas nas
-aplicações, que podem demorar muito tempo para serem
-detectadas, resultando em retrabalho, além de prejudicar a
-experiência do usuário quando as falhas chegam ao ambiente de
-produção. Para contribuir na detecção mais ágil dessas falhas, foi
-desenvolvida uma ferramenta capaz de gerar o código de testes
-que simula um usuário percorrendo os fluxos de utilização, de
-forma simplória e objetiva, efetuando o preenchimento e
-submissão de dados. A execução é feita de forma automática por
-um framework de testes automatizados. A avaliação da ferramenta
-foi feita através do desenvolvimento de uma aplicação web para
-cadastros, na qual os testes gerados tiveram sua cobertura de
-interfaces averiguada, e foi avaliado sua utilidade em indicar as
-falhas, além da capacidade de utilização como testes de regressão.
+Em aplicações web, muitas vezes, não são investidos tempo e recursos na realização de testes 
+automáticos, além de ser comum que apenas testes manuais sejam realizados pelos próprios desenvolvedores. 
+Tal problemática pode introduzir falhas nas aplicações, que podem demorar muito tempo para serem detectadas, 
+resultando em retrabalho, além de prejudicar a experiência do usuário quando as falhas chegam ao ambiente de 
+produção. Para contribuir na detecção mais ágil dessas falhas, foi desenvolvida uma ferramenta capaz de gerar o 
+código de testes que simula um usuário percorrendo os fluxos de utilização, de forma simplória e objetiva, 
+efetuando o preenchimento e submissão de dados. A execução é feita de forma automática por um framework de testes 
+automatizados. A avaliação da ferramenta foi feita através do desenvolvimento de uma aplicação web para cadastros, 
+na qual os testes gerados tiveram sua cobertura de interfaces averiguada, e foi avaliado sua utilidade em indicar 
+as falhas, além da capacidade de utilização como testes de regressão.

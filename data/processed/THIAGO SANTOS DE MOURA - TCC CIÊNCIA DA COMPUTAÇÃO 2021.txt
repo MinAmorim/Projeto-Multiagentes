@@ -1,622 +1,272 @@
 UNIVERSIDADE FEDERAL DE CAMPINA GRANDE
 CENTRO DE ENGENHARIA ELÉTRICA E INFORMÁTICA
 CURSO DE BACHARELADO EM CIÊNCIA DA COMPUTAÇÃO
+
 THIAGO SANTOS DE MOURA
-AUTOMAÇÃO DE TESTES EM APLICAÇÕES WEB
-UTILIZANDO UMA ABORDAGEM AD-HOC
+
+AUTOMAÇÃO DE TESTES EM APLICAÇÕES WEB UTILIZANDO UMA ABORDAGEM AD-HOC
+
 CAMPINA GRANDE - PB
 2021
 
 THIAGO SANTOS DE MOURA
-AUTOMAÇÃO DE TESTES EM APLICAÇÕES WEB
-UTILIZANDO UMA ABORDAGEM AD-HOC
-Trabalho de Conclusão Curso
-apresentado ao Curso Bacharelado em
-Ciência da Computação do Centro de
-Engenharia Elétrica e Informática da
-Universidade Federal de Campina
-Grande, como requisito parcial para
-obtenção do título de Bacharel em
-Ciência da Computação.
+
+AUTOMAÇÃO DE TESTES EM APLICAÇÕES WEB UTILIZANDO UMA ABORDAGEM AD-HOC
+
+Trabalho de Conclusão Curso apresentado ao Curso Bacharelado em Ciência da Computação do Centro de Engenharia Elétrica e Informática da Universidade Federal de Campina Grande, como requisito parcial para obtenção do título de Bacharel em Ciência da Computação.
+
 Orientador: Prof. Dr. Cláudio de Souza Baptista
+
 CAMPINA GRANDE - PB
 2021
 
-M929a Moura, Thiago Santos de.
-Automação de testes em aplicações web utilizando uma
-abordagem AD-HOC. / Thiago Santos de Moura. – 2021.
-13 f.
-Orientador: Prof. Dr. Cláudio de Souza Baptista.
-Trabalho de Conclusão de Curso - Artigo (Curso de
-Bacharelado em Ciência da Computação) - Universidade
-Federal de Campina Grande; Centro de Engenharia Elétrica
-e Informática.
-1. Desenvolvimento de software. 2. Aplicações web -
-testes. 3. Framework de testes automatizados. 4. Testes
-end-to-end. 5. Testes ad-hoc. 6. Testes de softwares. 7.
-Automação de testes em aplicações. I. Baptista, Cláudio
-de Souza. II. Título.
-CDU:004.415.53(045)
 Elaboração da Ficha Catalográfica:
 Johnny Rodrigues Barbosa
 Bibliotecário-Documentalista
 CRB-15/626
 
+M929a Moura, Thiago Santos de.
+Automação de testes em aplicações web utilizando uma abordagem AD-HOC. / Thiago Santos de Moura. – 2021.
+13 f.
+Orientador: Prof. Dr. Cláudio de Souza Baptista.
+Trabalho de Conclusão de Curso - Artigo (Curso de Bacharelado em Ciência da Computação) - Universidade Federal de Campina Grande; Centro de Engenharia Elétrica e Informática.
+1. Desenvolvimento de software. 2. Aplicações web - testes. 3. Framework de testes automatizados. 4. Testes end-to-end. 5. Testes ad-hoc. 6. Testes de softwares. 7. Automação de testes em aplicações. I. Baptista, Cláudio de Souza. II. Título.
+CDU:004.415.53(045)
+
 THIAGO SANTOS DE MOURA
-AUTOMAÇÃO DE TESTES EM APLICAÇÕES WEB
-UTILIZANDO UMA ABORDAGEM AD-HOC
-Trabalho de Conclusão Curso
-apresentado ao Curso Bacharelado em
-Ciência da Computação do Centro de
-Engenharia Elétrica e Informática da
-Universidade Federal de Campina
-Grande, como requisito parcial para
-obtenção do título de Bacharel em
-Ciência da Computação.
+
+AUTOMAÇÃO DE TESTES EM APLICAÇÕES WEB UTILIZANDO UMA ABORDAGEM AD-HOC
+
+Trabalho de Conclusão Curso apresentado ao Curso Bacharelado em Ciência da Computação do Centro de Engenharia Elétrica e Informática da Universidade Federal de Campina Grande, como requisito parcial para obtenção do título de Bacharel em Ciência da Computação.
+
 BANCA EXAMINADORA:
+
 Professor Dr. Cláudio de Souza Baptista
 Orientador – UASC/CEEI/UFCG
+
 Professora Dra. Eliane Cristina de Araújo
 Examinador – UASC/CEEI/UFCG
+
 Professor Dr. Tiago Lima Massoni
 Professor da Disciplina TCC – UASC/CEEI/UFCG
+
 Trabalho aprovado em: 25 de maio de 2021.
 CAMPINA GRANDE - PB
 
 ABSTRACT
-In web applications, often no time and resources are invested in performing automatic tests, and,
-commonly, only manual tests are performed by the developers themselves. Such problems can
-introduce application failures, which can take a long time to detect, resulting in rework, andharming
-the user experience when the failures reach the production environment. To contribute to a faster
-detection of these failures, atoolwasdevelopedthatcangeneratetestcodethatsimulatesausergoing
-through the usage flows, simply and objectively, filling out and submitting data. Execution is done
-automatically by an automated testingframework.Thetoolwasevaluatedthroughthedevelopmentof
-a web application for registration, in which the tests generated had their interface coverage checked,
-and their usefulness in indicating failures was evaluated, as well as their ability to be used as
-regression tests.
+In web applications, often no time and resources are invested in performing automatic tests, and, commonly, only manual tests are performed by the developers themselves. Such problems can introduce application failures, which can take a long time to detect, resulting in rework, and harming the user experience when the failures reach the production environment. To contribute to a faster detection of these failures, a tool was developed that can generate test code that simulates a user going through the usage flows, simply and objectively, filling out and submitting data. Execution is done automatically by an automated testing framework. The tool was evaluated through the development of a web application for registration, in which the tests generated had their interface coverage checked, and their usefulness in indicating failures was evaluated, as well as their ability to be used as regression tests.
 
-Automação de Testes em Aplicações Web Utilizando uma
-Abordagem Ad-Hoc
-Thiago Santos de Moura Cláudio de Souza Baptista Hugo Feitosa de Figueirêdo
-thiago.moura@ccc.ufcg.edu.br baptista@computacao.ufcg.edu.br hugo.figueiredo@ifpb.edu.br
-Universidade Federal de Campina Grande Universidade Federal de Campina Grande Instituto Federal da Paraíba
-Campina Grande, Paraíba Campina Grande, Paraíba Campina Grande, Paraíba
-RESUMO consiste em testes automáticos, em que o principal objetivo é
-testar a experiênciadousuário final,simulandocenáriosreais de
-Em aplicações web, muitas vezes, não são investidos tempo e uso, validando o sistema em testeegarantindoa integraçãodos
-recursos narealização detestesautomáticos,além desercomum componentes e integridade de dados. Frequentemente, os testes
-que apenas testes manuais sejam realizados pelos próprios E2E ede sistemapodem serconsideradosiguais, masissonãoé
-desenvolvedores. Tal problemática pode introduzir falhas nas verdade, pois ambos são formas diferentes de teste com uma
-aplicações, que podem demorar muito tempo para serem coberturadetestesdiferente[4].EnquantootesteE2Everificaum
-detectadas, resultando em retrabalho, além de prejudicar a fluxo deatividades do zeroatéofinaldosistema,cobrindotodos
-experiência do usuário quandoasfalhas chegamaoambiente de os sistemas dependentes, o teste de sistema verifica a mesma
-produção.Para contribuirnadetecção maiságildessasfalhas,foi funcionalidade com um conjunto diferente de entradas para
-desenvolvida uma ferramenta capaz de gerar o código detestes avaliar a resposta.
-que simula um usuário percorrendo os fluxos de utilização, de
-forma simplória e objetiva, efetuando o preenchimento e Contudo, testes manuais são executados muitas vezes alinhados
-submissãode dados.Aexecução éfeita deformaautomáticapor aos testes automáticos, utilizando diferentes abordagens, mas
-um frameworkdetestesautomatizados.Aavaliaçãodaferramenta sempre visando detectardefeitos quenãoforamapontadospelos
-foi feita através dodesenvolvimentode umaaplicação webpara testes automatizados, visto que esse apontamento está
-cadastros, na qual os testes gerados tiveram sua cobertura de profundamente atrelado ao código detesteimplementadoe seus
-interfaces averiguada, e foi avaliado sua utilidade emindicaras objetivos. Essas abordagens foram de testes ad-hoc [5] e
-falhas, além da capacidade de utilização como testesde regressão. exploratório [6]. O teste ad-hoc, também conhecido por teste
-comportamental, é uma atividade não estruturadaeimprovisada
-Palavras-Chave de pesquisa de defeitos não planejados, utilizando-se de um
-métodode tentativa eacerto deencontrarumbugnosistema.Por
-Testes end-to-end, testes ad-hoc, cypress, ant design sua vez,oteste exploratórioéumametodologia criteriosapara o
-teste ad-hoc, estruturada, na qual um testador aprende sobre o
-Links Úteis: sistema à medidaque oexplorae,eventualmente, desenvolve os
-testes usando o conhecimento adquirido.
+Automação de Testes em Aplicações Web Utilizando uma Abordagem Ad-Hoc
+
+Thiago Santos de Moura
+thiago.moura@ccc.ufcg.edu.br
+Universidade Federal de Campina Grande
+Campina Grande, Paraíba
+
+Cláudio de Souza Baptista
+baptista@computacao.ufcg.edu.br
+Universidade Federal de Campina Grande
+Campina Grande, Paraíba
+
+Hugo Feitosa de Figueirêdo
+hugo.figueiredo@ifpb.edu.br
+Instituto Federal da Paraíba
+Campina Grande, Paraíba
+
+RESUMO
+Em aplicações web, muitas vezes, não são investidos tempo e recursos na realização de testes automáticos, além de ser comum que apenas testes manuais sejam realizados pelos próprios desenvolvedores. Tal problemática pode introduzir falhas nas aplicações, que podem demorar muito tempo para serem detectadas, resultando em retrabalho, além de prejudicar a experiência do usuário quando as falhas chegam ao ambiente de produção. Para contribuir na detecção mais ágil dessas falhas, foi desenvolvida uma ferramenta capaz de gerar o código de testes que simula um usuário percorrendo os fluxos de utilização, de forma simplória e objetiva, efetuando o preenchimento e submissão de dados. A execução é feita de forma automática por um framework de testes automatizados. A avaliação da ferramenta foi feita através do desenvolvimento de uma aplicação web para cadastros, na qual os testes gerados tiveram sua cobertura de interfaces averiguada, e foi avaliado sua utilidade em indicar as falhas, além da capacidade de utilização como testes de regressão.
+
+Palavras-Chave
+Testes end-to-end, testes ad-hoc, cypress, ant design
+
+Links Úteis:
 https://github.com/mourats/cytestion
-https://github.com/mourats/expense-organizer Muitas vezes repetitivos, alguns desses testes manuais,
-https://gist.github.com/mourats/cytestion.spec.js especialmenteosad-hoc,poderiam serautomatizados,resultando
-numa maiorcompletude emaissegurança.Alémdisso,quandoos
-testes são feitos por desenvolvedores, é humanamente possível
-1. INTRODUÇÃO esquecer de testar alguma parte ou pular algum fluxo de
-utilização, ao mesmo tempo em que pode ser humanamente
-No contexto de desenvolvimento de software, metodologias de oneroso testar todos os fluxos de utilização para sistemas
-desenvolvimento foram criadas visando sempre a qualidade do complexos.Essesfluxosdeutilizaçãosãoassequênciasdepassos
-produto final.Essa qualidade estáintimamenteligadaàvalidação que um usuáriocomumente fazemum sistema decadastros.Por
-e verificação,emque umdos principais instrumentoséouso de exemplo, ao chegar em uma determinada páginade listagemde
-testes. Esses denominados testes de software [1] são diversos, dados, é normal a navegação para páginadeedição deum item
-cadaum com seusbenefícioseformas deconcepçãoeexecução. listado, ou de inserção de um novo item de dados. Ter testes
-Entretanto, quando falamos de testes de sistema [2], podemos automáticos com uma abordagem ad-hoc, garantequeousuário
-distinguir entre testes manuais, comumente realizados por final não terá surpresas ao realizar tais passos, considerando,
-testadores, com o objetivo de validar aquilo que está sendo claro, que o sucesso na execução desses testes seja um fator
-desenvolvido, e testes automáticos, que são escritos por determinante para a finalização de uma determinadafeature.
-desenvolvedores e executados pela máquina.
-Por outro lado, no contexto do desenvolvimento de aplicações
-Atualmente, devidoàamplautilizaçãodesistemasdistribuídosno web, as tecnologias predominantemente utilizadas são HTML,
-desenvolvimento de aplicações web,surgiu umanovatécnica de CSS e Javascript [7]. Essas tecnologias são conhecidas por
-testes, denominada de teste end-to-end (E2E) [3]. Esta técnica promoveruma interaçãoamigáveldousuáriocomaaplicaçãopor
+https://github.com/mourats/expense-organizer
+https://gist.github.com/mourats/cytestion.spec.js
 
-meio de interfaces. Noentanto,na maioriados casos,nãosefaz Utilizando corretamenteos componentes doAntDesign,pode-se
-usodessastecnologiasde formanativae/ouisolada,fazendocom ter uma identificação única para ser usada em testes, em tags
-que sejam utilizadas bibliotecas durante o processo de selecionadas e diretamente relacionadasaoscomponentes queas
-desenvolvimento da aplicação. Uma destasbibliotecaséoReact originaram. Por exemplo, ao utilizar o componente Input [10],
-[8], que utiliza-seda atualmetodologia orientadaacomponentes, pode-se informar a propriedade id, e garantir que a tag input
-visando obter uma grande margem de reutilização, tornando o resultante é localizadapelo valorinformado.Comisso,ebaseado
-desenvolvimento mais ágil. Entretanto, tal abordagem torna na análisedocódigo HTMLencontradoapóscadaaçãorealizada,
-perigoso realizarmodificações, sejammelhoriasoucorreções,em é possível construir testes que percorrem todos os fluxos de
-componentes amplamente utilizados no sistema. Testes utilização possíveis na aplicação web alvo. Também é possível
-automatizados,quando sãoescritosparatoda aaplicação, podem utilizá-los para avaliar o código fonte atual, tanto por
-mitigaras consequênciasdessasalterações,dandomaisconfiança desenvolvedores duranteaimplementação, quantopelaexecução
-ao desenvolvedor ao realizá-las. Porém, existe um custoaltono em um pipeline de continuous integration (ou CI) [11] de um
-desenvolvimento desses testes, principalmente quando alinhados gerenciador de repositório desoftwarebaseado emgit.
-com o desenvolvimento da aplicação web.Devidoatalcusto,o
-time de desenvolvedores pode, por muitas vezes, decidir não Asolução propostapor estetrabalhoéumprojetodeinterfacede
-adotar essa metodologia de testes. linha de comando (CLI), chamadode Cytestion,capazde gerar
-um arquivode testes, querealizatestes ad-hocnaaplicação web
-O objetivo deste trabalho é melhorar a qualidade de aplicações alvo, de forma automática. Os testes utilizam-se de funções
-web, cujos códigos fonte não tiveram testes realizados desde o existentes num framework open-source de testes automatizados,
-começo do desenvolvimento, e dessa forma prover mais chamado Cypress [12],que proporcionaacriação detestesE2E,
-segurança na realização de modificações em código quepodem de integração e de unidade, deumaformafácil erápida,usando
-impactar em várias partes do projeto, mediante metodologia de JavaScript. É possível criar diversos testes por tela do sistema,
-geração de testes ad-hoc automatizados. Essa metodologia não visando umavarreduracompleta,alémdaexecuçãoautomáticade
-distingue aplicações que possuem ounãoumadocumentação de todos esses testes, por linha de comando ou utilizando uma
-requisitos, poisnavarredura realizada, suafinalidade éencontrar interface gráfica provida pelo framework. As funções utilizadas
-falhas, ou seja, um comportamento inesperado causado por são aplicadas no desenvolvimento dos testes E2E e permitem
-problemas no desenvolvimento, e não defeitos no aspecto de visitar um endereço URL, selecionar, clicar, limpar e preencher
-enquadramento com requisitos. elementos,alémda escritaem arquivoseexecução decomandos
-de sistema.UmexemplodessautilizaçãopodeservistonaFigura
-Dessa forma, tendo uma definição das tecnologias utilizadas 1,noqualafunçãogetselecionaocampoidentificadoporemail1,
-durante o desenvolvimento e realizando um estudo sobre o o aciona utilizando a função click, limpa seu conteúdo com a
-produto resultante de sua utilização, foi possível criar uma funçãoclear e digitaoemaildeexemplo atravésdafunçãotype.
-ferramentacapazde identificarelementosselecionáveis,gerarum Além disso, podemos observar o uso da função writeFile para
-arquivo com código de testes que faça a seleção deles, e que criação de um arquivo contendo o valor do campo email1 e,
-executa as ações necessárias para simular a utilização de um finalizando esse cenáriodeteste,acriaçãodeumacópiapormeio
-usuário. Todavia,devido àpossível complexidade atreladaa essa do comandocp, executado pela funçãoexec.
-utilização,inicialmentefoireduzidoofocodostestesparagarantir
-o sucesso em ações costumeiramente realizadasnum sistemade
-cadastros,onde ousuário percorre um caminhodatelainicialaté
-um formulário, o preenche e realiza a submissão.
-O restante deste artigo está organizado como segue. A seção 2
-abordaasoluçãoproposta.Aseção3discorresobreaavaliaçãoda
-solução proposta. Finalmente, a seção 4 conclui o trabalho e
-discorre sobre futuros trabalhos.
+1. INTRODUÇÃO
+No contexto de desenvolvimento de software, metodologias de desenvolvimento foram criadas visando sempre a qualidade do produto final. Essa qualidade está intimamente ligada à validação e verificação, em que um dos principais instrumentos é o uso de testes. Esses denominados testes de software [1] são diversos, cada um com seus benefícios e formas de concepção e execução. Entretanto, quando falamos de testes de sistema [2], podemos distinguir entre testes manuais, comumente realizados por testadores, com o objetivo de validar aquilo que está sendo desenvolvido, e testes automáticos, que são escritos por desenvolvedores e executados pela máquina.
+
+Atualmente, devido à ampla utilização de sistemas distribuídos no desenvolvimento de aplicações web, surgiu uma nova técnica de testes, denominada de teste end-to-end (E2E) [3]. Esta técnica consiste em testes automáticos, em que o principal objetivo é testar a experiência do usuário final, simulando cenários reais de uso, validando o sistema em teste e garantindo a integração dos componentes e integridade de dados. Frequentemente, os testes E2E e de sistema podem ser considerados iguais, mas isso não é verdade, pois ambos são formas diferentes de teste com uma cobertura de testes diferente [4]. Enquanto o teste E2E verifica um fluxo de atividades do zero até o final do sistema, cobrindo todos os sistemas dependentes, o teste de sistema verifica a mesma funcionalidade com um conjunto diferente de entradas para avaliar a resposta.
+
+Contudo, testes manuais são executados muitas vezes alinhados aos testes automáticos, utilizando diferentes abordagens, mas sempre visando detectar defeitos que não foram apontados pelos testes automatizados, visto que esse apontamento está profundamente atrelado ao código de teste implementado e seus objetivos. Essas abordagens foram de testes ad-hoc [5] e exploratório [6]. O teste ad-hoc, também conhecido por teste comportamental, é uma atividade não estruturada e improvisada de pesquisa de defeitos não planejados, utilizando-se de um método de tentativa e acerto de encontrar um bug no sistema. Por sua vez, o teste exploratório é uma metodologia criteriosa para o teste ad-hoc, estruturada, na qual um testador aprende sobre o sistema à medida que o explora e, eventualmente, desenvolve os testes usando o conhecimento adquirido.
+
+Muitas vezes repetitivos, alguns desses testes manuais, especialmente os ad-hoc, poderiam ser automatizados, resultando numa maior completude e mais segurança. Além disso, quando os testes são feitos por desenvolvedores, é humanamente possível esquecer de testar alguma parte ou pular algum fluxo de utilização, ao mesmo tempo em que pode ser humanamente oneroso testar todos os fluxos de utilização para sistemas complexos. Esses fluxos de utilização são as sequências de passos que um usuário comumente faz em um sistema de cadastros. Por exemplo, ao chegar em uma determinada página de listagem de dados, é normal a navegação para página de edição de um item listado, ou de inserção de um novo item de dados. Ter testes automáticos com uma abordagem ad-hoc, garante que o usuário final não terá surpresas ao realizar tais passos, considerando, claro, que o sucesso na execução desses testes seja um fator determinante para a finalização de uma determinada feature.
+
+Por outro lado, no contexto do desenvolvimento de aplicações web, as tecnologias predominantemente utilizadas são HTML, CSS e Javascript [7]. Essas tecnologias são conhecidas por promover uma interação amigável do usuário com a aplicação por meio de interfaces. No entanto, na maioria dos casos, não se faz uso dessas tecnologias de forma nativa e/ou isolada, fazendo com que sejam utilizadas bibliotecas durante o processo de desenvolvimento da aplicação. Uma destas bibliotecas é o React [8], que utiliza-se da atual metodologia orientada a componentes, visando obter uma grande margem de reutilização, tornando o desenvolvimento mais ágil. Entretanto, tal abordagem torna perigoso realizar modificações, sejam melhorias ou correções, em componentes amplamente utilizados no sistema. Testes automatizados, quando são escritos para toda a aplicação, podem mitigar as consequências dessas alterações, dando mais confiança ao desenvolvedor ao realizá-las. Porém, existe um custo alto no desenvolvimento desses testes, principalmente quando alinhados com o desenvolvimento da aplicação web. Devido a tal custo, o time de desenvolvedores pode, por muitas vezes, decidir não adotar essa metodologia de testes.
+
+O objetivo deste trabalho é melhorar a qualidade de aplicações web, cujos códigos fonte não tiveram testes realizados desde o começo do desenvolvimento, e dessa forma prover mais segurança na realização de modificações em código que podem impactar em várias partes do projeto, mediante metodologia de geração de testes ad-hoc automatizados. Essa metodologia não distingue aplicações que possuem ou não uma documentação de requisitos, pois na varredura realizada, sua finalidade é encontrar falhas, ou seja, um comportamento inesperado causado por problemas no desenvolvimento, e não defeitos no aspecto de enquadramento com requisitos.
+
+Dessa forma, tendo uma definição das tecnologias utilizadas durante o desenvolvimento e realizando um estudo sobre o produto resultante de sua utilização, foi possível criar uma ferramenta capaz de identificar elementos selecionáveis, gerar um arquivo com código de testes que faça a seleção deles, e que executa as ações necessárias para simular a utilização de um usuário. Todavia, devido à possível complexidade atrelada a essa utilização, inicialmente foi reduzido o foco dos testes para garantir o sucesso em ações costumeiramente realizadas num sistema de cadastros, onde o usuário percorre um caminho da tela inicial até um formulário, o preenche e realiza a submissão.
+
+O restante deste artigo está organizado como segue. A seção 2 aborda a solução proposta. A seção 3 discorre sobre a avaliação da solução proposta. Finalmente, a seção 4 conclui o trabalho e discorre sobre futuros trabalhos.
+
 2. SOLUÇÃO PROPOSTA
-Noescopo destetrabalho, focamosinicialmentenumaarquitetura
-que utiliza no front-end as seguintes tecnologias: (i) HTML,
-utilizada na construção de páginas na web; (ii) a linguagem de
-Figura 1: Demonstração de algumas funções noCypress
-programação JavaScript, juntamente comabibliotecade criação
-de interfaces React; e (iii)ouso decomponentesdo AntDesign
-Com o intuito de garantir uma qualidade de código nos testes
-[9]. Apesar dessasolução tersido projetada paraumaarquitetura
-gerados, foi necessária a criação de funções personalizadas no
-seguindo esse modelo,nada impedequeumainterfacequeutilize
-Cypress, algo possível e encorajado, pois areduçãode códigoé
-outras tecnologias, ou até HTML,CSS eJavaScriptpuro,possa
-extremamente impactante, especialmente quando são criadas
-usufruir dessa solução, desde que a interface siga uma forma
-funções especializadas em realizar ações repetitivas, como
-padronizada dos elementos HTML, contendo um atributo
-selecionar e clicar em um determinado elemento apenas seeste
-identificador único.
-existir e seja visível. Outro cenário de impacto é o do
-preenchimento de campos input, que será feito de forma mais
+No escopo deste trabalho, focamos inicialmente numa arquitetura que utiliza no front-end as seguintes tecnologias: (i) HTML, utilizada na construção de páginas na web; (ii) a linguagem de programação JavaScript, juntamente com a biblioteca de criação de interfaces React; e (iii) o uso de componentes do Ant Design [9]. Apesar dessa solução ter sido projetada para uma arquitetura seguindo esse modelo, nada impede que uma interface que utilize outras tecnologias, ou até HTML, CSS e JavaScript puro, possa usufruir dessa solução, desde que a interface siga uma forma padronizada dos elementos HTML, contendo um atributo identificador único.
 
-efetiva, visando facilitarasaçõesnecessáriasparadiferentestipos modificar umafunçãoedelegarocontroledeseucomportamento
-deinputexistentes. ao programador, para observar a chamada deconsole.error pela
-aplicaçãoweb, atribuindoisso comofalha nos testes.Essaéuma
-forma eficaz de encontrarproblemasquandoutilizamos oReact,
-pois quando erros de implementação, que ocasionam ounãona
-quebra da aplicação, são identificados, os mesmos são sempre
-revelados através dessa chamada de erro no console. Essa
-chamada éfacilmente vistapeloprogramador, podendoentãoser
-utilizada como indicador de falhas nos testes. Dessa forma,
-definimos que essasfalhas podemocorrer emtrêscasos:quando
-umerroélançadopelaaplicaçãoapóssuaquebra;quandooassert
-de que o consoleError não foi chamado resulta em falha,
-indicando que ocorreu um erro, porém não chegou a quebrar a
-aplicação; e quando oassertdo que foi inserido noinputfalha.
-O arquivo de testes égeradoutilizandotécnicas deconstrução e
-manipulaçãode strings comNode.js [12].Oconteúdodoarquivo
-éconstruídonodecorrerdaexecuçãodoCytestion,sendoincluído
-novostrechos decódigo detesteporcadafluxocorrente,emcada
-fasedegeraçãocompleta,ouseja,nãointerrompidaporsedeparar
-com alguma falha. Nesse processo de investigação, os novos
-testes possuem o fluxo percorrido pelo seuprecedente eonovo
-caminho a seguir. Dessa forma, os testes anteriores sempre são
-desabilitados na fase de geração seguinte, anulando a repetição
-deles, mas não descartando do resultado final, pois no caso de
-falha, aquele fluxo não prossegue, mas é importantíssimo para
-indicar onde se encontra um problema.
-Para o entendimento do processo de concepção do arquivo de
-testes, foram definidos quatro etapas: o ponto inicial, análise,
-geração e limpeza. O ponto inicial e a limpeza são executados
-uma vez enquanto as etapas de análise e geração podem ser
-executadas diversasvezesaté quenãoexistammaisnovosfluxos
-de utilização.Esse processopodeservistonaFigura3.Noponto
-inicial, o arquivo contendo o teste inicial é criado e executado,
-resultando em um arquivo com o HTML encontrado napágina.
-Após isso, inicia-se o estágio de análise, onde o arquivo é
-analisado, extraindo e processando as informações necessárias
-para a execução do estágio de geração, que por sua vez, gera
-Figura 2: Principais funções personalizadas implementadase
-novostestespercorrendoaaplicação,quesãoexecutados,gerando
-definição do evento para detecção de falhas
-novos arquivos com o HTML encontrado em cada teste. Esses
-dois estágios são repetidos até que o estágio de geração não
-Asprincipaisfunções implementadaspodemservistasnaFigura
-consiga gerar testes sem evitar duplicação, ocasionando na
-2, na qual há a funçãowriteContent,responsável porescrevero
-execução do estágio de limpeza, que trata o arquivo de teste,
-conteúdo atual do HTML em um arquivo temporário, nomeado
-removendoostestes quesãosubconjuntos deoutrostestes,como
-pelos identificadores percorridos pelo testequeainvocou.Além
-também comentários utilizados no processoefinalizando coma
-dela,temos a funçãoclearThenType,queéutilizadaparalimpeza,
-formatação do código contidonoarquivo,resultando noarquivo
-preenchimento e asserção futura doquefoidigitadoemcampos
-dos testes finais.
-de input alfanuméricos. A função clickIfExist, a mais utilizada
-nessa metodologia proposta, cumpre o objetivo deselecionar e
-clicar em identificadores informados, existentes e visíveis,
-possibilitando a navegação na aplicação. Por último, temos as
-funções de preenchimento de campos, como a fillInput, que
-facilita as ações necessárias para preenchimento de um input,
-validando sua existência e visibilidade.
-Essasfunções são necessáriasparaexecuçãodostestesgeradose,
-por conta disso, o próprio Cytestion garante sua existência no
-iníciode sua execução.Alémdessas funções,aexistência deum
-evento que dispara quando a página começa a carregar é
+Utilizando corretamente os componentes do Ant Design, pode-se ter uma identificação única para ser usada em testes, em tags selecionadas e diretamente relacionadas aos componentes que as originaram. Por exemplo, ao utilizar o componente Input [10], pode-se informar a propriedade id, e garantir que a tag input resultante é localizada pelo valor informado. Com isso, e baseado na análise do código HTML encontrado após cada ação realizada, é possível construir testes que percorrem todos os fluxos de utilização possíveis na aplicação web alvo. Também é possível utilizá-los para avaliar o código fonte atual, tanto por desenvolvedores durante a implementação, quanto pela execução em um pipeline de continuous integration (ou CI) [11] de um gerenciador de repositório de software baseado em git.
+
+A solução proposta por este trabalho é um projeto de interface de linha de comando (CLI), chamado de Cytestion, capaz de gerar um arquivo de testes, que realiza testes ad-hoc na aplicação web alvo, de forma automática. Os testes utilizam-se de funções existentes num framework open-source de testes automatizados, chamado Cypress [12], que proporciona a criação de testes E2E, de integração e de unidade, de uma forma fácil e rápida, usando JavaScript. É possível criar diversos testes por tela do sistema, visando uma varredura completa, além da execução automática de todos esses testes, por linha de comando ou utilizando uma interface gráfica provida pelo framework. As funções utilizadas são aplicadas no desenvolvimento dos testes E2E e permitem visitar um endereço URL, selecionar, clicar, limpar e preencher elementos, além da escrita em arquivos e execução de comandos de sistema. Um exemplo dessa utilização pode ser visto na Figura 1, no qual a função get seleciona o campo identificado por email1, o aciona utilizando a função click, limpa seu conteúdo com a função clear e digita o email de exemplo através da função type. Além disso, podemos observar o uso da função writeFile para criação de um arquivo contendo o valor do campo email1 e, finalizando esse cenário de teste, a criação de uma cópia por meio do comando cp, executado pela função exec.
+
+Figura 1: Demonstração de algumas funções no Cypress
+[Trecho de código Cypress: describe('My First Test', function inicial que visita 'https://example.cypress.io/commands/actions', clica e limpa o campo id="email1", digita 'example@email.com', recupera o valor com invoke('val') e escreve em arquivo email1.txt via cy.writeFile, e executa cy.exec('cp email1.txt email1-copy.txt')]
+
+Com o intuito de garantir uma qualidade de código nos testes gerados, foi necessária a criação de funções personalizadas no Cypress, algo possível e encorajado, pois a redução de código é extremamente impactante, especialmente quando são criadas funções especializadas em realizar ações repetitivas, como selecionar e clicar em um determinado elemento apenas se este existir e seja visível. Outro cenário de impacto é o do preenchimento de campos input, que será feito de forma mais efetiva, visando facilitar as ações necessárias para diferentes tipos de input existentes.
+
+Figura 2: Principais funções personalizadas implementadas e definição do evento para detecção de falhas
+[Trecho de código Cypress mostrando comandos customizados: 'writeContent' (escreve o HTML atual em arquivo temporário nomeado pelos identificadores), 'clearThenType' (limpa e digita valor validando com should('have.value')), 'clickIfExist' (verifica se elemento existe e está visível antes de clicar), 'fillInput' (preenche input validando existência e visibilidade), e um stub em Cypress.on('window:before:load') que intercepta console.error e lança falha via cy.now('task','error', msg)]
+
+As principais funções implementadas podem ser vistas na Figura 2, na qual há a função writeContent, responsável por escrever o conteúdo atual do HTML em um arquivo temporário, nomeado pelos identificadores percorridos pelo teste que a invocou. Além dela, temos a função clearThenType, que é utilizada para limpeza, preenchimento e asserção futura do que foi digitado em campos de input alfanuméricos. A função clickIfExist, a mais utilizada nessa metodologia proposta, cumpre o objetivo de selecionar e clicar em identificadores informados, existentes e visíveis, possibilitando a navegação na aplicação. Por último, temos as funções de preenchimento de campos, como a fillInput, que facilita as ações necessárias para preenchimento de um input, validando sua existência e visibilidade.
+
+Essas funções são necessárias para execução dos testes gerados e, por conta disso, o próprio Cytestion garante sua existência no início de sua execução. Além dessas funções, a existência de um evento que dispara quando a página começa a carregar é fundamental para a detecção de falhas. Como visto na Figura 2, nesse evento criamos um stub, que funciona como uma forma de modificar uma função e delegar o controle de seu comportamento ao programador, para observar a chamada de console.error pela aplicação web, atribuindo isso como falha nos testes. Essa é uma forma eficaz de encontrar problemas quando utilizamos o React, pois quando erros de implementação, que ocasionam ou não na quebra da aplicação, são identificados, os mesmos são sempre revelados através dessa chamada de erro no console. Essa chamada é facilmente vista pelo programador, podendo então ser utilizada como indicador de falhas nos testes. Dessa forma, definimos que essas falhas podem ocorrer em três casos: quando um erro é lançado pela aplicação após sua quebra; quando o assert de que o consoleError não foi chamado resulta em falha, indicando que ocorreu um erro, porém não chegou a quebrar a aplicação; e quando o assert do que foi inserido no input falha.
+
+O arquivo de testes é gerado utilizando técnicas de construção e manipulação de strings com Node.js [12]. O conteúdo do arquivo é construído no decorrer da execução do Cytestion, sendo incluído novos trechos de código de teste por cada fluxo corrente, em cada fase de geração completa, ou seja, não interrompida por se deparar com alguma falha. Nesse processo de investigação, os novos testes possuem o fluxo percorrido pelo seu precedente e o novo caminho a seguir. Dessa forma, os testes anteriores sempre são desabilitados na fase de geração seguinte, anulando a repetição deles, mas não descartando do resultado final, pois no caso de falha, aquele fluxo não prossegue, mas é importantíssimo para indicar onde se encontra um problema.
+
+Para o entendimento do processo de concepção do arquivo de testes, foram definidos quatro etapas: o ponto inicial, análise, geração e limpeza. O ponto inicial e a limpeza são executados uma vez enquanto as etapas de análise e geração podem ser executadas diversas vezes até que não existam mais novos fluxos de utilização. Esse processo pode ser visto na Figura 3. No ponto inicial, o arquivo contendo o teste inicial é criado e executado, resultando em um arquivo com o HTML encontrado na página. Após isso, inicia-se o estágio de análise, onde o arquivo é analisado, extraindo e processando as informações necessárias para a execução do estágio de geração, que por sua vez, gera novos testes percorrendo a aplicação, que são executados, gerando novos arquivos com o HTML encontrado em cada teste. Esses dois estágios são repetidos até que o estágio de geração não consiga gerar testes sem evitar duplicação, ocasionando na execução do estágio de limpeza, que trata o arquivo de teste, removendo os testes que são subconjuntos de outros testes, como também comentários utilizados no processo e finalizando com a formatação do código contido no arquivo, resultando no arquivo dos testes finais.
+
 Figura 3: Visão geral do processo de geração dos testes
-fundamental para a detecçãodefalhas. Comovisto naFigura 2,
-nesse eventocriamos um stub, quefuncionacomouma formade
+[Diagrama de fluxo: Teste inicial -> Arquivo com HTML Encontrado -> Testes gerados (repete em ciclo com HTML encontrado) -> Arquivos com o HTML encontrado -> Testes finais]
 
 2.1 Ponto Inicial
-Além disso,existempontos importantesque podemservistosno
-código do arquivo base, como a utilização da função wait com
-OCytestion utiliza umgerenciador depacoteseprojetochamado parâmetro time de duzentos milissegundos (time=200ms), para
-Yarn [14]. Com o Yarn, temos a possibilidade de adicionar que a página seja montada e renderizada antes da escrita do
-dependências aoprojetofacilmente, alémdecriar comandosque HTML. Isso é necessário exclusivamente pela forma como o
-funcionam como um atalho de execução noterminal,utilizando React constrói e manipula os seus componentes, pois quando a
-sempre o prefixo yarn. Nesse caso, foi criado o comando páginaé visitada,elafoimontada,masnãonecessariamentetodos
-generate-test para execução do arquivo de entrada, chamadode os componentes foram renderizados. É muito comum que
-entrypoint.js. Na suaprimeira execução, sãorealizadas etapasde modificações pontuais ocorram no HTML após a finalizaçãode
-configurações locais, com uma disposição realizada exatamente uma requisição aobackend,porexemplo. Definimosovalordo
-como proposto pelo Cypress. Inicialmente, o endereço URL da parâmetro timeem 200ms devidoaofatodesse valorsersuperior
-aplicação web deve ser informado, podendo estar na própria ao valor médio do tempo necessáriopara essasmodificações na
-máquina, em localhost, por exemplo. Essa informação é aplicação web na qual a ferramenta foi avaliada. Outro ponto
-armazenadaemumarquivodeconfiguraçãodoCypress,chamado importante é a apresentação do comentário, que funciona como
-decypress.json. um delimitadorentre os testes,paraqueoCytestiondiferencieos
-blocos deteste noarquivo.Comoúltimoponto,temosadefinição
-Em seguida, outros dois arquivosde configuração,denominados do after, conhecida como afunçãodoCypress executada apósa
-command.js e index.js, são copiados de suas basesdevidamente finalizaçãode todosos testesdoarquivo.Nessecaso,essafunção
-implementadas. O command.js contém todas as funções está sendo utilizada como umadaspontasdolaço queamarrao
-personalizadas necessárias, enquanto que o index.js contém o ciclo de geração, executando o comando start-generate,
-evento para fornecer a detecção de falhas. Idealmente, essa responsável por iniciar o estágio de análise e geração.
-configuração érealizada naprimeiraexecuçãodaferramenta,não
-sendonecessáriorealizarmodificações.Contudo,odesenvolvedor 2.2 Análise
-tem total liberdade de adicionar funções, por exemplo, para
-realizar alterações nos testes gerados, tornando-os ainda mais
-Aanáliseé realizada emcadaarquivotemporárioencontrado,em
-específicos para sua aplicação.
-cadafase dageração.Apósaexecuçãodotesteinicial,apenasum
-arquivo é analisado. Em seguida, múltiplos arquivos podem ser
-Aorealizar as etapasanteriores, maisumachecagem érealizada.
-criados, demandando uma grande quantidade deprocessamento,
-O arquivo de testes é criado sempre em um diretório nomeado
-principalmente levando em consideração o tamanho do HTML
-com a data dasua geração. Assim, aogerarmaisdeuma vezna
-contido nesses arquivos. Por conta disso, foi escolhida uma
-mesma data, o Cytestion questiona sobre a possibilidade de
-implementação pública [16] doalgoritmode Aho-Corasick[15],
-sobrescritadoarquivo oucancelamentodageração. Após issoo
-visando diminuir o overhead causadopelaspesquisasde strings,
-arquivocom oteste inicialécriado eexecutado,utilizandooutro
-quesãoapartemajoritáriadesteestágio.Estafaseérealizadacom
-comando criado, chamado test-file <nome-arquivo>.Seucódigo
-tempo otimizado com a utilização desse algoritmo. Essa
-vem de um arquivo base, contendo a princípio a definição do
-dependência proporciona um array com todas as ocorrências e
-beforeEach, indicada peloCypress comofunçãoexecutada antes
-posições encontradas, ficandonecessário apenasoprocessamento
-de cadateste.Nessecaso,éutilizadaparavisitaroendereçoURL
-desse array para remoção de duplicados, filtragem baseada na
-informadonasconfiguraçõeslocais.Nocorpodotestes,temosum
-prioridade dos identificadores e pré-processamento do tipo
-array com os identificadores percorridos, que no momento é
-geração.
-apenasroot,aescritadoHTMLatualemumarquivotemporárioe
-a validação de que não houveram erros no console. O arquivo
-As strings pesquisadas são data-cy=, id= e class=, possuindo
-pode ser visto naFigura 4.
-exatamente essa ordem como preferência na seleção dos
-identificadores. Para alguns componentes do Ant Design, o
-identificador id é colocado nas tags de forma involuntária,
-utilizando outra propriedade bastante conhecida pelos
-desenvolvedores que já trabalharam com React, chamada key.
-Entretanto, para a maioria dos componentes, é necessário
-informá-lamanualmenteduranteodesenvolvimento,paraqueseja
-possível uma identificação única no HTML final. Todavia, o
-Cypress descreve,como boaspráticas,ouso deum identificador
-personalizado para ser utilizado nos testes,escolhidoeste,como
-sugerido, data-cy como identificador personalizado padrão e
-opção preferencial na utilização dos testes.
-Por outro lado, foi necessária a inclusão do identificador class,
-especificamente para busca de utilização da classe utilizada em
-botões no Ant Design, chamada de ant-btn. O motivo desta
-inclusão é que existem componentes que apresentam botões
-default, como o Modal [17], caso no componente não seja
+O Cytestion utiliza um gerenciador de pacotes e projeto chamado Yarn [14]. Com o Yarn, temos a possibilidade de adicionar dependências ao projeto facilmente, além de criar comandos que funcionam como um atalho de execução no terminal, utilizando sempre o prefixo yarn. Nesse caso, foi criado o comando generate-test para execução do arquivo de entrada, chamado de entrypoint.js. Na sua primeira execução, são realizadas etapas de configurações locais, com uma disposição realizada exatamente como proposto pelo Cypress. Inicialmente, o endereço URL da aplicação web deve ser informado, podendo estar na própria máquina, em localhost, por exemplo. Essa informação é armazenada em um arquivo de configuração do Cypress, chamado de cypress.json.
+
+Em seguida, outros dois arquivos de configuração, denominados command.js e index.js, são copiados de suas bases devidamente implementadas. O command.js contém todas as funções personalizadas necessárias, enquanto que o index.js contém o evento para fornecer a detecção de falhas. Idealmente, essa configuração é realizada na primeira execução da ferramenta, não sendo necessário realizar modificações. Contudo, o desenvolvedor tem total liberdade de adicionar funções, por exemplo, para realizar alterações nos testes gerados, tornando-os ainda mais específicos para sua aplicação.
+
+Ao realizar as etapas anteriores, mais uma checagem é realizada. O arquivo de testes é criado sempre em um diretório nomeado com a data da sua geração. Assim, ao gerar mais de uma vez na mesma data, o Cytestion questiona sobre a possibilidade de sobrescrita do arquivo ou cancelamento da geração. Após isso o arquivo com o teste inicial é criado e executado, utilizando outro comando criado, chamado test-file <nome-arquivo>. Seu código vem de um arquivo base, contendo a princípio a definição do beforeEach, indicada pelo Cypress como função executada antes de cada teste. Nesse caso, é utilizada para visitar o endereço URL informado nas configurações locais. No corpo do testes, temos um array com os identificadores percorridos, que no momento é apenas root, a escrita do HTML atual em um arquivo temporário e a validação de que não houveram erros no console. O arquivo pode ser visto na Figura 4.
+
 Figura 4: Arquivo base contendo o teste inicial
-informado a propriedade footer, ocasionando a inexistência de
+[Trecho de código Cypress: describe com beforeEach que visita '/' e aguarda 200ms; teste 'Visits index page' que define actualId = ['root'], escreve conteúdo via cy.writeContent(actualId) e valida que '@consoleError' não foi chamado; e after() que executa 'yarn start-generate' com timeout de 600000ms]
 
-identificadores únicos. Além disso, é válido considerar que Essa abordagem de geração é realizada para todos os
-possam existir botões pela aplicação sem identificadores identificadores encontrados nos novos arquivos temporários, em
-atribuídos,por uma não adoçãodessaboaprática, masqueainda cadaetapa.Podemosperceberqueestamoscriandoumaárvorede
-assim serão alcançados pelo Cytestion. fluxospossíveis,e precisamos prevenirqueum novonónãoseja
-igual a um nóexistente, paraisso vamosrealizar verificações de
-Após a pesquisa dessas strings, esta etapa realiza o trabalhode existência doidentificador.Aexistêncianessecaso,seriatantoem
-remover as ocorrências duplicadas nos seguintes aspectos: testes anteriores,como nos novos testesqueestãosendogerados,
-especificamente no último identificador contido no actualId.
-1. Quando existe a ocorrência do mesmo identificador e
-Dessa forma, garantimos que surgiu um novo fluxo.
-seu respectivo valoremdiferentestags,indicandoqueo
-efeitode uma açãonaquele elementodeveseromesmo O objetivo da geração é agregar novos blocos de códigos no
-em suas ocorrências; arquivo de testes, que possampercorrer aaplicação webatravés
-2. Aocorrência demúltiplosidentificadores,independente doscliques embotõesoulinks,paraverificarseexistealgumerro
-de seusvalores, emumamesmatag,ondenesse casoa em seususos.Alémdisso, aoencontraridentificadoresreferentes
-filtragem é baseada na preferência dosidentificadores, acamposinputemumamesmapágina,estessãoagrupadoseseus
-garantindo a unicidade de seleção; preenchimentos são feitos emum únicoteste,finalizando coma
-submissão do possível formulário presente na página. Para
-Por último, é realizado um pré-processamento nas tags realizaressepreenchimentodoscamposalfanuméricos,éutilizado
-identificadas em campos input, visando identificar qual tipo de uma dependência chamada faker [18], para produzir valores
-inputsetrata,baseadoemqualclasseutilizaecomparandocomas randômicos e digitá-los nesses campos. Além dealfanuméricos,
-contidasem campos detexto,números,dataseseleçãodeopções, são suportados os campos de data e seleção de opções, que
-gerados nousodosseusrespectivos componentesdoAntDesign. possuem um comportamento semelhante de clicar no campo da
-Isso facilita o processo realizado no estágio de geração, para página e escolher uma das datas/opções possíveis, masutilizam
-preenchimento correto dos dados. funções personalizadas diferentes. Um teste contendo esses
-preenchimentos pode ser visto naFigura 6.
+Além disso, existem pontos importantes que podem ser vistos no código do arquivo base, como a utilização da função wait com parâmetro time de duzentos milissegundos (time=200ms), para que a página seja montada e renderizada antes da escrita do HTML. Isso é necessário exclusivamente pela forma como o React constrói e manipula os seus componentes, pois quando a página é visitada, ela foi montada, mas não necessariamente todos os componentes foram renderizados. É muito comum que modificações pontuais ocorram no HTML após a finalização de uma requisição ao back end, por exemplo. Definimos o valor do parâmetro time em 200ms devido ao fato desse valor ser superior ao valor médio do tempo necessário para essas modificações na aplicação web na qual a ferramenta foi avaliada. Outro ponto importante é a apresentação do comentário, que funciona como um delimitador entre os testes, para que o Cytestion diferencie os blocos de teste no arquivo. Como último ponto, temos a definição do after, conhecida como a função do Cypress executada após a finalização de todos os testes do arquivo. Nesse caso, essa função está sendo utilizada como uma das pontas do laço que amarra o ciclo de geração, executando o comando start-generate, responsável por iniciar o estágio de análise e geração.
+
+2.2 Análise
+A análise é realizada em cada arquivo temporário encontrado, em cada fase da geração. Após a execução do teste inicial, apenas um arquivo é analisado. Em seguida, múltiplos arquivos podem ser criados, demandando uma grande quantidade de processamento, principalmente levando em consideração o tamanho do HTML contido nesses arquivos. Por conta disso, foi escolhida uma implementação pública [16] do algoritmo de Aho-Corasick [15], visando diminuir o overhead causado pelas pesquisas de strings, que são a parte majoritária deste estágio. Esta fase é realizada com tempo otimizado com a utilização desse algoritmo. Essa dependência proporciona um array com todas as ocorrências e posições encontradas, ficando necessário apenas o processamento desse array para remoção de duplicados, filtragem baseada na prioridade dos identificadores e pré-processamento do tipo geração.
+
+As strings pesquisadas são data-cy=, id= e class=, possuindo exatamente essa ordem como preferência na seleção dos identificadores. Para alguns componentes do Ant Design, o identificador id é colocado nas tags de forma involuntária, utilizando outra propriedade bastante conhecida pelos desenvolvedores que já trabalharam com React, chamada key. Entretanto, para a maioria dos componentes, é necessário informá-la manualmente durante o desenvolvimento, para que seja possível uma identificação única no HTML final. Todavia, o Cypress descreve, como boas práticas, o uso de um identificador personalizado para ser utilizado nos testes, escolhido este, como sugerido, data-cy como identificador personalizado padrão e opção preferencial na utilização dos testes.
+
+Por outro lado, foi necessária a inclusão do identificador class, especificamente para busca de utilização da classe utilizada em botões no Ant Design, chamada de ant-btn. O motivo desta inclusão é que existem componentes que apresentam botões default, como o Modal [17], caso no componente não seja informado a propriedade footer, ocasionando a inexistência de identificadores únicos. Além disso, é válido considerar que possam existir botões pela aplicação sem identificadores atribuídos, por uma não adoção dessa boa prática, mas que ainda assim serão alcançados pelo Cytestion.
+
+Após a pesquisa dessas strings, esta etapa realiza o trabalho de remover as ocorrências duplicadas nos seguintes aspectos:
+1. Quando existe a ocorrência do mesmo identificador e seu respectivo valor em diferentes tags, indicando que o efeito de uma ação naquele elemento deve ser o mesmo em suas ocorrências;
+2. A ocorrência de múltiplos identificadores, independente de seus valores, em uma mesma tag, onde nesse caso a filtragem é baseada na preferência dos identificadores, garantindo a unicidade de seleção;
+
+Por último, é realizado um pré-processamento nas tags identificadas em campos input, visando identificar qual tipo de input se trata, baseado em qual classe utiliza e comparando com as contidas em campos de texto, números, datas e seleção de opções, gerados no uso dos seus respectivos componentes do Ant Design. Isso facilita o processo realizado no estágio de geração, para preenchimento correto dos dados.
+
 2.3 Geração
-Nesta etapa,tendoposse doprocessamento realizadonaetapade
-análise, é realizada a geração dos testes dapróximafase.Como
-demonstrado no arquivo base, os testes possuem um array dos
-identificadores percorridos, que é usado na nomeação do seu
-referente arquivo temporário, funcionando como uma forma do
-Cytestion identificar de qual teste partiram os novos
-identificadores encontrados no arquivo analisado. Com essa
-informação, conseguimos localizar o código do teste, que será
-copiado em um novobloco, substituindoexatamente olocal que
-criou o arquivo temporário, pelo novo percurso gerado. O
-resultado desse processo na fase seguinte à execução do teste
-inicial pode ser visto naFigura 5.
-Figura 6: Teste gerado com preenchimento de camposinput
-Como últimafunçãorealizadanestaetapa,quandopelomenosum
-identificadorcom um novofluxoéencontrado,temosnovamente
-achamadapara execuçãodoarquivodeteste,utilizandoomesmo
-comando citado no ponto inicial, chamado test-file
-<nome-arquivo>. Aqui fechamos olaçodociclo degeração,no
-qual, aofinal daexecução, umanovafasedeanáliseegeraçãose
-inicia.
-Figura 5: Teste gerado ao encontrar o id=”rc-tabs-1-tab-user”
-após executar o teste inicial
+Nesta etapa, tendo posse do processamento realizado na etapa de análise, é realizada a geração dos testes da próxima fase. Como demonstrado no arquivo base, os testes possuem um array dos identificadores percorridos, que é usado na nomeação do seu referente arquivo temporário, funcionando como uma forma do Cytestion identificar de qual teste partiram os novos identificadores encontrados no arquivo analisado. Com essa informação, conseguimos localizar o código do teste, que será copiado em um novo bloco, substituindo exatamente o local que criou o arquivo temporário, pelo novo percurso gerado. O resultado desse processo na fase seguinte à execução do teste inicial pode ser visto na Figura 5.
+
+Figura 5: Teste gerado ao encontrar o id="rc-tabs-1-tab-user" após executar o teste inicial
+[Trecho de código Cypress: it.skip('Click on element root->rc-tabs-1-tab-user', function que define actualId = ['root', 'rc-tabs-1-tab-user'], clica no elemento via clickIfExist, escreve conteúdo via writeContent(actualId) e valida '@consoleError' não chamado]
+
+Analisando a figura 5, podemos perceber que o título remete à última ação realizada pelo novo teste, ou seja, indica o clique no elemento encontrado, assim como o array actualId possui seu o identificador. Também, a chamada da função de escrita do conteúdo foi substituída pela função personalizada de clique e depois novamente a escrita do HTML. Outro detalhe importante nesse teste exemplificado é a utilização do skip, que serve para o Cypress pular o teste durante a execução. Nesta etapa, essa função é aplicada para garantir que os testes realizados anteriormente não sejam executados, independente se seus fluxos foram ramificados.
+
+Essa abordagem de geração é realizada para todos os identificadores encontrados nos novos arquivos temporários, em cada etapa. Podemos perceber que estamos criando uma árvore de fluxos possíveis, e precisamos prevenir que um novo nó não seja igual a um nó existente, para isso vamos realizar verificações de existência do identificador. A existência nesse caso, seria tanto em testes anteriores, como nos novos testes que estão sendo gerados, especificamente no último identificador contido no actualId. Dessa forma, garantimos que surgiu um novo fluxo.
+
+O objetivo da geração é agregar novos blocos de códigos no arquivo de testes, que possam percorrer a aplicação web através dos cliques em botões ou links, para verificar se existe algum erro em seus usos. Além disso, ao encontrar identificadores referentes a campos input em uma mesma página, estes são agrupados e seus preenchimentos são feitos em um único teste, finalizando com a submissão do possível formulário presente na página. Para realizar esse preenchimento dos campos alfanuméricos, é utilizado uma dependência chamada faker [18], para produzir valores randômicos e digitá-los nesses campos. Além de alfanuméricos, são suportados os campos de data e seleção de opções, que possuem um comportamento semelhante de clicar no campo da página e escolher uma das datas/opções possíveis, mas utilizam funções personalizadas diferentes. Um teste contendo esses preenchimentos pode ser visto na Figura 6.
+
+Figura 6: Teste gerado com preenchimento de campos input
+[Trecho de código Cypress: it('Filling values root->rc-tabs-1-tab-despesa->edit-button->nome-descricao-valor-usuarioId-tipoPagamentoId-parcelas-periodo and submit', function que executa clickIfExist para abrir a aba de despesa e o botão de edição, e fillInput/fillInputSelect/fillInputDate para preencher campos nome, descricao, valor, usuarioId, tipoPagamentoId, parcelas e periodo, finalizando com submitIfExist e validação de '@consoleError' não chamado]
+
+Como última função realizada nesta etapa, quando pelo menos um identificador com um novo fluxo é encontrado, temos novamente a chamada para execução do arquivo de teste, utilizando o mesmo comando citado no ponto inicial, chamado test-file <nome-arquivo>. Aqui fechamos o laço do ciclo de geração, no qual, ao final da execução, uma nova fase de análise e geração se inicia.
+
 2.4 Limpeza
-Analisando a figura 5, podemos perceber que o título remete à
-últimaaçãorealizada pelonovoteste,ouseja,indicaoclique no Quando a geração não encontra nenhum identificador com um
-elemento encontrado, assim como oarrayactualIdpossui seuo novo fluxo, inicia-se a etapa final de limpeza. Os arquivos
-identificador. Também, a chamada da função de escrita do temporárioscriadospor cadateste,contendooHTMLencontrado
-conteúdo foi substituída pela função personalizada de clique e no percurso de geração, são criados em um diretório chamado
-depois novamente a escritadoHTML.Outrodetalhe importante tmp,queterminasendolimponesseestágio.Apósisso,érealizada
-nesse testeexemplificadoéautilização doskip,queserveparao uma filtragem nos testes, eliminando aqueles que possuem os
-Cypresspularotesteduranteaexecução.Nestaetapa,essafunção identificadores percorridos como subconjunto de algum outro
-éaplicadaparagarantirqueostestesrealizadosanteriormentenão teste. Dessa forma, removemosos testesrepetidos ediminuímos
-sejam executados, independente se seus fluxos foramramificados. as linhas de código, cobrindo exatamente osmesmos fluxos.Só
-após essa etapa, é de fato realizada uma limpeza nos testes
+Quando a geração não encontra nenhum identificador com um novo fluxo, inicia-se a etapa final de limpeza. Os arquivos temporários criados por cada teste, contendo o HTML encontrado no percurso de geração, são criados em um diretório chamado tmp, que termina sendo limpo nesse estágio. Após isso, é realizada uma filtragem nos testes, eliminando aqueles que possuem os identificadores percorridos como subconjunto de algum outro teste. Dessa forma, removemos os testes repetidos e diminuímos as linhas de código, cobrindo exatamente os mesmos fluxos. Só após essa etapa, é de fato realizada uma limpeza nos testes restantes, removendo artifícios de geração do seu conteúdo. Mesmo se tratando de testes diferentes, podemos observar a ausência desses detalhes nas Figuras 5 e 6. Primeiramente, os testes finais não vão possuir o skip em sua definição que é removido juntamente com o array dos identificadores, a chamada da função writeContent e os comentários para delimitação dos blocos de teste.
 
-restantes, removendo artifícios de geração do seu conteúdo. Consulta / Edição e Exclusão)paraasentidades usuário,tipo de
-Mesmo se tratando de testes diferentes, podemos observar a pagamento, despesa erenda,demonstrandoumbalançomensalna
-ausência desses detalhes nas Figuras 5 e 6. Primeiramente, os páginainicial. Suaarquiteturanofrontendutilizouexatamenteas
-testes finais não vão possuir o skip em sua definição que é tecnologiasdefinidascomoescopodaferramenta,alémdepossuir
-removidojuntamente comoarraydosidentificadores,achamada todososcomponentesdoAntDesignalcançáveis peloCytestion,
-da função writeContent e os comentários para delimitação dos noque dizrespeito aprecisãoequalidadedostestesgerados.Não
-blocos de teste. foi necessáriohospedaraaplicação,poisaexecuçãoemambiente
-dedesenvolvimentolocalfoisuficienteparaavaliaraferramentae
-Dado que aferramentautilizamanipulaçãodestringsparageraro os testes gerados.
-código, é válido ressaltar que a atividade de assegurar a
-indentação correta possui uma certa dificuldade.Por maisque a Apósutilizar a ferramentaparageraçãodostestes,umaanálisede
-indentação não seja algo obrigatório para a interpretação do coberturade interfaces foiaplicadanostestesresultantes,visando
-código JavaScript, um códigoindentadocontribuipositivamente mensurar sua capacidade de alcançar todas as telas e ações
-na legibilidade por parte do desenvolvedor. Dessa forma, esta disponíveis para o usuário. Além disso, foi avaliada a
-etapautiliza umadependênciachamadaprettier[19],pararealizar aplicabilidade da ferramenta no uso de detecção de falhas após
-a formatação do arquivo com os testes finais, resultando modificações realizadas nocódigofonte.Por último, autilização
-finalmente no encerramento da execução do Cytestion. dos testes gerados como testes de regressão. Uma vez que o
-processo de geração de testes passou a ser uma atividade
-2.5 Ferramenta em Uso automatizada e que, por sua vez, possui um custo zero de
-desenvolvimento, éválido eatémesmoindicadoqueosucessona
-execução dos mesmos seja levado em consideração durante o
-processo de integração contínua e evolução do códigofonte.
-3.1 Cobertura de interfaces
-Para o entendimento dessa avaliação, precisamos inicialmente
-definir o significado de interfaces para esse contexto. Uma
-interface pode ser definida como uma tela que apresenta
-informações e interatividade para com o usuário,ondequalquer
-mudança na funcionalidade de uma interação, implica em uma
-interfacediferente. Porexemplo, umateladeinclusão eumatela
-Figura 7: Demonstração de utilização do Cytestion de ediçãodeuma mesmaentidade, emborapossuamformulários
-quase idênticos, são interfaces distintas. No Expense Organizer,
-Compreendidoofuncionamento doCytestion, vamosdemonstrar temos uma estrutura baseada em abas, onde a primeira aba,
-seu uso. A ferramenta foi desenvolvida pensando em sua Welcome, apenas exibe informações do balanço de cada mês,
-utilização como submodule [20] num sistema de controle de organizado também em abas. Essa funcionalidade apenas
-versão como git, durante odesenvolvimentodeaplicações web. proporcionaanavegaçãoentreosmeses,podendoserconsiderado
-Dessa forma, ela podeserutilizada localmentegerando os testes um fluxo curto na aplicação. Por outro lado, temos as abas de
-apósafinalizaçãodeumaissue,porexemplo.Paraapresentaresse Usuário, Tipo de Pagamento, Despesa e Renda, cada uma
-uso, vamos executar a geração em uma aplicação web possuindo as mesmas funcionalidades de CRUD, implicandono
-desenvolvidacomo prova deconceitodessetrabalho,naqualserá mesmo fluxo de utilização, em entidades diferentes.
-mais detalhadanaseção3.Comopodeservistonoguiaescritono
-repositóriodaferramentaapontadonoslinksúteis,énecessárioter Quando acessamosa abadeUsuário,temostrêspossibilidadesde
-o Node.js e Yarninstaladosna máquina.Inicialmente, temosque interação. Podemosclicarnobotãode exclusão,ediçãoe criação
-instalar as dependências da ferramenta, executando o comando de um registro.Aoclicar emexcluir, temosaopção declicarem
-yarn install ou apenas yarn. Após realizar a instalação, basta cancelar a deleção ou emefetivá-la. Aoclicarnobotão decriar,
-executar o Cytestion através do comando yarn generate-test e temos aopção depreencher os camposerealizar asubmissãodo
-seguir os passos apresentados no CLI. A Figura 7 demonstra a formuláriooude clicaremsubmeter sempreencheroscampos,a
-execução do comando para geração dos testes, conferindo fim de reproduzir um cenário de erro na aplicação. Da mesma
-exatamenteospassos deconfiguração descritosnopontoiniciale forma, no botão de editar, temosasmesmasopçõesdobotãode
-finalizando apontando a localização do arquivo gerado. Esse criar, com a diferença de que opreenchimentodos camposestá
-arquivo pode ser acessado nos links úteis desse trabalho. alterando um dado existente e, consequentemente, realizando
-outra operação, nesse caso a de edição.
+Dado que a ferramenta utiliza manipulação de strings para gerar o código, é válido ressaltar que a atividade de assegurar a indentação correta possui uma certa dificuldade. Por mais que a indentação não seja algo obrigatório para a interpretação do código JavaScript, um código indentado contribui positivamente na legibilidade por parte do desenvolvedor. Dessa forma, esta etapa utiliza uma dependência chamada prettier [19], para realizar a formatação do arquivo com os testes finais, resultando finalmente no encerramento da execução do Cytestion.
+
+2.5 Ferramenta em Uso
+Figura 7: Demonstração de utilização do Cytestion
+[Terminal exibindo: yarn run v1.22.5; $ node entrypoint.js; mensagem de boas-vindas "Welcome to Cytestion! Automatic ad-hoc test code generator, using the cypress framework"; verificação de existência de diretório cypress; pergunta pela URL da aplicação (ex: http://localhost:3000{application-name}); cópia de arquivos support/index.js e support/commands.js das bases; verificação de testes já gerados na data atual; geração do arquivo de teste; conclusão indicando "Done in 148.17s"]
+
+Compreendido o funcionamento do Cytestion, vamos demonstrar seu uso. A ferramenta foi desenvolvida pensando em sua utilização como submodule [20] num sistema de controle de versão como git, durante o desenvolvimento de aplicações web. Dessa forma, ela pode ser utilizada localmente gerando os testes após a finalização de uma issue, por exemplo. Para apresentar esse uso, vamos executar a geração em uma aplicação web desenvolvida como prova de conceito desse trabalho, na qual será mais detalhada na seção 3. Como pode ser visto no guia escrito no repositório da ferramenta apontado nos links úteis, é necessário ter o Node.js e Yarn instalados na máquina. Inicialmente, temos que instalar as dependências da ferramenta, executando o comando yarn install ou apenas yarn. Após realizar a instalação, basta executar o Cytestion através do comando yarn generate-test e seguir os passos apresentados no CLI. A Figura 7 demonstra a execução do comando para geração dos testes, conferindo exatamente os passos de configuração descritos no ponto inicial e finalizando apontando a localização do arquivo gerado. Esse arquivo pode ser acessado nos links úteis desse trabalho.
+
 3. AVALIAÇÃO
-No arquivo de teste gerado,disponívelnos links úteis,podemos
-constatar que todas as possibilidades descritas anteriormente
-Aavaliaçãodaferramentafoifeitaapartirdodesenvolvimentode
-foram alcançadas, para todasasentidadesdosistema,resultando
-uma simples aplicação web, que possibilita o cadastro de
-em 100% da cobertura de interfaces da aplicação web
-informações para organização financeira, chamada Expense
-desenvolvida. Os fluxos curtos denavegação entreos mesessão
-Organizer.Nos linksúteis encontra-seolinkparaseurepositório.
-percorridos, assim como todos os fluxos de CRUD nas demais
-A aplicação possui as funcionalidades de CRUD (Inclusão/
-abas. Na Figura8,temos ofluxo naabaUsuáriocomoexemplo
+A avaliação da ferramenta foi feita a partir do desenvolvimento de uma simples aplicação web, que possibilita o cadastro de informações para organização financeira, chamada Expense Organizer. Nos links úteis encontra-se o link para seu repositório. A aplicação possui as funcionalidades de CRUD (Inclusão/ Consulta / Edição e Exclusão) para as entidades usuário, tipo de pagamento, despesa e renda, demonstrando um balanço mensal na página inicial. Sua arquitetura no front end utilizou exatamente as tecnologias definidas como escopo da ferramenta, além de possuir todos os componentes do Ant Design alcançáveis pelo Cytestion, no que diz respeito a precisão e qualidade dos testes gerados. Não foi necessário hospedar a aplicação, pois a execução em ambiente de desenvolvimento local foi suficiente para avaliar a ferramenta e os testes gerados.
 
-doque ocorrecom as demaisabas.Iniciandocomoidentificador
-root dotesteinicial, éclicadonoidentificadorrc-tabs-1-tab-user,
-alterando a interface paraatabela delistagemdeusuários.Então
-temos três ramificações: ocliquenobotão deeditaridentificado
-pelo nó edit-button; o clique botão de criar, identificado pelo
-new-button; e, por último, o clique no botão excluir, mostrado
-pelo nó delete-button. Cada uma dessas três ramificações criam Figura 9: Erros introduzidos na aplicação web
-duas novas, sendo semelhantes as ramificações dos fluxos de
-ediçãoe criação(nósedit-button enew-button,respectivamente). Com as falhas inseridas, ao executar o Cytestionocomando de
-Os testes gerados por estes fluxos preenchem os campos geraçãoretornaum erro, indicandoquepelomenosumdostestes
-identificados por nome, sobrenome e email e realizando a falhou durante a execução, mas o arquivo de teste foi gerado.
-submissão; e, seguindoum fluxosempreenchimentodoscampos Realizandoumacomparaçãoentreoarquivogeradoanteriormente
-eapenasclicandonosubmit-button.Segue-se,pois, aramificação (onde nãohaviafalhasnosistema)eoarquivocomfalhas,através
-dofluxo deexclusão,identificadapelonódelete-button,queclica da execução por CLI, com ocomando yarntest-file<arquivo>,
-no botão de cancelar, identificado pela sua class ant-bnt e podemos notarumaquantidade reduzida detestes.Adiminuição
-confirma a ação através do clique no botão da class ant-btn na quantidade de testes produzidos ocorre em função do fluxo
-ant-btn-dangerous. seguindo a abade Despesatersido eliminado quandooprimeiro
-teste clicou nela e a aplicação quebrou. Além disso, outrostrês
-testes relacionados à submissão feita no formulário do Tipo de
-Pagamento falharam. Foi constatado que os motivos das falhas
-são indicados de forma detalhada, anteriormente ao resultado
-final. A comparaçãoentre os resultadospodeservistanaFigura
-10.
-Figura 8: Fluxo de utilização alcançado na entidadeusuário
-Figura 10: Comparação entre o resultado dos testesgerados
+Após utilizar a ferramenta para geração dos testes, uma análise de cobertura de interfaces foi aplicada nos testes resultantes, visando mensurar sua capacidade de alcançar todas as telas e ações disponíveis para o usuário. Além disso, foi avaliada a aplicabilidade da ferramenta no uso de detecção de falhas após modificações realizadas no código fonte. Por último, a utilização dos testes gerados como testes de regressão. Uma vez que o processo de geração de testes passou a ser uma atividade automatizada e que, por sua vez, possui um custo zero de desenvolvimento, é válido e até mesmo indicado que o sucesso na execução dos mesmos seja levado em consideração durante o processo de integração contínua e evolução do código fonte.
+
+3.1 Cobertura de interfaces
+Para o entendimento dessa avaliação, precisamos inicialmente definir o significado de interfaces para esse contexto. Uma interface pode ser definida como uma tela que apresenta informações e interatividade para com o usuário, onde qualquer mudança na funcionalidade de uma interação, implica em uma interface diferente. Por exemplo, uma tela de inclusão e uma tela de edição de uma mesma entidade, embora possuam formulários quase idênticos, são interfaces distintas. No Expense Organizer, temos uma estrutura baseada em abas, onde a primeira aba, Welcome, apenas exibe informações do balanço de cada mês, organizado também em abas. Essa funcionalidade apenas proporciona a navegação entre os meses, podendo ser considerado um fluxo curto na aplicação. Por outro lado, temos as abas de Usuário, Tipo de Pagamento, Despesa e Renda, cada uma possuindo as mesmas funcionalidades de CRUD, implicando no mesmo fluxo de utilização, em entidades diferentes.
+
+Quando acessamos a aba de Usuário, temos três possibilidades de interação. Podemos clicar no botão de exclusão, edição e criação de um registro. Ao clicar em excluir, temos a opção de clicar em cancelar a deleção ou em efetivá-la. Ao clicar no botão de criar, temos a opção de preencher os campos e realizar a submissão do formulário ou de clicar em submeter sem preencher os campos, a fim de reproduzir um cenário de erro na aplicação. Da mesma forma, no botão de editar, temos as mesmas opções do botão de criar, com a diferença de que o preenchimento dos campos está alterando um dado existente e, consequentemente, realizando outra operação, nesse caso a de edição.
+
+No arquivo de teste gerado, disponível nos links úteis, podemos constatar que todas as possibilidades descritas anteriormente foram alcançadas, para todas as entidades do sistema, resultando em 100% da cobertura de interfaces da aplicação web desenvolvida. Os fluxos curtos de navegação entre os meses são percorridos, assim como todos os fluxos de CRUD nas demais abas. Na Figura 8, temos o fluxo na aba Usuário como exemplo do que ocorre com as demais abas. Iniciando com o identificador root do teste inicial, é clicado no identificador rc-tabs-1-tab-user, alterando a interface para a tabela de listagem de usuários. Então temos três ramificações: o clique no botão de editar identificado pelo nó edit-button; o clique botão de criar, identificado pelo new-button; e, por último, o clique no botão excluir, mostrado pelo nó delete-button. Cada uma dessas três ramificações criam duas novas, sendo semelhantes as ramificações dos fluxos de edição e criação (nós edit-button e new-button, respectivamente). Os testes gerados por estes fluxos preenchem os campos identificados por nome, sobrenome e email e realizando a submissão; e, seguindo um fluxo sem preenchimento dos campos e apenas clicando no submit-button. Segue-se, pois, a ramificação do fluxo de exclusão, identificada pelo nó delete-button, que clica no botão de cancelar, identificado pela sua class ant-bnt e confirma a ação através do clique no botão da class ant-btn ant-btn-dangerous.
+
+Figura 8: Fluxo de utilização alcançado na entidade usuário
+[Diagrama de árvore: root -> rc-tabs-1-tab-user -> {new-button, edit-button, delete-button}; new-button -> {submit-button, "nome-sobrenome-email and submit"}; edit-button -> {submit-button, "nome-sobrenome-email and submit"}; delete-button -> {ant-btn, "ant-btn ant-btn-dangerous"}]
+
 3.2 Detecção de falhas
-antes e depois da inserção de falhas
-Para realizar a avaliação de detecção de falhas por meio da 3.3 Teste de regressão
-execução do Cytestion, iremos introduzirfalhas nocódigofonte
-da aplicaçãoweb. Essasfalhas sãoerroscomunsdeprogramação
-Conformedemonstrado,aexecuçãodoCytestionparadetecçãode
-ocorridos durante o processo de desenvolvimento de software,
-erros é eficaz, porém ela é mais apropriada quando estamos
-como, por exemplo, a chamada de uma funçãoinexistente ouo
-desenvolvendo novas features na aplicação, uma vez que essas
-acesso a propriedades de um objeto sem checar sua existência,
-features ainda não possuem testes gerados. Quando se trata de
-dentreoutros.Nesse caso,naabade Despesa,vamosinseriruma
-modificações e os testes já foram gerados anteriormente, eles
-falha denominada intratável,que causaaquebra daaplicação. A
-passam a ser utilizados como teste de regressão, indicando se
-falha será inserida através da mudança de nome da função
-houve algumerro inserido devidoàatualizaçõesnocódigofonte,
-responsável por retornarobotãodeedição natabela delistagem
-apenas executando a suíte de testes gerada novamente. Com o
-da página. Além dessa falha, no formulário da aba de Tipo de
-intuito de reproduzir o cenário de regressão descrito, vamos
-Pagamento, vamos modificar o nome da função chamada na
-submeter a aplicação que teve erros inseridos intencionalmente
-submissão, causando uma falha tratável na aplicação. Essas
-(seção3.1) à execução doarquivoquefoigeradocomaaplicação
-alterações podem ser visualizadas naFigura 9.
-em seuestado estável atravésda interfacegráficadisponibilizada
-pelo Cypress. Podemos então ver as ações descritas no código
-sendo realizadas visualmente, e com isso perceber ainda mais
-rápido como um erro ocorreu.Na Figura 11 temosamensagem
-do erro encontrado em todos os testes referentes ao fluxo
-atualmente quebrado da aba de Despesas.
+Para realizar a avaliação de detecção de falhas por meio da execução do Cytestion, iremos introduzir falhas no código fonte da aplicação web. Essas falhas são erros comuns de programação ocorridos durante o processo de desenvolvimento de software, como, por exemplo, a chamada de uma função inexistente ou o acesso a propriedades de um objeto sem checar sua existência, dentre outros. Nesse caso, na aba de Despesa, vamos inserir uma falha denominada intratável, que causa a quebra da aplicação. A falha será inserida através da mudança de nome da função responsável por retornar o botão de edição na tabela de listagem da página. Além dessa falha, no formulário da aba de Tipo de Pagamento, vamos modificar o nome da função chamada na submissão, causando uma falha tratável na aplicação. Essas alterações podem ser visualizadas na Figura 9.
+
+Figura 9: Erros introduzidos na aplicação web
+[Trechos de código React mostrando: uma função render de coluna de tabela chamando this.getDefaultEdit(row) e this.getDefaultEdit2(row) e this.getDefaultDelete(row) dentro de uma div de ações; e um Formulário com onFinish chamando store.save() e store.save2(), initialValues={store.object} e onFieldsChange atualizando store.updateObject]
+
+Com as falhas inseridas, ao executar o Cytestion o comando de geração retorna um erro, indicando que pelo menos um dos testes falhou durante a execução, mas o arquivo de teste foi gerado. Realizando uma comparação entre o arquivo gerado anteriormente (onde não havia falhas no sistema) e o arquivo com falhas, através da execução por CLI, com o comando yarn test-file <arquivo>, podemos notar uma quantidade reduzida de testes. A diminuição na quantidade de testes produzidos ocorre em função do fluxo seguindo a aba de Despesa ter sido eliminado quando o primeiro teste clicou nela e a aplicação quebrou. Além disso, outros três testes relacionados à submissão feita no formulário do Tipo de Pagamento falharam. Foi constatado que os motivos das falhas são indicados de forma detalhada, anteriormente ao resultado final. A comparação entre os resultados pode ser vista na Figura 10.
+
+Figura 10: Comparação entre o resultado dos testes gerados antes e depois da inserção de falhas
+[Painel de resultados Cypress mostrando duas execuções: primeira execução (2021-05-12/cytestion.spec.js) com 30 testes, 30 passando, 0 falhando ("All specs passed!"); segunda execução (2021-05-13/cytestion.spec.js) com 25 testes, 21 passando, 4 falhando]
+
+3.3 Teste de regressão
+Conforme demonstrado, a execução do Cytestion para detecção de erros é eficaz, porém ela é mais apropriada quando estamos desenvolvendo novas features na aplicação, uma vez que essas features ainda não possuem testes gerados. Quando se trata de modificações e os testes já foram gerados anteriormente, eles passam a ser utilizados como teste de regressão, indicando se houve algum erro inserido devido à atualizações no código fonte, apenas executando a suíte de testes gerada novamente. Com o intuito de reproduzir o cenário de regressão descrito, vamos submeter a aplicação que teve erros inseridos intencionalmente (seção 3.1) à execução do arquivo que foi gerado com a aplicação em seu estado estável através da interface gráfica disponibilizada pelo Cypress. Podemos então ver as ações descritas no código sendo realizadas visualmente, e com isso perceber ainda mais rápido como um erro ocorreu. Na Figura 11 temos a mensagem do erro encontrado em todos os testes referentes ao fluxo atualmente quebrado da aba de Despesas.
+
+Figura 11: Mensagem do erro indicando função inexistente
+[Painel de erro Cypress: TypeError - "The following error originated from your application code, not from Cypress. > this.getDefaultEdit2 is not a function". Mensagem informando que erros não capturados originados da aplicação farão o teste falhar por padrão, comportamento configurável]
+
+4. CONCLUSÃO
+O desenvolvimento da ferramenta iniciou com projeto e arquitetura da aplicação web na qual ela foi avaliada. Nessa fase, foi realizado um estudo sobre os componentes e tecnologias do escopo da ferramenta, visando identificar formas de criar testes que garantisse sua usabilidade. Ao finalizar a implementação do sistema, aliado ao estudo do framework Cypress, foram criados manualmente esboços de testes para extrair características genéricas do código de teste, com o objetivo de automatizar sua geração. Nesse estudo, foi constatado a necessidade de utilizar uma abordagem investigativa em fases, a fim de executar uma análise minuciosa e evolutiva, onde os testes são enriquecidos a cada fase. Dessa forma, buscou-se meios de integrar execução de testes e geração de código, de forma recursiva, concluindo ao atingir o fim de todos os fluxos possíveis. Encontramos como opção viável a execução de comandos por CLI do Cypress e a comunicação entre processos baseada em arquivos temporários.
+
+Uma limitação encontrada durante o desenvolvimento foi a necessidade do uso da função wait nos testes para aguardar a renderização completa da página. Todas as abordagens existentes no Cypress [21] para contornar seu uso partem do princípio do conhecimento do efeito colateral de uma ação, a fim de validar sua ocorrência para dar continuidade nos testes. Como seguimos com uma abordagem de não conhecer a aplicação alvo, a utilização da função wait foi a única opção encontrada.
+
+Futuramente, pode-se aprimorar o Cytestion fazendo com que a ferramenta seja independente do uso da biblioteca de componentes que foi escolhida, a Ant Design. Para tal, será necessário uma análise mais profunda do HTML, visando extrair e processar características próprias da aplicação para uso nos testes. Uma forma de contornar a necessidade de uso da função wait é fazer uso de sinalizadores, que indicam a finalização da renderização da página [22]. Outra maneira para contornar o uso dessa função seria a implementação de reconhecimento do código fonte de uma aplicação que faz uso das tecnologias do escopo desse trabalho, a fim de inferir o comportamento esperado em cada ação que será realizada nos testes.
+
+Diante do exposto, concluímos que o uso do Cytestion pode ser um forte aliado no desenvolvimento de aplicações web simples, principalmente as baseadas em CRUDs. A ferramenta proporciona a detecção de falhas rapidamente, além de garantir a usabilidade da aplicação. Tudo isso associado a um custo zero na criação de testes, uma vez que os mesmos são gerados automaticamente, sem overhead no processo de desenvolvimento.
 
 5. AGRADECIMENTOS
-Agradeço a Deus, pela minha vida, e por ter permitido que eu
-tivesse saúdeе determinaçãoparanãodesanimardurantetodosos
-meus anos deestudos.Agradeçoatodocorpodocentedocursode
-Ciência da Computação, da Universidade Federal de Campina
-Grande, porme ensinaremecompartilharem seusconhecimentos
-durante todo o período da graduação, fundamentais para minha
-Figura 11: Mensagem do erro indicando função inexistente formaçãoacadêmica. Agradeçoprincipalmenteaomeuorientador
-Prof.Dr.Cláudio deSouzaBaptista portodasasoportunidadese
-4. CONCLUSÃO experiências compartilhadas que me permitiram apresentar um
-melhordesempenho nomeuprocessodeformaçãoprofissionalao
-O desenvolvimento da ferramenta iniciou com projeto e longo do curso. Agradeço ao meu co-orientador e gerente Prof.
-arquitetura daaplicação webnaqualelafoi avaliada.Nessafase, Dr. Hugo Feitosa de Figueirêdo pelas correções eensinamentos
-foi realizado um estudo sobre os componentes e tecnologiasdo que contribuíram imensamente na realização deste trabalho.
-escopo da ferramenta, visando identificar formas de criar testes
-que garantisse sua usabilidade.Aofinalizar aimplementação do Agradeço também aos meus pais, por nunca terem medido
-sistema, aliado ao estudo do framework Cypress, foram criados esforços para me proporcionar um ensino de qualidade durante
-manualmente esboços de testes para extrair características todo o meu período escolar e compreenderemaminhaausência
-genéricas do código deteste,comoobjetivo deautomatizarsua enquantoeu me dedicavaà realizaçãodestetrabalho.Agradeçoa
-geração. Nesse estudo, foi constatado a necessidade de utilizar minha esposa Ingrid Rodrigues pela paciência, apoio e amor,
-uma abordagem investigativa em fases, a fim de executar uma demonstrados ao longo dos últimos quatro anos que me
-análise minuciosa e evolutiva, onde os testessãoenriquecidos a conduziram até este momento. Agradeço ao meu irmão Márcio
-cadafase. Dessaforma,buscou-se meiosdeintegrarexecuçãode Torres por todosuporte, quemuitocontribuíramparaarealização
-testes e geração de código, de forma recursiva, concluindo ao deste trabalho. E por fim,agradeço aosmeusamigosadquiridos
-atingir o fim de todos os fluxos possíveis. Encontramos como ao longo do curso, especialmente Francisco Edeverton, Mateus
-opção viável a execução de comandos por CLI do Cypress e a Cunha e Pedro Wanderley, que foram fundamentais para
-comunicação entre processos baseada em arquivos temporários. conclusão deste trabalho.
-Uma limitação encontrada durante o desenvolvimento foi a 6. REFERÊNCIAS
-necessidade do uso da função wait nos testes para aguardar a
-renderizaçãocompleta dapágina.Todasas abordagensexistentes
-[1] Teste de Software - The Importance of Software Testing.
-no Cypress [21] para contornar seu uso partem do princípiodo
-https://www.karllhughes.com/posts/testing-matters
-conhecimento do efeito colateral de uma ação, a fimdevalidar
-sua ocorrência paradar continuidadenos testes.Como seguimos [2] Teste de Sistema - What is System Testing in Software
-com uma abordagem de não conhecer a aplicação alvo, a Testing?
-utilização da funçãowaitfoi a única opção encontrada. https://www.softwaretestinghelp.com/system-testing/
-[3] Teste E2E - What is End-to-End (E2E) Testing?
-Futuramente, pode-se aprimorar o Cytestion fazendo comquea
-https://www.katalon.com/resources-center/blog/end-to-end-e
-ferramenta seja independente do uso da biblioteca de
-2e-testing
-componentes que foi escolhida, a Ant Design. Para tal, será
-necessárioumaanálisemaisprofundadoHTML,visandoextraire [4] Teste de Sistema vs Teste E2E - System Testing Vs
-processarcaracterísticas própriasdaaplicaçãoparausonostestes. End-To-End Testing: Which One Is Better To Opt?
-Uma forma de contornar a necessidade deuso dafunção wait é https://www.softwaretestinghelp.com/system-vs-end-to-end-t
-fazer uso de sinalizadores, que indicam a finalização da esting/
-renderização da página [22].Outramaneira paracontornar ouso
-[5] Teste Ad-Hoc - Ad-Hoc Testing: How To Find Defects
-dessa funçãoseria aimplementaçãodereconhecimentodocódigo
-Without A Formal Testing Process.
-fonte de uma aplicação que faz uso das tecnologias do escopo
-https://www.softwaretestinghelp.com/ad-hoc-testing/
-desse trabalho, a fim de inferir o comportamento esperado em
-cada ação que será realizada nos testes. [6] TesteExploratório-WhatIsExploratoryTestingInSoftware
-Testing.
-Diante do exposto, concluímos que ouso doCytestion podeser https://www.softwaretestinghelp.com/what-is-exploratory-tes
-um forte aliado no desenvolvimento deaplicações websimples, ting/
-principalmenteasbaseadasemCRUDs.Aferramentaproporciona [7] JavaScript - oque é,paraqueserve ecomofuncionaoJS?
-a detecção de falhas rapidamente,além degarantirausabilidade https://kenzie.com.br/blog/javascript
-da aplicação. Tudoissoassociadoa um custozeronacriação de
-[8] React - Uma biblioteca javascript para criar interfaces de
-testes, umavezqueosmesmossãogeradosautomaticamente,sem
-usuário.https://pt-br.reactjs.org
-overheadno processo de desenvolvimento.
-[9] Ant Design - An enterprise-class UI design language and
-React UI library.https://ant.design/docs/react/getting-started
+Agradeço a Deus, pela minha vida, e por ter permitido que eu tivesse saúde е determinação para não desanimar durante todos os meus anos de estudos. Agradeço a todo corpo docente do curso de Ciência da Computação, da Universidade Federal de Campina Grande, por me ensinarem e compartilharem seus conhecimentos durante todo o período da graduação, fundamentais para minha formação acadêmica. Agradeço principalmente ao meu orientador Prof. Dr. Cláudio de Souza Baptista por todas as oportunidades e experiências compartilhadas que me permitiram apresentar um melhor desempenho no meu processo de formação profissional ao longo do curso. Agradeço ao meu co-orientador e gerente Prof. Dr. Hugo Feitosa de Figueirêdo pelas correções e ensinamentos que contribuíram imensamente na realização deste trabalho.
 
-[10] Input - A basic widget for getting the user input is a text [17] Modal - Modal to create a new floating layer over the
-field.https://ant.design/components/input/ current page to get user feedback or display information.
-https://ant.design/components/modal
-[11] Pipeline - GitLab Docs - CI/CD pipelines
-https://docs.gitlab.com/ee/ci/pipelines [18] Faker -generatemassiveamountsoffakedatainthebrowser
-and node.js.https://www.npmjs.com/package/faker
-[12] Cypress - What Cypress is and why you should use it.
-https://docs.cypress.io/guides/overview/why-cypress [19] Prettier- FormatsyourJavaScript using prettierfollowedby
-eslint --fix.https://www.npmjs.com/package/prettier-eslint
-[13] Node.js - O que é, como funciona e quais as vantagens.
-https://www.opus-software.com.br/node-js [20] Submodules - Git Tools Submodules.
-https://git-scm.com/book/en/v2/Git-Tools-Submodules
-[14] Yarn - Yarn is a package manager that doubles down as
-project manager.https://yarnpkg.com/ [21] Cypress Blog - When Can The Test Start?
-https://www.cypress.io/blog/2018/02/05/when-can-the-test-st
-[15] Aho-Corasick - Alfred Aho and Margaret Corasick. 1975.
-art/
-Efficient string matching: An aid to bibliographic search.
-Commun. ACM 18 (06 1975), 333–340. [22] Better world by better software - Set flag to start tests.
-https://cr.yp.to/bib/1975/aho.pdf https://glebbahmutov.com/blog/set-flag-to-start-tests/
-[16] Implementação pública - Implementation of the
-Aho-Corasick string searching algorithm.
-https://www.npmjs.com/package/ahocorasick
+Agradeço também aos meus pais, por nunca terem medido esforços para me proporcionar um ensino de qualidade durante todo o meu período escolar e compreenderem a minha ausência enquanto eu me dedicava à realização deste trabalho. Agradeço a minha esposa Ingrid Rodrigues pela paciência, apoio e amor, demonstrados ao longo dos últimos quatro anos que me conduziram até este momento. Agradeço ao meu irmão Márcio Torres por todo suporte, que muito contribuíram para a realização deste trabalho. E por fim, agradeço aos meus amigos adquiridos ao longo do curso, especialmente Francisco Edeverton, Mateus Cunha e Pedro Wanderley, que foram fundamentais para conclusão deste trabalho.
+
+6. REFERÊNCIAS
+[1] Teste de Software - The Importance of Software Testing. https://www.karllhughes.com/posts/testing-matters
+
+[2] Teste de Sistema - What is System Testing in Software Testing? https://www.softwaretestinghelp.com/system-testing/
+
+[3] Teste E2E - What is End-to-End (E2E) Testing? https://www.katalon.com/resources-center/blog/end-to-end-e2e-testing
+
+[4] Teste de Sistema vs Teste E2E - System Testing Vs End-To-End Testing: Which One Is Better To Opt? https://www.softwaretestinghelp.com/system-vs-end-to-end-testing/
+
+[5] Teste Ad-Hoc - Ad-Hoc Testing: How To Find Defects Without A Formal Testing Process. https://www.softwaretestinghelp.com/ad-hoc-testing/
+
+[6] Teste Exploratório - What Is Exploratory Testing In Software Testing. https://www.softwaretestinghelp.com/what-is-exploratory-testing/
+
+[7] JavaScript - o que é, para que serve e como funciona o JS? https://kenzie.com.br/blog/javascript
+
+[8] React - Uma biblioteca javascript para criar interfaces de usuário. https://pt-br.reactjs.org
+
+[9] Ant Design - An enterprise-class UI design language and React UI library. https://ant.design/docs/react/getting-started
+
+[10] Input - A basic widget for getting the user input is a text field. https://ant.design/components/input/
+
+[11] Pipeline - GitLab Docs - CI/CD pipelines https://docs.gitlab.com/ee/ci/pipelines
+
+[12] Cypress - What Cypress is and why you should use it. https://docs.cypress.io/guides/overview/why-cypress
+
+[13] Node.js - O que é, como funciona e quais as vantagens. https://www.opus-software.com.br/node-js
+
+[14] Yarn - Yarn is a package manager that doubles down as project manager. https://yarnpkg.com/
+
+[15] Aho-Corasick - Alfred Aho and Margaret Corasick. 1975. Efficient string matching: An aid to bibliographic search. Commun. ACM 18 (06 1975), 333–340. https://cr.yp.to/bib/1975/aho.pdf
+
+[16] Implementação pública - Implementation of the Aho-Corasick string searching algorithm. https://www.npmjs.com/package/ahocorasick
+
+[17] Modal - Modal to create a new floating layer over the current page to get user feedback or display information. https://ant.design/components/modal
+
+[18] Faker - generate massive amounts of fake data in the browser and node.js. https://www.npmjs.com/package/faker
+
+[19] Prettier - Formats your JavaScript using prettier followed by eslint --fix. https://www.npmjs.com/package/prettier-eslint
+
+[20] Submodules - Git Tools Submodules. https://git-scm.com/book/en/v2/Git-Tools-Submodules
+
+[21] Cypress Blog - When Can The Test Start? https://www.cypress.io/blog/2018/02/05/when-can-the-test-start/
+
+[22] Better world by better software - Set flag to start tests. https://glebbahmutov.com/blog/set-flag-to-start-tests/

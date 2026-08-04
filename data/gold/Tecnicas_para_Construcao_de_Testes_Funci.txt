@@ -1,4 +1,6 @@
-Este artigo apresenta a temática da automatização de testes funcionais na área da Engenharia de Software, iniciando
-por apresentar alguns conceitos básicos sobre Testes e em seguida mostrando as actuais técnicas para o desenvolvimento de
-testes automáticos sob sistemas com interface gráfica (GUI). As características e limitações das actuais ferramentas CaptureReplay são exploradas bem como diferentes técnicas e abordagens para a construção de testes funcionais automáticos.
+Este artigo apresenta a temática da automatização de testes funcionais na área da Engenharia 
+de Software, iniciando por apresentar alguns conceitos básicos sobre Testes e em seguida mostrando 
+as actuais técnicas para o desenvolvimento de testes automáticos sob sistemas com interface gráfica (GUI). 
+As características e limitações das actuais ferramentas Capture-Replay são exploradas bem como diferentes 
+técnicas e abordagens para a construção de testes funcionais automáticos.
 

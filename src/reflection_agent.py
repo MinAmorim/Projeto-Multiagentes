@@ -36,7 +36,7 @@ def abstract_reflection_agent(nome_arquivo, texto_artigo):
                 {"role": "system", "content": prompt_sistema},
                 {"role": "user", "content": texto_artigo}
             ],
-            temperature=0
+            temperature=0.0
     )
     primeira_resposta = primeira_resposta_obj.choices[0].message.content
 

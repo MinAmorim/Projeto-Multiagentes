@@ -1,482 +1,586 @@
-Avaliac¸a˜o emp´ırica da gerac¸a˜o automatizada de testes de
-software sob a perspectiva de Test Smells
-Ta´ssioGuerreiroAntunesVirg´ınio1,IvanMachado1
-1InstitutodeComputac¸a˜o–UniversidadeFederaldaBahia(UFBA)
-Av. AdhemardeBarros,s/nº–Ondina–40170-110–Salvador–BA–Brasil
-tassiovirginio@gmail.com, ivan.machado@ufba.br
+Avaliação empı́rica da geração automatizada de testes de
+         software sob a perspectiva de Test Smells
+            Tássio Guerreiro Antunes Virgı́nio1 , Ivan Machado1
+      1
+      Instituto de Computação – Universidade Federal da Bahia (UFBA)
+ Av. Adhemar de Barros, s/nº – Ondina – 40170-110 – Salvador – BA – Brasil
+           tassiovirginio@gmail.com, ivan.machado@ufba.br
 
 
-1. Introduc¸a˜o
-Umdosprincipaisproblemasqueafetamaqualidadedeprojetosdesoftwaredizrespeito
-aos co´digos mal elaborados. Apesar das boas intenc¸o˜es, co´digos defeituosos sa˜o responsa´veis por ate´ 45% do tempo de inatividade dos sistemas computacionais. Estima-se
-em mais de 2 trilho˜es de do´lares o impacto da baixa qualidade de software na economia
-dosEUA(dadosde2020)[CISQ2021].
-De modo a validar a qualidade dos projetos de software, a atividade de
+
+
+1. Introdução
+Um dos principais problemas que afetam a qualidade de projetos de software diz respeito
+aos códigos mal elaborados. Apesar das boas intenções, códigos defeituosos são res-
+ponsáveis por até 45% do tempo de inatividade dos sistemas computacionais. Estima-se
+em mais de 2 trilhões de dólares o impacto da baixa qualidade de software na economia
+dos EUA (dados de 2020) [CISQ 2021].
+        De modo a validar a qualidade dos projetos de software, a atividade de
 teste de software continua a ser amplamente utilizada para antecipar-se a problemas,
 identificando-os e corrigindo-os antes da entrega final do software, e assim reduzindo
-eventuais custos com reparos futuros. Com o intuito de reduzir o esforc¸o e o custo na
-construc¸a˜o de testes, diversas ferramentas de gerac¸a˜o automatizada tem sido propostas
-e amplamente utilizadas [Some´ andCheng2008]. No entanto, a construc¸a˜o de testes
-tambe´m e´ pass´ıvel de erros. [vanDeursenetal. 2001] definiu o termo test smells para
-representar as ma´s escolhas no design dos testes, que tem caracter´ısticas sintoma´ticas e
-podemacarretaremdiminuic¸a˜onaqualidadedossistemasdesoftware.
-Diante da emergente necessidade de investigar o impacto da presenc¸a de test
-smellsnaqualidadedesoftware,apresenteinvestigac¸a˜otemcomoobjetivoavaliaraqualidade dos co´digos de teste gerados com suporte ferramental, considerando a difusa˜o dos
-test smells. A utilizac¸a˜o dessas ferramentas e´ essencial para reduzir o esforc¸o e garantir
-a efica´cia dos testes [Some´ andCheng2008]. Consequentemente, a verificac¸a˜o da qualidade dos co´digos de testes gerados por essas ferramentas tambe´m deve ser considerada.
-Apartirdessecontextodefinimosaseguinteperguntadepesquisa:
-De que forma os geradores de teste influenciam a qualidade dos testes de unidadenaperspectivadostestsmells?
-Apesquisaenvolveuarealizac¸a˜odedoisestudosemp´ıricos. Oprimeiro,queconsistiu no desenvolvimento da JNose Test, apresenta as correlac¸o˜es entre os test smells
-e as me´tricas de cobertura de co´digo [Virg´ınioetal. 2019]. As me´tricas de cobertura sa˜o utilizadas para avaliar a qualidade dos testes por meio da mensurac¸a˜o da cobertura de elementos estruturais, como func¸o˜es, instruc¸o˜es, ramificac¸o˜es e condicionais[Gopinathetal. 2014].
-O segundo estudo apresenta uma investigac¸a˜o de cara´ter explorato´rio, cujo
-propo´sito e´ avaliar a qualidade dos co´digos de testes gerados de forma automa´tica e pre´-
-existentes, a partir da selec¸a˜o de projetos open source dispon´ıveis no reposito´rio GitHub,
-equeatendamaosseguintescrite´rios: projetosMaven,desenvolvidosnalinguagemJava,
+eventuais custos com reparos futuros. Com o intuito de reduzir o esforço e o custo na
+construção de testes, diversas ferramentas de geração automatizada tem sido propostas
+e amplamente utilizadas [Somé and Cheng 2008]. No entanto, a construção de testes
+também é passı́vel de erros. [van Deursen et al. 2001] definiu o termo test smells para
+representar as más escolhas no design dos testes, que tem caracterı́sticas sintomáticas e
+podem acarretar em diminuição na qualidade dos sistemas de software.
+         Diante da emergente necessidade de investigar o impacto da presença de test
+smells na qualidade de software, a presente investigação tem como objetivo avaliar a qua-
+lidade dos códigos de teste gerados com suporte ferramental, considerando a difusão dos
+test smells. A utilização dessas ferramentas é essencial para reduzir o esforço e garantir
+a eficácia dos testes [Somé and Cheng 2008]. Consequentemente, a verificação da quali-
+dade dos códigos de testes gerados por essas ferramentas também deve ser considerada.
+A partir desse contexto definimos a seguinte pergunta de pesquisa:
+
+   De que forma os geradores de teste influenciam a qualidade dos testes de uni-
+   dade na perspectiva dos test smells?
+
+        A pesquisa envolveu a realização de dois estudos empı́ricos. O primeiro, que con-
+sistiu no desenvolvimento da JNose Test, apresenta as correlações entre os test smells
+e as métricas de cobertura de código [Virgı́nio et al. 2019]. As métricas de cober-
+tura são utilizadas para avaliar a qualidade dos testes por meio da mensuração da co-
+bertura de elementos estruturais, como funções, instruções, ramificações e condicio-
+nais [Gopinath et al. 2014].
+        O segundo estudo apresenta uma investigação de caráter exploratório, cujo
+propósito é avaliar a qualidade dos códigos de testes gerados de forma automática e pré-
+existentes, a partir da seleção de projetos open source disponı́veis no repositório GitHub,
+e que atendam aos seguintes critérios: projetos Maven, desenvolvidos na linguagem Java,
 e que tenham classes de testes que utilizem a framework JUnit. Foram utilizados vinte
-e um projetos selecionados de forma aleato´ria os quais atendem a esses crite´rios. Em
-seguida,foramgeradosostestesdeunidadeapartirdasferramentasEvoSuiteeRandoop,
-combasenosco´digosfontesdosprojetosselecionados.
-A partir dos co´digos de testes gerados foi executada a ferramenta de detecc¸a˜o de
+e um projetos selecionados de forma aleatória os quais atendem a esses critérios. Em
+seguida, foram gerados os testes de unidade a partir das ferramentas EvoSuite e Randoop,
+com base nos códigos fontes dos projetos selecionados.
+       A partir dos códigos de testes gerados foi executada a ferramenta de detecção de
 test smells, JNose Test1 que foi proposta e desenvolvida neste estudo. A ferramenta
-proveusuportea` gerac¸a˜oautomatizadademe´tricasdequalidade,dentreelas,dadosquan1https://github.com/arieslab/jnose
+proveu suporte à geração automatizada de métricas de qualidade, dentre elas, dados quan-
+   1
+       https://github.com/arieslab/jnose
+titativos de test smells encontrados. A partir dos dados coletados, verifica-se a qualidade
+dos testes de unidade com base nos test smells. Em contrapartida, a qualidade das ferra-
+mentas de geração de testes também é avaliada.
 
-titativos de test smells encontrados. A partir dos dados coletados, verifica-se a qualidade
-dos testes de unidade com base nos test smells. Em contrapartida, a qualidade das ferramentasdegerac¸a˜odetestestambe´me´ avaliada.
-2. Referencial Teo´rico
-2.1. TestSmells
-Test smells sa˜o ma´s pra´ticas adotadas no design e implementac¸a˜o dos co´digos de teste
-[vanDeursenetal. 2001]. A presenc¸a de test smells pode servir como um indicador
-de software de baixa qualidade, uma vez que podem reduzir a compreensa˜o, legibilidade e manutenibilidade do co´digo de teste [Greileretal. 2013]. Diversos tipos de
-test smells foram definidos na literatura [vanDeursenetal. 2001, Meszarosetal. 2003,
-Perumaetal. 2019]. Apresenteinvestigac¸a˜oconsiderou19tiposdetestsmells:
-• AssertionRoulette(AR)-Ocorrequandoha´ muitasassertivasemumme´todode
-testesemexplicac¸a˜oparacadauma;
-• Conditional Test Logic (CTL) - Ocorre quando um teste possui estruturas condicionaisourepetitivas;
-• ConstructorInitialization(CI)-Ocorrequandoumme´tododetesteimplementa
-umconstrutor;
-• DefaultTest(DT)-IssoocorrequandoumIDEcriaclassesdetestepadra˜ocomo
-umexemploparadesenvolvedoresquedevemserremovidosourenomeados.
-• DependentTest(DpT)-Ocorrequandoumtestefalhaeva´riosoutrosfalhamsem
-motivo aparente. Isso indica que os test´ıculos dependem dos efeitos colaterais de
-umtesterealizadoanteriormente.
-• Duplicate Assert (DA) - Ocorre quando um me´todo de teste testa a mesma
-condic¸a˜ova´riasvezes;
-• EagerTest(ET)-Issoocorrequandoumme´tododetesteverificava´riosme´todos
-do objeto a ser testado. Isso torna os testes dependentes uns dos outros e dif´ıceis
-demanter;
-• Empty Test (EpT) - Ocorre quando os me´todos de teste na˜o conteˆm instruc¸o˜es
-executa´veis;
-• Exception Catching Throwing (ECT) - Ocorre quando o resultado do me´todo
-detestedependeexplicitamentedome´tododeproduc¸a˜oquelanc¸aumaexcec¸a˜o;
-• General Fixture (GF) - Ocorre quando um programador escreve um me´todo setUp(): para ser executado antes de cada me´todo de teste para criar um ambiente
-paraostestesseremexecutados;
-• Ignored Test (IgT) - Ocorre quando os desenvolvedores ignoram os me´todos de
-teste, resultando em sobrecarga em relac¸a˜o ao tempo de compilac¸a˜o e em um
-aumentonacomplexidadedoco´digoenotempodecompreensa˜o;
-• Lazy Test (LT) - Isso ocorre quando va´rios me´todos de teste verificam o mesmo
-me´todo. Esses testes geralmente sa˜o significativos apenas quando sa˜o consideradosemconjunto;
-• MagicNumber Test (MNT) - Ocorre quando declarac¸o˜es assert em um me´todo
-de teste conteˆm literais nume´ricos (ou seja, nu´meros ma´gicos) como paraˆmetros.
-Nu´meros ma´gicos na˜o indicam o significado/propo´sito do nu´mero. Portanto, eles
-devem ser substitu´ıdos por constantes ou varia´veis, fornecendo assim um nome
-descritivoparaaentrada;
+2. Referencial Teórico
+2.1. Test Smells
+Test smells são más práticas adotadas no design e implementação dos códigos de teste
+[van Deursen et al. 2001]. A presença de test smells pode servir como um indicador
+de software de baixa qualidade, uma vez que podem reduzir a compreensão, legibi-
+lidade e manutenibilidade do código de teste [Greiler et al. 2013]. Diversos tipos de
+test smells foram definidos na literatura [van Deursen et al. 2001, Meszaros et al. 2003,
+Peruma et al. 2019]. A presente investigação considerou 19 tipos de test smells:
+     • Assertion Roulette (AR) - Ocorre quando há muitas assertivas em um método de
+       teste sem explicação para cada uma;
+     • Conditional Test Logic (CTL) - Ocorre quando um teste possui estruturas con-
+       dicionais ou repetitivas;
+     • Constructor Initialization (CI) - Ocorre quando um método de teste implementa
+       um construtor;
+     • Default Test (DT) - Isso ocorre quando um IDE cria classes de teste padrão como
+       um exemplo para desenvolvedores que devem ser removidos ou renomeados.
+     • Dependent Test (DpT) - Ocorre quando um teste falha e vários outros falham sem
+       motivo aparente. Isso indica que os testı́culos dependem dos efeitos colaterais de
+       um teste realizado anteriormente.
+     • Duplicate Assert (DA) - Ocorre quando um método de teste testa a mesma
+       condição várias vezes;
+     • EagerTest (ET) - Isso ocorre quando um método de teste verifica vários métodos
+       do objeto a ser testado. Isso torna os testes dependentes uns dos outros e difı́ceis
+       de manter;
+     • Empty Test (EpT) - Ocorre quando os métodos de teste não contêm instruções
+       executáveis;
+     • Exception Catching Throwing (ECT) - Ocorre quando o resultado do método
+       de teste depende explicitamente do método de produção que lança uma exceção;
+     • General Fixture (GF) - Ocorre quando um programador escreve um método se-
+       tUp(): para ser executado antes de cada método de teste para criar um ambiente
+       para os testes serem executados;
+     • Ignored Test (IgT) - Ocorre quando os desenvolvedores ignoram os métodos de
+       teste, resultando em sobrecarga em relação ao tempo de compilação e em um
+       aumento na complexidade do código e no tempo de compreensão;
+     • Lazy Test (LT) - Isso ocorre quando vários métodos de teste verificam o mesmo
+       método. Esses testes geralmente são significativos apenas quando são considera-
+       dos em conjunto;
+     • MagicNumber Test (MNT) - Ocorre quando declarações assert em um método
+       de teste contêm literais numéricos (ou seja, números mágicos) como parâmetros.
+       Números mágicos não indicam o significado/propósito do número. Portanto, eles
+       devem ser substituı́dos por constantes ou variáveis, fornecendo assim um nome
+       descritivo para a entrada;
+     • Mystery Guest (MG) - Ocorre quando um teste autônomo deixa de ser autônomo
+       porque usa recursos externos. Consequentemente, não há informações suficientes
+       para entender o recurso em teste, o que dificulta o uso deste teste, principalmente
+       quando os testes são considerados uma documentação chave do projeto;
+     • Print Declaration (PS) - Ocorre quando as instruções de impressão são redun-
+       dantes porque os testes de unidade são executados como parte de um script auto-
+       matizado. Portanto, pode consumir recursos ou aumentar o tempo de execução;
+     • Redundant Assertion (RA) - Isso ocorre quando os métodos de teste sempre
+       contêm declarações de asserção verdadeiras ou falsas. Um teste destina-se a re-
+       tornar um resultado binário, independentemente de o resultado pretendido estar
+       correto ou não, e não deve retornar a mesma saı́da, independentemente da entrada;
+     • Resource Optimism (RO) - Ocorre quando o código de teste faz suposições oti-
+       mistas sobre a existência ou ausência de um determinado recurso externo. O es-
+       tado desses recursos externos pode causar um comportamento não determinı́stico
+       nos resultados do teste;
+     • Sensitive Equality (SE) - Ocorre quando um método de teste contém uma
+       verificação de igualdade usando o método toString(). Depende de detalhes como
+       vı́rgulas e espaços. Portanto, quando o método é alterado, o teste pode falhar;
+     • Sleepy Test (ST) - Ocorre quando os desenvolvedores precisam pausar a execução
+       de instruções em um método de teste por um determinado perı́odo e continuar sua
+       execução logo em seguida;
+     • Verbose Test (VT) - Ocorre quando os testes possuem muitos códigos ou estrutu-
+       ras condicionais, o que torna difı́cil afirmar sua precisão;
+     • Unknown Test (UT) - Ocorre quando um método de teste não possui uma
+       condição de asserção. O teste sempre será válido, sem resultar em uma exceção;
 
-• MysteryGuest(MG)-Ocorrequandoumtesteautoˆnomodeixadeserautoˆnomo
-porque usa recursos externos. Consequentemente, na˜o ha´ informac¸o˜es suficientes
-para entender o recurso em teste, o que dificulta o uso deste teste, principalmente
-quandoostestessa˜oconsideradosumadocumentac¸a˜ochavedoprojeto;
-• Print Declaration (PS) - Ocorre quando as instruc¸o˜es de impressa˜o sa˜o redundantes porque os testes de unidade sa˜o executados como parte de um script automatizado. Portanto,podeconsumirrecursosouaumentarotempodeexecuc¸a˜o;
-• Redundant Assertion (RA) - Isso ocorre quando os me´todos de teste sempre
-conteˆm declarac¸o˜es de asserc¸a˜o verdadeiras ou falsas. Um teste destina-se a retornar um resultado bina´rio, independentemente de o resultado pretendido estar
-corretoouna˜o,ena˜odeveretornaramesmasa´ıda,independentementedaentrada;
-• Resource Optimism (RO) - Ocorre quando o co´digo de teste faz suposic¸o˜es otimistas sobre a existeˆncia ou auseˆncia de um determinado recurso externo. O estado desses recursos externos pode causar um comportamento na˜o determin´ıstico
-nosresultadosdoteste;
-• Sensitive Equality (SE) - Ocorre quando um me´todo de teste conte´m uma
-verificac¸a˜o de igualdade usando o me´todo toString(). Depende de detalhes como
-v´ırgulaseespac¸os. Portanto,quandoome´todoe´ alterado,otestepodefalhar;
-• SleepyTest(ST)-Ocorrequandoosdesenvolvedoresprecisampausaraexecuc¸a˜o
-deinstruc¸o˜esemumme´tododetesteporumdeterminadoper´ıodoecontinuarsua
-execuc¸a˜ologoemseguida;
-• VerboseTest(VT)-Ocorrequandoostestespossuemmuitosco´digosouestruturascondicionais,oquetornadif´ıcilafirmarsuaprecisa˜o;
-• Unknown Test (UT) - Ocorre quando um me´todo de teste na˜o possui uma
-condic¸a˜odeasserc¸a˜o. Otestesempresera´ va´lido,semresultaremumaexcec¸a˜o;
-2.2. Ferramentasdegerac¸a˜odeteste
-Asferramentasdegerac¸a˜oautomatizadadetestespossibilitamarepetibilidade,previsibilidade e eficieˆncia do co´digo de teste [GarousiandKucuk2018]. Dentre as ferramentas
-de co´digo-fonte aberto, i.e., open source, que visam a gerac¸a˜o automa´tica de testes na
-linguagem Java, destacam-se a EvoSuite e a Randoop, utilizadas neste estudo. A ferramenta EvoSuite (Automatic Test Suite Generation for Java) implementa uma abordagem
-h´ıbrida que combina testes baseados em busca e execuc¸a˜o dinaˆmica simbo´lica para gerar
-as su´ıtes de teste [FraserandArcuri2014]. Por sua vez, o Randoop (RANDom tester for
-Object-Oriented Programs) utiliza o framework JUnit para gerar testes de unidade randomicamente. Ele toma como entrada o feedback das execuc¸o˜es anteriores para evitar
-redundaˆnciadedados[PachecoandErnst2007].
+2.2. Ferramentas de geração de teste
+As ferramentas de geração automatizada de testes possibilitam a repetibilidade, previsibi-
+lidade e eficiência do código de teste [Garousi and Kucuk 2018]. Dentre as ferramentas
+de código-fonte aberto, i.e., open source, que visam a geração automática de testes na
+linguagem Java, destacam-se a EvoSuite e a Randoop, utilizadas neste estudo. A ferra-
+menta EvoSuite (Automatic Test Suite Generation for Java) implementa uma abordagem
+hı́brida que combina testes baseados em busca e execução dinâmica simbólica para gerar
+as suı́tes de teste [Fraser and Arcuri 2014]. Por sua vez, o Randoop (RANDom tester for
+Object-Oriented Programs) utiliza o framework JUnit para gerar testes de unidade ran-
+domicamente. Ele toma como entrada o feedback das execuções anteriores para evitar
+redundância de dados [Pacheco and Ernst 2007].
+
 3. JNose Test - Java Test Smell Detector
 Neste estudo, desenvolvemos a JNose Test, ferramenta que visa detectar test smells
-e calcular me´tricas estruturais de testes. Ela foi utilizada para analisar a qualidade dos
-conjuntos de teste [Virg´ınioetal. 2019, Virg´ınioetal. 2020b, Virg´ınioetal. 2020a]. Ele
-constro´i uma AST (Abstract Syntax Tree) a partir do teste que e´ analisado por cada componentededetecc¸a˜o,eaplicaasregrasdedetecc¸a˜odetestsmells.
-As regras de detecc¸a˜o inicialmente foram utilizadas do tsDetect
-[Bavotaetal. 2015, Granoetal. 2019, Spadinietal. 2020], a ferramenta identifica
-
-vinte e um tipos de test smells. Ela retorna um valor booleano para indicar se um
-determinado test smell aparece no co´digo de teste. Reutilizamos as regras de detecc¸a˜o
-tsDetect, pois apresenta uma pontuac¸a˜o de precisa˜o que varia de 85% a 100% e uma
-pontuac¸a˜o de recall de 90% a 100% [Perumaetal. 2019]. No entanto, no´s estendemos
-a ferramenta em va´rios aspectos. Dentre as funcionalidades implementadas na JNose
-Test, com destaque para as melhorias em relac¸a˜o ao tsDetect: Interface gra´fica;
-Detecc¸a˜o de projetos em subdireto´rios; Automac¸a˜o do fluxo de entrada e sa´ıda de dados
-em cada etapa; Coleta automatizada de me´tricas de co´digo e de cobertura; Quantitativo
-de test smells; Resultado unificado dos projetos selecionados; Utilizac¸a˜o de threads
-para cada detecc¸a˜o de classe de teste, projeto e processo de cobertura, com o intuito de
-melhoraravelocidadedeprocessamento;Retornaaclasse,ome´todoeonu´merodalinha
-onde ocorreu o test smells; Os co´digos de detecc¸a˜o de test smells foram melhorados;
-Os co´digos de detecc¸a˜o das classes de teste foram melhorados; Os co´digos de detecc¸a˜o
-das classes de produc¸a˜o foram melhorados. Ale´m disso, a ferramenta apoia a ana´lise do
-conjunto de testes por meio de va´rias verso˜es do projeto, minerando o reposito´rio Git
-para fornecer informac¸o˜es sobre quando e por quem os test smells foram adicionados. A
-JNose Test evoluiu durante a elaborac¸a˜o da dissertac¸a˜o e apo´s a defesa do mestrado.
+e calcular métricas estruturais de testes. Ela foi utilizada para analisar a qualidade dos
+conjuntos de teste [Virgı́nio et al. 2019, Virgı́nio et al. 2020b, Virgı́nio et al. 2020a]. Ele
+constrói uma AST (Abstract Syntax Tree) a partir do teste que é analisado por cada com-
+ponente de detecção, e aplica as regras de detecção de test smells.
+       As regras de detecção inicialmente foram utilizadas do tsDetect
+[Bavota et al. 2015, Grano et al. 2019, Spadini et al. 2020], a ferramenta identifica
+vinte e um tipos de test smells. Ela retorna um valor booleano para indicar se um
+determinado test smell aparece no código de teste. Reutilizamos as regras de detecção
+tsDetect, pois apresenta uma pontuação de precisão que varia de 85% a 100% e uma
+pontuação de recall de 90% a 100% [Peruma et al. 2019]. No entanto, nós estendemos
+a ferramenta em vários aspectos. Dentre as funcionalidades implementadas na JNose
+Test, com destaque para as melhorias em relação ao tsDetect: Interface gráfica;
+Detecção de projetos em subdiretórios; Automação do fluxo de entrada e saı́da de dados
+em cada etapa; Coleta automatizada de métricas de código e de cobertura; Quantitativo
+de test smells; Resultado unificado dos projetos selecionados; Utilização de threads
+para cada detecção de classe de teste, projeto e processo de cobertura, com o intuito de
+melhorar a velocidade de processamento; Retorna a classe, o método e o número da linha
+onde ocorreu o test smells; Os códigos de detecção de test smells foram melhorados;
+Os códigos de detecção das classes de teste foram melhorados; Os códigos de detecção
+das classes de produção foram melhorados. Além disso, a ferramenta apoia a análise do
+conjunto de testes por meio de várias versões do projeto, minerando o repositório Git
+para fornecer informações sobre quando e por quem os test smells foram adicionados. A
+JNose Test evoluiu durante a elaboração da dissertação e após a defesa do mestrado.
 O artigo “JNose: Java Test Smell Detector”, publicado na trilha de ferramentas do SBES
-2020 recebeu o preˆmio de melhor artigo [Virg´ınioetal. 2020b]. Uma versa˜o estendida
-doestudoencontra-seemavaliac¸a˜o[Virg´ınioetal. 2021].
+2020 recebeu o prêmio de melhor artigo [Virgı́nio et al. 2020b]. Uma versão estendida
+do estudo encontra-se em avaliação [Virgı́nio et al. 2021].
+
 3.1. Arquitetura
-A JNose Test foi desenvolvida na linguagem Java e seu funcionamento, como na ferramenta do estudo base, tem seu foco em co´digo Java. Para gerenciar o projeto da ferramenta,foiutilizadooApacheMaven2,responsa´velpelogerenciamentodasdependeˆncias
-debibliotecas,compilac¸a˜oeexecuc¸a˜odoprojeto. Aimplementac¸a˜odaJNoseTestutiliza
-asseguintesbibliotecas:
-• JNose-Core3: Biblioteca gerada com base no nu´cleo do JNose Test, o qual foi
-removido e refatorado em uma biblioteca independente, que pode ser utilizada
-porqualquerprojetoJava,distribu´ıdodeformaopensourceedispon´ıvelnoreposito´riodoGithub.
-• ApacheWicket4: Framework paraodesenvolvimentodeaplicac¸o˜esWeb,desenvolvido na linguagem Java. A versa˜o 8 e´ a mais esta´vel, as aplicac¸o˜es sa˜o em
-Java, HTML5 e CSS3. Na JNose Test, o Apache Wicket foi utilizado para o desenvolvimentodainterfaceweb;
-• JaCoCo5: Biblioteca de cobertura de co´digo aberto para Java, criada pela equipe
-doEclEmmacombasenaslic¸o˜esaprendidasdousoenaintegrac¸a˜odebibliotecas
-existentes por muitos anos. Neste projeto, a biblioteca JaCoCo foi utilizada para
-geraracoberturadetestesnaaplicac¸a˜o;
-• JavaParser6: E´ um conjunto simples e leve de ferramentas para gerar, analisar e
-processar o co´digo Java. Atualmente, e´ utilizado em diversos projetos comerciais
-2https://maven.apache.org/
-3https://github.com/arieslab/jnose-core
-4https://wicket.apache.org/
-5https://www.eclemma.org/jacoco/
-6https://javaparser.org/
+A JNose Test foi desenvolvida na linguagem Java e seu funcionamento, como na ferra-
+menta do estudo base, tem seu foco em código Java. Para gerenciar o projeto da ferra-
+menta, foi utilizado o Apache Maven2 , responsável pelo gerenciamento das dependências
+de bibliotecas, compilação e execução do projeto. A implementação da JNose Test utiliza
+as seguintes bibliotecas:
 
-e de co´digo aberto. Neste projeto, o JavaParser foi utilizada para a detecc¸a˜o dos
-testsmells.
-Figura1. Visa˜ogeralesquema´ticadaferramentadetesteJNoseeseusprincipais
-recursos
-A operac¸a˜o JNose Test envolve treˆs processos-chave (Figura 1): (i) Data
-Input, recebe as configurac¸o˜es para a execuc¸a˜o da ferramenta, ou seja, a lista de tipos de
-test smells, modo de ana´lise (By TestClass, By TestSmell, By TestFile, e Evolution), e o
+       • JNose-Core3 : Biblioteca gerada com base no núcleo do JNose Test, o qual foi
+         removido e refatorado em uma biblioteca independente, que pode ser utilizada
+         por qualquer projeto Java, distribuı́do de forma open source e disponı́vel no repo-
+         sitório do Github.
+       • Apache Wicket4 : Framework para o desenvolvimento de aplicações Web, desen-
+         volvido na linguagem Java. A versão 8 é a mais estável, as aplicações são em
+         Java, HTML5 e CSS3. Na JNose Test, o Apache Wicket foi utilizado para o de-
+         senvolvimento da interface web;
+       • JaCoCo5 : Biblioteca de cobertura de código aberto para Java, criada pela equipe
+         do EclEmma com base nas lições aprendidas do uso e na integração de bibliotecas
+         existentes por muitos anos. Neste projeto, a biblioteca JaCoCo foi utilizada para
+         gerar a cobertura de testes na aplicação;
+       • JavaParser6 : É um conjunto simples e leve de ferramentas para gerar, analisar e
+         processar o código Java. Atualmente, é utilizado em diversos projetos comerciais
+   2
+     https://maven.apache.org/
+   3
+     https://github.com/arieslab/jnose-core
+   4
+     https://wicket.apache.org/
+   5
+     https://www.eclemma.org/jacoco/
+   6
+     https://javaparser.org/
+        e de código aberto. Neste projeto, o JavaParser foi utilizada para a detecção dos
+        test smells.
+
+
+
+
+     Figura 1. Visão geral esquemática da ferramenta de teste JNose e seus principais
+           recursos
+
+
+        A operação JNose Test envolve três processos-chave (Figura 1): (i) Data
+Input, recebe as configurações para a execução da ferramenta, ou seja, a lista de tipos de
+test smells, modo de análise (By TestClass, By TestSmell, By TestFile, e Evolution), e o
 projeto a ser analisado; (ii) Project Analysis, chama o JNose-Core, uma API para
-realizar a ana´lise do projeto de acordo com o modo de ana´lise selecionado; e (iii) Data
-Output,mostraostatusdaexecuc¸a˜oeosresultadosdaana´lise.
-4. Estudo explorato´rio: Correlac¸a˜o entre Test Smells e Cobertura
+realizar a análise do projeto de acordo com o modo de análise selecionado; e (iii) Data
+Output, mostra o status da execução e os resultados da análise.
+
+4. Estudo exploratório: Correlação entre Test Smells e Cobertura
 Durante o desenvolvimento da JNose Test foi realizado um estudo para analisar a
-correlac¸o˜esentreostestsmellseasme´tricasdecoberturadeco´digo[Virg´ınioetal. 2019].
-De modo a investigar se ha´ correlac¸a˜o entre as me´tricas de cobertura e a presenc¸a de test
-smells,foirealizadoumestudoquantitativopararesponderaquesta˜odepesquisaaseguir:
-Existecorrelac¸a˜oentretestsmellseasme´tricasdecoberturadeco´digo?
-Apartirdaquesta˜odepesquisadefinimosaseguintehipo´tese:
-• Hipo´tese nula (H ): Na˜o ha´ correlac¸a˜o entre as me´tricas de cobertura e os test
-0
-smells.
-• Hipo´tese alternativa (H ): Ha´ correlac¸a˜o entre as me´tricas de cobertura e os test
-1
-smells.
-Para responder essa questa˜o de pesquisa, foram analisados 11 projetos - listados da Tabela 1. No estudo, buscamos a ocorreˆncia de 21 tipos de test smells e 10
+correlações entre os test smells e as métricas de cobertura de código [Virgı́nio et al. 2019].
+De modo a investigar se há correlação entre as métricas de cobertura e a presença de test
+smells, foi realizado um estudo quantitativo para responder a questão de pesquisa a seguir:
 
-me´tricas de cobertura. Foram utilizadas medidas de tendeˆncia central e medidas de dispersa˜o para descrever e caracterizar as amostras dos dados. Em seguida, foi verificado
-se os dados da amostra seguem a distribuic¸a˜o normal, utilizando o teste de KolmogorovSmirnov [WoodandAltavela1978]. O resultado da ana´lise apresentou uma distribuic¸a˜o
-na˜o-normal, portanto, o teste de correlac¸a˜o de Spearman foi escolhido para testar as
-hipo´tesesdefinidas.
-Tabela1. Resumodosprojetosdeco´digoabertoanalisados
-Projeto Versa˜o LOC JUnitLOC
-JodaTime 2.9.7 29,272 55,554
-ApacheCommonsText 1.6 9,526 13,467
-ApacheCommonsLang 3.9 28,006 47,833
-ApacheCommonsEmail 1.5.1 2,947 3,989
-ApacheCommonsCSV 1.6 1,787 4,783
-ApacheCommonsColletion 4.3 29,309 34,200
-ApacheCommonsCodec 1.11 8,392 12,040
-ApacheCommonsDBCP 2.6.0 14,458 16,846
-ApacheCommonsMath 3.4.1 86,481 89,016
-ApacheCommonsPool 2.6.2 5,532 8,813
-ApacheCommonsDbUtils 1.7 3,101 3,789
-Tabela2. Correlac¸a˜oentretestsmells easme´tricasdecobertura
-TestSmell BC BM CC CM IC IM LC LM MC MM
-AR 0,42(cid:72) 0,29(cid:118) 0,55(cid:72) 0,25(cid:118) 0,41(cid:72) 0,18 0,46(cid:72) 0,18 0,59(cid:72) 0,06
-CI 0,02 0,02 0,15 0,02 -0,01 -0,01 0,05 0,00 0,26(cid:118) -0,02
-CTL 0,25(cid:118) 0,27(cid:118) 0,20(cid:118) 0,26(cid:118) 0,29(cid:118) 0,26(cid:118) 0,26(cid:118) 0,24(cid:118) 0,15 0,17
-DA 0,47(cid:72) 0,35(cid:118) 0,52(cid:72) 0,33(cid:118) 0,47(cid:72) 0,26(cid:118) 0,50(cid:72) 0,25(cid:118) 0,49(cid:72) 0,14
-ECT 0,24(cid:118) 0,21(cid:118) 0,34(cid:118) 0,19 0,29(cid:118) 0,19 0,32(cid:118) 0,19 0,38(cid:118) 0,09
-ET 0,51(cid:72) 0,32(cid:118) 0,67(cid:117) 0,29(cid:118) 0,51(cid:72) 0,23(cid:118) 0,57(cid:72) 0,22(cid:118) 0,70(cid:117) 0,11
-GF 0,15 0,15 0,18 0,18 0,16 0,23(cid:118) 0,18 0,23(cid:118) 0,16 0,19
-LT 0,56(cid:72) 0,34(cid:118) 0,65(cid:117) 0,28(cid:118) 0,52(cid:72) 0,23(cid:118) 0,57(cid:72) 0,21(cid:118) 0,62(cid:117) 0,07
-MNT 0,40(cid:118) 0,26(cid:118) 0,44(cid:72) 0,21(cid:118) 0,40(cid:118) 0,17 0,41(cid:72) 0,14 0,43(cid:72) 0,06
-RA 0,05 0,05 0,16 0,02 0,11 0,00 0,13 0,00 0,22(cid:118) -0,04
-SE 0,28(cid:118) 0,14 0,38(cid:118) 0,09 0,28(cid:118) 0,02 0,31(cid:118) 0,03 0,40(cid:118) -0,06
-UT 0,14 0,15 0,16 0,11 0,28(cid:118) 0,09 0,25(cid:118) 0,09 0,14 0,02
-labels: ((cid:115))muitoforte,((cid:117))forte,((cid:72))moderada,((cid:118))fraca,()semcorrelac¸a˜o.
-Foi utilizado o teste de correlac¸a˜o de Spearman com 21 test smells e 10 me´tricas
-decobertura,oqueresultouem210correlac¸o˜escalculadas. Foramutilizadasasseguintes
-me´tricas de cobertura: Branch Covarege (BC), Branch Missed (BM), Complexity Covarege(CC),ComplexityMissed(CM),InstructionCovarege(IC),InstructionMissed(IM),
+   Existe correlação entre test smells e as métricas de cobertura de código?
+
+        A partir da questão de pesquisa definimos a seguinte hipótese:
+     • Hipótese nula (H0 ): Não há correlação entre as métricas de cobertura e os test
+       smells.
+     • Hipótese alternativa (H1 ): Há correlação entre as métricas de cobertura e os test
+       smells.
+       Para responder essa questão de pesquisa, foram analisados 11 projetos - lista-
+dos da Tabela 1. No estudo, buscamos a ocorrência de 21 tipos de test smells e 10
+métricas de cobertura. Foram utilizadas medidas de tendência central e medidas de dis-
+persão para descrever e caracterizar as amostras dos dados. Em seguida, foi verificado
+se os dados da amostra seguem a distribuição normal, utilizando o teste de Kolmogorov-
+Smirnov [Wood and Altavela 1978]. O resultado da análise apresentou uma distribuição
+não-normal, portanto, o teste de correlação de Spearman foi escolhido para testar as
+hipóteses definidas.
+
+                 Tabela 1. Resumo dos projetos de código aberto analisados
+
+                               Projeto               Versão      LOC      JUnit LOC
+                   Joda Time                          2.9.7     29,272          55,554
+                   Apache Commons Text                 1.6       9,526          13,467
+                   Apache Commons Lang                 3.9      28,006          47,833
+                   Apache Commons Email               1.5.1      2,947           3,989
+                   Apache Commons CSV                  1.6       1,787           4,783
+                   Apache Commons Colletion            4.3      29,309          34,200
+                   Apache Commons Codec               1.11       8,392          12,040
+                   Apache Commons DBCP                2.6.0     14,458          16,846
+                   Apache Commons Math                3.4.1     86,481          89,016
+                   Apache Commons Pool                2.6.2      5,532           8,813
+                   Apache Commons DbUtils              1.7       3,101           3,789
+
+
+              Tabela 2. Correlação entre test smells e as métricas de cobertura
+
+ Test Smell      BC       BM        CC       CM        IC       IM        LC       LM       MC       MM
+   AR           0,42H 0,29v 0,55H 0,25v 0,41H                  0,18     0,46H      0,18      0,59H   0,06
+    CI           0,02     0,02     0,15      0,02     -0,01    -0,01     0,05      0,00      0,26v   -0,02
+   CTL          0,25v 0,27v 0,20v 0,26v 0,29v 0,26v 0,26v 0,24v                               0,15    0,17
+   DA           0,47H 0,35v 0,52H 0,33v 0,47H 0,26v 0,50H 0,25v 0,49H                                0,14
+   ECT          0,24v 0,21v 0,34v            0,19     0,29v    0,19     0,32v      0,19      0,38v   0,09
+    ET          0,51H 0,32v 0,67u 0,29v 0,51H 0,23v 0,57H 0,22v 0,70u                                0,11
+    GF           0,15     0,15     0,18      0,18      0,16   0,23v      0,18     0,23v       0,16    0,19
+    LT          0,56H 0,34v 0,65u 0,28v 0,52H 0,23v 0,57H 0,21v 0,62u                                0,07
+   MNT          0,40v 0,26v 0,44H 0,21v 0,40v                  0,17     0,41H      0,14      0,43H   0,06
+   RA            0,05     0,05     0,16      0,02      0,11    0,00      0,13      0,00      0,22v   -0,04
+    SE          0,28v     0,14    0,38v      0,09     0,28v    0,02     0,31v      0,03      0,40v   -0,06
+    UT           0,14     0,15     0,16      0,11     0,28v    0,09     0,25v      0,09       0,14    0,02
+              labels: (s) muito forte, (u) forte, (H) moderada, (v) fraca, ( ) sem correlação.
+
+         Foi utilizado o teste de correlação de Spearman com 21 test smells e 10 métricas
+de cobertura, o que resultou em 210 correlações calculadas. Foram utilizadas as seguintes
+métricas de cobertura: Branch Covarege (BC), Branch Missed (BM), Complexity Cova-
+rege (CC), Complexity Missed (CM), Instruction Covarege (IC), Instruction Missed (IM),
 Line Covarege (LC), Line Missed (LM) e Method Covarege (MC) Method Missed (MM).
-A Tabela 2 apresenta a correlac¸a˜o entre os test smells, que varia de correlac¸a˜o fraca a
-forte,eacoberturadeteste. OstestsmellsConditionalTestLogic(CTL),ExecptionCatching Throwing (ECT), Magic Number Test (MNT), Sensitive Test (SE) e Unknown Test
-(UV)tiveramcorrelac¸a˜ofracaoumoderadacomasme´tricasdecobertura,principalmente
-nas me´tricas Branch Coverage, Instruction Coverage, e Line Coverage. O test smells
-
-Assertion Roulette (AR), Duplicate Assert (DA), Eager Test (ET) e Lazy Test (LT) tem
-correlac¸o˜es de moderada a forte com as me´tricas de cobertura Branch Coverage, Complexity Coverage, Instruction Coverage, Line Coverage e Method Coverage. Ou seja, no
-totalobtivemos4correlac¸o˜esfortes,17correlac¸o˜esmoderadase42correlac¸o˜esfracas.
-Nosprojetosanalisados,na˜oidentificamoscorrelac¸a˜oentresetetestsmells: Empty
+A Tabela 2 apresenta a correlação entre os test smells, que varia de correlação fraca a
+forte, e a cobertura de teste. Os test smells Conditional Test Logic (CTL), Execption Cat-
+ching Throwing (ECT), Magic Number Test (MNT), Sensitive Test (SE) e Unknown Test
+(UV) tiveram correlação fraca ou moderada com as métricas de cobertura, principalmente
+nas métricas Branch Coverage, Instruction Coverage, e Line Coverage. O test smells
+Assertion Roulette (AR), Duplicate Assert (DA), Eager Test (ET) e Lazy Test (LT) tem
+correlações de moderada a forte com as métricas de cobertura Branch Coverage, Com-
+plexity Coverage, Instruction Coverage, Line Coverage e Method Coverage. Ou seja, no
+total obtivemos 4 correlações fortes, 17 correlações moderadas e 42 correlações fracas.
+       Nos projetos analisados, não identificamos correlação entre sete test smells: Empty
 Test (EpT), Ignore Test (IgT), Mystery Guest (MG), Print Declaration (PS), Resource
-Optimism(RO),SleepTest(ST)eVerboseTest(VT).Ale´mdisso,ostestsmellsDependent
-Test (DpT)eDefaultTest (DT)na˜oesta˜opresentesnosprojetosanalisados.
-Esse primeiro estudo teve um cara´ter explorato´rio, a partir do qual foi poss´ıvel
-verificar as correlac¸o˜es existentes entre test smells e as me´tricas de cobertura. Como
+Optimism (RO), Sleep Test (ST) e Verbose Test (VT). Além disso, os test smells Dependent
+Test (DpT) e Default Test (DT) não estão presentes nos projetos analisados.
+         Esse primeiro estudo teve um caráter exploratório, a partir do qual foi possı́vel
+verificar as correlações existentes entre test smells e as métricas de cobertura. Como
 resultado, foi identificada a necessidade de prover ferramental de apoio para a coleta e
-ana´lise de dados. Neste sentido, propusemos o desenvolvimento da JNose Test, com
+análise de dados. Neste sentido, propusemos o desenvolvimento da JNose Test, com
 objetivo de automatizar e facilitar o levantamento dos dados. Com a JNose Test foi
-poss´ıvel levantar novos gaps na a´rea, que serviram de base para a concepc¸a˜o e execuc¸a˜o
-doestudoprincipalapresentadonessetrabalho.
-5. Avaliac¸a˜o da qualidade de testes gerados automaticamente
-O estudo contemplou a avaliac¸a˜o emp´ırica da qualidade do co´digo de teste gerado pelas
-ferramentas Randoop e Evosuite, comparando-as com os co´digos de teste existentes nos
-projetosopensourceavaliados. Oestudoavaliou21projetos(Tabela3)desenvolvidosna
-linguagemJava,selecionadosdeformaaleato´riaapartirdoreposito´riodoGitHub.
-Tabela3. ProjetosSelecionados
-# Projeto nºclasses nºteste URL(https://github.com)
-1 Algorithms 86 80 /pedrovgs/Algorithms.git
-2 sling-org-apache-sling-api 116 15 /apache/sling-org-apache-sling-api.git
-3 blade 191 84 /lets-blade/blade.git
-4 checkstyle 377 1395 /checkstyle/checkstyle.git
-5 commons-collections 326 217 /apache/commons-collections.git
-6 commons-jexl 102 63 /apache/commons-jexl.git
-7 DiskLruCache 3 2 /JakeWharton/DiskLruCache.git
-8 failsafe 56 47 /jhalterman/failsafe.git
-9 fastjson 178 2642 /alibaba/fastjson.git
-10 GCViewer 155 67 /chewiebug/GCViewer.git
-11 HanLP 472 155 /hankcs/HanLP.git
-12 mybatis-generator-gui 31 2 /zouzg/mybatis-generator-gui.git
-13 Mybatis-PageHelper 48 66 /pagehelper/Mybatis-PageHelper.git
-14 lettuce-core 643 349 /lettuce-io/lettuce-core.git
-15 reflections 36 12 /ronmamo/reflections.git
-16 spark 99 81 /perwendel/spark.git
-17 uid-generator 22 2 /baidu/uid-generator.git
-18 xmlgraphics-commons 314 73 /apache/xmlgraphics-commons.git
-19 ysoserial 59 18 /frohoff/ysoserial.git
-20 commons-csv 12 22 /apache/commons-csv.git
-21 commons-text 101 80 /apache/commons-text.git
-Asseguintesquesto˜esdepesquisaforaminvestigadas:
-QP1 Existe diferenc¸a na qualidade do co´digo de teste gerado pelas ferramentas
-RandoopeEvosuite?
-QP2 Existe diferenc¸a na qualidade do co´digo de teste gerado pela ferramenta Randoopeosco´digosdetestespre´-existentes?
-QP3 Existe diferenc¸a na qualidade do co´digo de teste gerado pela ferramenta Evosuiteeosco´digosdetestespre´-existentes?
+possı́vel levantar novos gaps na área, que serviram de base para a concepção e execução
+do estudo principal apresentado nesse trabalho.
 
-Ashipo´tesesdefinidasparaoestudoesta˜olistadasaseguir:
-• Hipo´tesenula(H ): Na˜oha´ diferenc¸aentreaquantidadedetestsmellsdetectados
-0
-noco´digosgeradospelasferramentasRandoop,Evosuiteeosco´digosexistentes.
-• Hipo´tese alternativa (H ): Ha´ diferenc¸a entre a quantidade de test smells de1
-tectados no co´digos gerados pelas ferramentas Randoop, Evosuite e os co´digos
-existentes.
-Figura2. FluxodoExperimento
-AFigura2apresentaumavisa˜ogeraldoestudo. Nasetapas1e2foramexecutados
-os geradores de testes. Logo apo´s, com os 3 pacotes de testes foi executada a JNose
-Test(etapa3),gerando3pacotesdedados(testsmells)queforampareadoseutilizados
-pararealizaraAna´liseEstat´ıstica(Etapa4).
-O dataset7 final gerou 5.445 linhas, que correspondem a 4.542.303 linhas de
-co´digo de teste. O Teste de Wilcoxon foi utilizado para validar as hipo´teses. Com um
-p-value menor que 0.05, foi poss´ıvel refutar a hipo´tese nula. Ale´m de testar as hipo´teses,
-o estudo considerou a ana´lise de co-ocorreˆncias dos test smells em cada pacote de teste.
-Paratal,aplicamosoTestedeSpearman.
-6. Discussa˜o, Resultados e Implicac¸o˜es
-Ha´ uma diferenc¸a significativa entre as me´tricas estruturais, onde os testes da ferramenta
-Randoopapresentaramaproximadamentecincovezesotamanhodostestesdaferramenta
-Evosuite. Como mencionado no estudo de [Palombaetal. 2016], os test smells teˆm forte
-correlac¸a˜o com caracter´ısticas estruturais. Os resultados do estudo emp´ırico realizado no
-contexto dessa investigac¸a˜o possibilitou identificar uma maior dispersa˜o do que aquelas
-apresentadasemestudosanteriores[Bavotaetal. 2015,Palombaetal. 2016].
-Observamos pelo menos um test smell em 97% dos testes existentes, um valor
-maior em comparac¸a˜o ao estudo de [Bavotaetal. 2015], que encontrou uma dispersa˜o
-de 85%. No estudo de [Palombaetal. 2016], os co´digos de testes foram gerados pela
-Evosuite, alcanc¸ando uma dispersa˜o de 83%. No presente estudo a dispersa˜o encontrada
-foide99.95%paraaEvosuite.
-Como no estudo de [Palombaetal. 2016], foi poss´ıvel identificar uma correlac¸a˜o
-entre os test smells. Entretanto, observa-se diferentes caracter´ısticas dessas correlac¸o˜es
-entreospacotes. Apartirdosresultadosdasana´lisesdeco-ocorreˆnciaeadistribuic¸a˜odos
-7https://doi.org/10.5281/zenodo.3715424
+5. Avaliação da qualidade de testes gerados automaticamente
+O estudo contemplou a avaliação empı́rica da qualidade do código de teste gerado pelas
+ferramentas Randoop e Evosuite, comparando-as com os códigos de teste existentes nos
+projetos open source avaliados. O estudo avaliou 21 projetos (Tabela 3) desenvolvidos na
+linguagem Java, selecionados de forma aleatória a partir do repositório do GitHub.
+                                 Tabela 3. Projetos Selecionados
 
-(a)Testespre´-existentes (b)Evosuite
-(c)Randoop
-Figura3. Co-ocorreˆnciadostestsmells
+    #     Projeto                      nº classes   nº teste   URL (https://github.com)
+    1     Algorithms                   86           80         /pedrovgs/Algorithms.git
+    2     sling-org-apache-sling-api   116          15         /apache/sling-org-apache-sling-api.git
+    3     blade                        191          84         /lets-blade/blade.git
+    4     checkstyle                   377          1395       /checkstyle/checkstyle.git
+    5     commons-collections          326          217        /apache/commons-collections.git
+    6     commons-jexl                 102          63         /apache/commons-jexl.git
+    7     DiskLruCache                 3            2          /JakeWharton/DiskLruCache.git
+    8     failsafe                     56           47         /jhalterman/failsafe.git
+    9     fastjson                     178          2642       /alibaba/fastjson.git
+    10    GCViewer                     155          67         /chewiebug/GCViewer.git
+    11    HanLP                        472          155        /hankcs/HanLP.git
+    12    mybatis-generator-gui        31           2          /zouzg/mybatis-generator-gui.git
+    13    Mybatis-PageHelper           48           66         /pagehelper/Mybatis-PageHelper.git
+    14    lettuce-core                 643          349        /lettuce-io/lettuce-core.git
+    15    reflections                  36           12         /ronmamo/reflections.git
+    16    spark                        99           81         /perwendel/spark.git
+    17    uid-generator                22           2          /baidu/uid-generator.git
+    18    xmlgraphics-commons          314          73         /apache/xmlgraphics-commons.git
+    19    ysoserial                    59           18         /frohoff/ysoserial.git
+    20    commons-csv                  12           22         /apache/commons-csv.git
+    21    commons-text                 101          80         /apache/commons-text.git
 
-testsmells,constata-sequeospacotesdetestesdiferemdeformasignificativa. AsFiguras
-3a,3be3capresentamoresultadodaana´lisedeco-ocorreˆncia[Virg´ınioetal. 2020a].
-Os itens a seguir destacam os principais achados em cada uma das perguntas de
-pesquisadefinidasparaessainvestigac¸a˜o:
-• Existe diferenc¸a na qualidade do co´digo de teste gerado pelas ferramentas
-Randoop e Evosuite? Sim. Encontramos aproximadamente seis vezes mais
-test smells do que nos testes da Evosuite e a distribuic¸a˜o de test smells ficou
-em 99,53% para a Randoop e 99,95% para a Evosuite, mostrando diferenc¸a de
-0,42%. Assim, e´ poss´ıvel inferir que os testes da Evosuite tem melhor qualidade
-do que os testes gerados pela Randoop. Pore´m, a distribuic¸a˜o de test smells foi
-similar,eaquantidadedetiposdetestsmellsfoimaiornaEvosuite;
-• Existe diferenc¸a na qualidade do co´digo de teste gerado pela ferramenta
-Randoop e os co´digos de testes pre´-existentes? Sim. Encontramos trinta vezes
-mais test smells do que nos testes existentes, e a distribuic¸a˜o de test smells ficou
-em 99,53%, valor acima dos testes existentes. E´ poss´ıvel inferir que os testes
-existentestemmelhorqualidadedoqueostestesgeradospelaRandoop;
-• Existediferenc¸anaqualidadedoco´digodetestegeradopelaferramentaEvosuiteeosco´digosdetestespre´-existentes? Sim. Observamosaproximadamente
-quatro vezes mais test smells do que nos testes existentes e a distribuic¸a˜o de test
-smells ficou em 99,95%, valor acima dos testes existentes. E´ poss´ıvel inferir que
-ostestesexistentestemmelhorqualidadedoqueostestesgeradospelaEvosuite.
+         As seguintes questões de pesquisa foram investigadas:
+     QP1 Existe diferença na qualidade do código de teste gerado pelas ferramentas
+         Randoop e Evosuite?
+     QP2 Existe diferença na qualidade do código de teste gerado pela ferramenta Ran-
+         doop e os códigos de testes pré-existentes?
+     QP3 Existe diferença na qualidade do código de teste gerado pela ferramenta Evo-
+         suite e os códigos de testes pré-existentes?
+          As hipóteses definidas para o estudo estão listadas a seguir:
+        • Hipótese nula (H0 ): Não há diferença entre a quantidade de test smells detectados
+          no códigos gerados pelas ferramentas Randoop, Evosuite e os códigos existentes.
+        • Hipótese alternativa (H1 ): Há diferença entre a quantidade de test smells de-
+          tectados no códigos gerados pelas ferramentas Randoop, Evosuite e os códigos
+          existentes.
+
+
+
+
+                                Figura 2. Fluxo do Experimento
+
+
+        A Figura 2 apresenta uma visão geral do estudo. Nas etapas 1 e 2 foram executados
+os geradores de testes. Logo após, com os 3 pacotes de testes foi executada a JNose
+Test (etapa 3), gerando 3 pacotes de dados (test smells) que foram pareados e utilizados
+para realizar a Análise Estatı́stica (Etapa 4).
+        O dataset7 final gerou 5.445 linhas, que correspondem a 4.542.303 linhas de
+código de teste. O Teste de Wilcoxon foi utilizado para validar as hipóteses. Com um
+p-value menor que 0.05, foi possı́vel refutar a hipótese nula. Além de testar as hipóteses,
+o estudo considerou a análise de co-ocorrências dos test smells em cada pacote de teste.
+Para tal, aplicamos o Teste de Spearman.
+
+6. Discussão, Resultados e Implicações
+Há uma diferença significativa entre as métricas estruturais, onde os testes da ferramenta
+Randoop apresentaram aproximadamente cinco vezes o tamanho dos testes da ferramenta
+Evosuite. Como mencionado no estudo de [Palomba et al. 2016], os test smells têm forte
+correlação com caracterı́sticas estruturais. Os resultados do estudo empı́rico realizado no
+contexto dessa investigação possibilitou identificar uma maior dispersão do que aquelas
+apresentadas em estudos anteriores [Bavota et al. 2015, Palomba et al. 2016].
+        Observamos pelo menos um test smell em 97% dos testes existentes, um valor
+maior em comparação ao estudo de [Bavota et al. 2015], que encontrou uma dispersão
+de 85%. No estudo de [Palomba et al. 2016], os códigos de testes foram gerados pela
+Evosuite, alcançando uma dispersão de 83%. No presente estudo a dispersão encontrada
+foi de 99.95% para a Evosuite.
+        Como no estudo de [Palomba et al. 2016], foi possı́vel identificar uma correlação
+entre os test smells. Entretanto, observa-se diferentes caracterı́sticas dessas correlações
+entre os pacotes. A partir dos resultados das análises de co-ocorrência e a distribuição dos
+   7
+       https://doi.org/10.5281/zenodo.3715424
+(a) Testes pré-existentes                           (b) Evosuite
+
+
+
+
+      (c) Randoop
+
+                Figura 3. Co-ocorrência dos test smells
+test smells, constata-se que os pacotes de testes diferem de forma significativa. As Figuras
+3a, 3b e 3c apresentam o resultado da análise de co-ocorrência [Virgı́nio et al. 2020a].
+       Os itens a seguir destacam os principais achados em cada uma das perguntas de
+pesquisa definidas para essa investigação:
+     • Existe diferença na qualidade do código de teste gerado pelas ferramentas
+       Randoop e Evosuite? Sim. Encontramos aproximadamente seis vezes mais
+       test smells do que nos testes da Evosuite e a distribuição de test smells ficou
+       em 99,53% para a Randoop e 99,95% para a Evosuite, mostrando diferença de
+       0,42%. Assim, é possı́vel inferir que os testes da Evosuite tem melhor qualidade
+       do que os testes gerados pela Randoop. Porém, a distribuição de test smells foi
+       similar, e a quantidade de tipos de test smells foi maior na Evosuite;
+
+     • Existe diferença na qualidade do código de teste gerado pela ferramenta
+       Randoop e os códigos de testes pré-existentes? Sim. Encontramos trinta vezes
+       mais test smells do que nos testes existentes, e a distribuição de test smells ficou
+       em 99,53%, valor acima dos testes existentes. É possı́vel inferir que os testes
+       existentes tem melhor qualidade do que os testes gerados pela Randoop;
+
+     • Existe diferença na qualidade do código de teste gerado pela ferramenta Evo-
+       suite e os códigos de testes pré-existentes? Sim. Observamos aproximadamente
+       quatro vezes mais test smells do que nos testes existentes e a distribuição de test
+       smells ficou em 99,95%, valor acima dos testes existentes. É possı́vel inferir que
+       os testes existentes tem melhor qualidade do que os testes gerados pela Evosuite.
+
 7. Trabalhos Relacionados
-Nestasec¸a˜o,ostrabalhosrelacionadossa˜oapresentadosconformeastema´ticasabordadas
-nesteestudo.
-7.1. Avaliac¸a˜odaqualidadedeco´digodetestegeradoautomaticamente
-O Evosuite e o Randoop sa˜o ferramentas bastante utilizadas na indu´stria para
-a gerac¸a˜o automatizada de testes de software [Almasietal. 2017, Silvaetal. 2017,
-FraserandArcuri2014]. Em [Almasietal. 2017], a efica´cia das duas ferramentas sa˜o
-analisadas e comparadas. Um dos insights levantados e´ sobre a melhoria da legibilidade
-dostestesgerados,questa˜ointrinsecamenteligadaaoestudocomostestsmells.
-Em um outro estudo, [Silvaetal. 2017] investigaram a eficieˆncia de su´ıtes geradas automaticamente por ferramentas de automac¸a˜o de testes, quanto a` capacidade de
-detecc¸a˜odefalhasderefatorac¸a˜o. Assimcomooestudoanterior(cujaestrate´giatambe´m
-foi seguida em nossa investigac¸a˜o), foram utilizadas as ferramentas Randoop e Evosuite,
-queresultaramemumaperdanadetecc¸a˜odecercade50%detodasasfalhas. Issomostra
-umgapparaamelhoriadosco´digosgerados.
-A ferramenta Evosuite e´ tambe´m mencionada no estudo de
-[FraserandArcuri2014], que discute um experimento realizado com 100 projetos
-projetos de software de co´digo-fonte aberto. O estudo confirma o bom alcance de n´ıveis
-de cobertura da Evosuite. O estudo tambe´m exemplifica como a escolha de sistemas de
-softwareparaumestudoemp´ıricopodeinfluenciarosresultadosdosexperimentos.
+Nesta seção, os trabalhos relacionados são apresentados conforme as temáticas abordadas
+neste estudo.
 
-O presente estudo realizou um comparativo entre as ferramentas Evosuite e Randoop. Entretanto,aoinve´sdeutilizarasme´tricasdecoberturacomodadoscomparativos,
-foiutilizadoostestsmells,eainda,utilizounocomparativoosco´digosdetestesexistentes
-nos projetos. Isso possibilitou um estudo aprofundado sobre a existeˆncia dos test smells
-nosco´digosdetestes.
-7.2. Detecc¸a˜oautomatizadadeTestSmells
-[Palombaetal. 2016] conduziram uma ana´lise em larga escala da difusa˜o de test smells
-em testes de unidade gerados automaticamente. A ana´lise mostrou alta difusa˜o dos test
-smells e frequente co-ocorreˆncia de diferentes tipos nos projetos. O estudo verificou
-forte correlac¸a˜o positiva com caracter´ısticas estruturais (tamanho e quantidade de classes). Napresenteinvestigac¸a˜o,estendeu-seoestudode[Palombaetal. 2016]naste´cnicas
-de gerac¸a˜o de testes de unidade e sua influeˆncia nas ocorreˆncias dos test smells encontrados. Para tal, foi acrescentado mais um gerador de teste, a Randoop, e foram utilizados
-osco´digosdetestespre´-existentes.
-[Bavotaetal. 2015] apresentaram duas investigac¸o˜es emp´ıricas sobre a prevaleˆnciaeoimpactodostestsmellsnosprojetos. Aprimeirainvestigac¸a˜omostrouqueha´
-grande difusa˜o de test smells em sistema de software de co´digo aberto e industriais, com
-85% dos testes de unidade contendo pelo menos um test smell. A segunda investigac¸a˜o
-forneceevideˆnciasdoimpactonegativonacompreensa˜oenamanutenc¸a˜odosco´digosde
-teste do sistema, dificultando em 30% a compreensa˜o daqueles que tinham test smells.
-Como uma contribuic¸a˜o do estudo, foi desenvolvido o tsDetect, a ferramenta utilizada
+7.1. Avaliação da qualidade de código de teste gerado automaticamente
+O Evosuite e o Randoop são ferramentas bastante utilizadas na indústria para
+a geração automatizada de testes de software [Almasi et al. 2017, Silva et al. 2017,
+Fraser and Arcuri 2014]. Em [Almasi et al. 2017], a eficácia das duas ferramentas são
+analisadas e comparadas. Um dos insights levantados é sobre a melhoria da legibilidade
+dos testes gerados, questão intrinsecamente ligada ao estudo com os test smells.
+         Em um outro estudo, [Silva et al. 2017] investigaram a eficiência de suı́tes gera-
+das automaticamente por ferramentas de automação de testes, quanto à capacidade de
+detecção de falhas de refatoração. Assim como o estudo anterior (cuja estratégia também
+foi seguida em nossa investigação), foram utilizadas as ferramentas Randoop e Evosuite,
+que resultaram em uma perda na detecção de cerca de 50% de todas as falhas. Isso mostra
+um gap para a melhoria dos códigos gerados.
+        A ferramenta Evosuite é também mencionada no estudo de
+[Fraser and Arcuri 2014], que discute um experimento realizado com 100 projetos
+projetos de software de código-fonte aberto. O estudo confirma o bom alcance de nı́veis
+de cobertura da Evosuite. O estudo também exemplifica como a escolha de sistemas de
+software para um estudo empı́rico pode influenciar os resultados dos experimentos.
+         O presente estudo realizou um comparativo entre as ferramentas Evosuite e Ran-
+doop. Entretanto, ao invés de utilizar as métricas de cobertura como dados comparativos,
+foi utilizado os test smells, e ainda, utilizou no comparativo os códigos de testes existentes
+nos projetos. Isso possibilitou um estudo aprofundado sobre a existência dos test smells
+nos códigos de testes.
+
+7.2. Detecção automatizada de Test Smells
+
+[Palomba et al. 2016] conduziram uma análise em larga escala da difusão de test smells
+em testes de unidade gerados automaticamente. A análise mostrou alta difusão dos test
+smells e frequente co-ocorrência de diferentes tipos nos projetos. O estudo verificou
+forte correlação positiva com caracterı́sticas estruturais (tamanho e quantidade de clas-
+ses). Na presente investigação, estendeu-se o estudo de [Palomba et al. 2016] nas técnicas
+de geração de testes de unidade e sua influência nas ocorrências dos test smells encontra-
+dos. Para tal, foi acrescentado mais um gerador de teste, a Randoop, e foram utilizados
+os códigos de testes pré-existentes.
+        [Bavota et al. 2015] apresentaram duas investigações empı́ricas sobre a pre-
+valência e o impacto dos test smells nos projetos. A primeira investigação mostrou que há
+grande difusão de test smells em sistema de software de código aberto e industriais, com
+85% dos testes de unidade contendo pelo menos um test smell. A segunda investigação
+fornece evidências do impacto negativo na compreensão e na manutenção dos códigos de
+teste do sistema, dificultando em 30% a compreensão daqueles que tinham test smells.
+Como uma contribuição do estudo, foi desenvolvido o tsDetect, a ferramenta utilizada
 para o levantamento de dados do estudo. Essa ferramenta foi utilizada como base para
-o desenvolvimento da JNose Test, a qual foi desenvolvida a partir da necessidade de automatizar o processo de execuc¸a˜o e facilitar o acesso a outros desenvolvedores, ale´m de
-incluir novas me´tricas e requisitos os quais na˜o estavam presentes na tsDetect, por exemplo,oquantitativodostestsmellsencontradoseasme´tricasdecoberturadeco´digo.
-8. Contribuic¸o˜es
-A principal contribuic¸a˜o desse trabalho para a a´rea de Engenharia de Software consistiu
-em investigar as diferenc¸as entre a qualidade dos co´digos de teste gerados de forma automa´tica (ou na˜o) em relac¸a˜o a presenc¸a de test smells. Em resumo, as contribuic¸o˜es do
-trabalhosa˜o:
-• Umestudoquantitativoparainvestigaracorrelac¸a˜oentreapresenc¸adetestsmells
-eacoberturadoco´digodeteste[Virg´ınioetal. 2019];
-• Umestudoexplorato´rioparaidentificarseha´ diferenc¸asignificativaentreaquantidadedetestsmellsinseridosemco´digosdetestegeradosapartirdeferramentas
-automatizadasedeco´digospre´-existentes[Virg´ınioetal. 2020a].
-• O desenvolvimento da ferramenta JNose Test, desenvolvida utilizando a linguagem Java, que tem como funcionalidade a detecc¸a˜o de test smells em co´digos
-de testes de unidade desenvolvidos com o framework JUnit. Ale´m de trazer
-me´tricas de cobertura dos testes, facilita as etapas de selec¸a˜o e de processamento
-paraousua´riofinalapartirdeumainterfaceWebamiga´vel[Virg´ınioetal. 2020b];
+o desenvolvimento da JNose Test, a qual foi desenvolvida a partir da necessidade de au-
+tomatizar o processo de execução e facilitar o acesso a outros desenvolvedores, além de
+incluir novas métricas e requisitos os quais não estavam presentes na tsDetect, por exem-
+plo, o quantitativo dos test smells encontrados e as métricas de cobertura de código.
 
-9. Considerac¸o˜es Finais
+8. Contribuições
+
+A principal contribuição desse trabalho para a área de Engenharia de Software consistiu
+em investigar as diferenças entre a qualidade dos códigos de teste gerados de forma au-
+tomática (ou não) em relação a presença de test smells. Em resumo, as contribuições do
+trabalho são:
+
+     • Um estudo quantitativo para investigar a correlação entre a presença de test smells
+       e a cobertura do código de teste [Virgı́nio et al. 2019];
+     • Um estudo exploratório para identificar se há diferença significativa entre a quan-
+       tidade de test smells inseridos em códigos de teste gerados a partir de ferramentas
+       automatizadas e de códigos pré-existentes [Virgı́nio et al. 2020a].
+     • O desenvolvimento da ferramenta JNose Test, desenvolvida utilizando a lin-
+       guagem Java, que tem como funcionalidade a detecção de test smells em códigos
+       de testes de unidade desenvolvidos com o framework JUnit. Além de trazer
+       métricas de cobertura dos testes, facilita as etapas de seleção e de processamento
+       para o usuário final a partir de uma interface Web amigável [Virgı́nio et al. 2020b];
+9. Considerações Finais
 “Quem testa os testes?” Diante de tal questionamento, neste trabalho buscou avaliar a
-qualidade dos testes de software, sob a perspectiva da existeˆncia de test smells no co´digo
-de testes. A investigac¸a˜o consistiu em avaliar empiricamente a qualidade de testes gerados manual e automaticamente. Como dados observados, considerou um conjunto de 21
-projetosdesoftwaredeco´digo-fonteaberto,dispon´ıveisnaPlataformaGithub. Essesprojetosforamexecutadosemduasferramentasdegerac¸a˜oautomatizadadetestes: Randoop
-eEvosuite.
-A avaliac¸a˜o emp´ırica levou em considerac¸a˜o treˆs hipo´teses prima´rias. Como resultado da avaliac¸a˜o, todas as hipo´teses foram refutadas. Uma outra observac¸a˜o bastante
-significativa do estudo foi a correlac¸a˜o entre os test smells, onde cada su´ıte apresentou
-paresdecorrelac¸o˜esdetestsmellsdistintas. Comisso,concluiuqueascaracter´ısticasdos
-testsmellsna˜osa˜ogeneraliza´veisparaasmetodologiasdegerac¸a˜odeco´digosdeteste.
-Os resultados aferidos com o estudo destacam a importaˆncia do processo de qualidade dos co´digos de teste, gerados ou na˜o de forma automatizada, com base nos test
-smells detectados. Observou que os test smells sa˜o distribu´ıdos em mais que 97% das
-classes de teste, independentemente do pacote analisado. As ferramentas de gerac¸a˜o de
-testeusammetodologiasdiferentese,portanto,apresentaramcaracter´ısticasdiferentesde
-testsmells,taiscomo: quantidadetotaldetestsmells,quantidadeportipos,quantidadede
-tiposecorrelac¸o˜esentreostestsmells.
-Diante das possibilidades trazidas por este estudo, a seguir apresentamos oportunidadesparainvestigac¸o˜esfuturas:
-• Conduzir estudos que repliquem o design experimental apresentado nesta
-investigac¸a˜o, no sentido de incluir amostras de tamanho maior (maior quantidade de projetos avaliados e/ou projetos de maior tamanho que aqueles observados no presente estudo); ou ainda, considerar projetos industriais, cujo co´digofontena˜oestejadispon´ıvelemreposito´riosabertos. Issopossibilitara´ coletarmais
-evideˆncias, o que acarretara´ em oportunidades de generalizac¸a˜o dos resultados
-encontrados;
-• Realizaraana´lisededadosdeoutrasferramentasautomatizadasparaagerac¸a˜ode
-testes, de modo a observar se os resultados sa˜o semelhantes aos alcanc¸ados com
-asferramentasEvosuiteeRandoopecomosco´digosdetestespre´-existentes;
-• Criac¸a˜o de um plugin do IntelliJ IDEA de detecc¸a˜o de test smells na etapa
-decodificac¸a˜odostestes,paraarealizac¸a˜odeumaana´lisedaqualidadedostestes
-eapresentac¸a˜odebugsapartirdesuautilizac¸a˜o;
-• Realizarumestudosobreoimpactodaimplantac¸a˜odousodasrefatorac¸o˜esbaseadas nos test smells em projetos industriais, com acompanhamento da equipe de
-desenvolvimento (atrave´s do me´todo de action research), e qual o impacto dessa
-implementac¸a˜onaqualidadedoprojeto;
-• Realizar uma ana´lise sobre a correlac¸a˜o de me´tricas de d´ıvidas te´cnicas e os test
-smellsaolongododesenvolvimentodosoftware;
-• Realizar um estudo emp´ırico que verifique a correlac¸a˜o entre a experieˆncia do
-desenvolvedor com a inserc¸a˜o de test smells ao longo do desenvolvimento de um
-sistema,utilizandoohisto´ricodeprojetosnoGitHub;
+qualidade dos testes de software, sob a perspectiva da existência de test smells no código
+de testes. A investigação consistiu em avaliar empiricamente a qualidade de testes gera-
+dos manual e automaticamente. Como dados observados, considerou um conjunto de 21
+projetos de software de código-fonte aberto, disponı́veis na Plataforma Github. Esses pro-
+jetos foram executados em duas ferramentas de geração automatizada de testes: Randoop
+e Evosuite.
+        A avaliação empı́rica levou em consideração três hipóteses primárias. Como re-
+sultado da avaliação, todas as hipóteses foram refutadas. Uma outra observação bastante
+significativa do estudo foi a correlação entre os test smells, onde cada suı́te apresentou
+pares de correlações de test smells distintas. Com isso, concluiu que as caracterı́sticas dos
+test smells não são generalizáveis para as metodologias de geração de códigos de teste.
+        Os resultados aferidos com o estudo destacam a importância do processo de qua-
+lidade dos códigos de teste, gerados ou não de forma automatizada, com base nos test
+smells detectados. Observou que os test smells são distribuı́dos em mais que 97% das
+classes de teste, independentemente do pacote analisado. As ferramentas de geração de
+teste usam metodologias diferentes e, portanto, apresentaram caracterı́sticas diferentes de
+test smells, tais como: quantidade total de test smells, quantidade por tipos, quantidade de
+tipos e correlações entre os test smells.
+       Diante das possibilidades trazidas por este estudo, a seguir apresentamos oportu-
+nidades para investigações futuras:
 
-• Melhoria da ferramenta JNose Test para funcionar como plugin em sistemas
-de integrac¸a˜o cont´ınua, tais como, o Jenkins8 e Hudson9. Isso possibilitara´ a
-integrac¸a˜odaJNose Testcomprojetosqueutilizamessasferramentas.
-Refereˆncias
-Almasi, M. M., Hemmati, H., Fraser, G., Arcuri, A., and Benefelds, J. (2017). An industrialevaluationofunittestgeneration: Findingrealfaultsinafinancialapplication. In
-InternationalConferenceonSoftwareEngineering(ICSE-SEIP).IEEECS.
+     • Conduzir estudos que repliquem o design experimental apresentado nesta
+       investigação, no sentido de incluir amostras de tamanho maior (maior quanti-
+       dade de projetos avaliados e/ou projetos de maior tamanho que aqueles obser-
+       vados no presente estudo); ou ainda, considerar projetos industriais, cujo código-
+       fonte não esteja disponı́vel em repositórios abertos. Isso possibilitará coletar mais
+       evidências, o que acarretará em oportunidades de generalização dos resultados
+       encontrados;
+     • Realizar a análise de dados de outras ferramentas automatizadas para a geração de
+       testes, de modo a observar se os resultados são semelhantes aos alcançados com
+       as ferramentas Evosuite e Randoop e com os códigos de testes pré-existentes;
+     • Criação de um plugin do IntelliJ IDEA de detecção de test smells na etapa
+       de codificação dos testes, para a realização de uma análise da qualidade dos testes
+       e apresentação de bugs a partir de sua utilização;
+     • Realizar um estudo sobre o impacto da implantação do uso das refatorações base-
+       adas nos test smells em projetos industriais, com acompanhamento da equipe de
+       desenvolvimento (através do método de action research), e qual o impacto dessa
+       implementação na qualidade do projeto;
+     • Realizar uma análise sobre a correlação de métricas de dı́vidas técnicas e os test
+       smells ao longo do desenvolvimento do software;
+     • Realizar um estudo empı́rico que verifique a correlação entre a experiência do
+       desenvolvedor com a inserção de test smells ao longo do desenvolvimento de um
+       sistema, utilizando o histórico de projetos no GitHub;
+        • Melhoria da ferramenta JNose Test para funcionar como plugin em sistemas
+          de integração contı́nua, tais como, o Jenkins8 e Hudson9 . Isso possibilitará a
+          integração da JNose Test com projetos que utilizam essas ferramentas.
+
+Referências
+Almasi, M. M., Hemmati, H., Fraser, G., Arcuri, A., and Benefelds, J. (2017). An indus-
+  trial evaluation of unit test generation: Finding real faults in a financial application. In
+  International Conference on Software Engineering (ICSE-SEIP). IEEE CS.
 Bavota, G., Qusef, A., Oliveto, R., Lucia, A. D., and Binkley, D. W. (2015). Are test
-smellsreallyharmful? anempiricalstudy. Empir.Softw.Eng.,20(4):1052–1094.
+  smells really harmful? an empirical study. Empir. Softw. Eng., 20(4):1052–1094.
 CISQ (2021). The Cost of Poor Software Quality in the US: A 2020 Report. https:
-//www.it-cisq.org/pdf/CPSQ-2020-report.pdf. Acessed: March 1st,
-2021.
-Fraser, G. and Arcuri, A. (2014). A large-scale evaluation of automated unit test generationusingevosuite. ACMTrans.onSoftwareEngineeringandMethodology,24:1–42.
+  //www.it-cisq.org/pdf/CPSQ-2020-report.pdf. Acessed: March 1st,
+  2021.
+Fraser, G. and Arcuri, A. (2014). A large-scale evaluation of automated unit test genera-
+   tion using evosuite. ACM Trans. on Software Engineering and Methodology, 24:1–42.
 Garousi, V. and Kucuk, B. (2018). Smells in software test code: A survey of knowledge
-inindustryandacademia. JournalofSystemsandSoftware,138:52–81.
+  in industry and academia. Journal of Systems and Software, 138:52–81.
 Gopinath, R., Jensen, C., and Groce, A. (2014). Code coverage for suite evaluation by
-developers. In Proceedings of the 36th International Conference on Software Engineering,ICSE.
-Grano,G.,Palomba,F.,Nucci,D.D.,Lucia,A.D.,andGall,H.C.(2019). Scentedsince
-the beginning: On the diffuseness of test smells in automatically generated test code.
-JournalofSystemsandSoftware,156:312–327.
+  developers. In Proceedings of the 36th International Conference on Software Engine-
+  ering, ICSE.
+Grano, G., Palomba, F., Nucci, D. D., Lucia, A. D., and Gall, H. C. (2019). Scented since
+  the beginning: On the diffuseness of test smells in automatically generated test code.
+  Journal of Systems and Software, 156:312 – 327.
 Greiler, M., van Deursen, A., and Storey, M. D. (2013). Automated detection of test
-fixture strategies and smells. In 6th International Conference on Software Testing,
-VerificationandValidation(ICST).IEEEComputerSociety.
-Meszaros,G.,Smith,S.,andAndrea,J.(2003). Thetestautomationmanifesto. InMaurer,
-F. and Wells, D., editors, Third XP and Second Agile Universe Conference, volume
-2753ofLNCS.Springer.
+  fixture strategies and smells. In 6th International Conference on Software Testing,
+  Verification and Validation (ICST). IEEE Computer Society.
+Meszaros, G., Smith, S., and Andrea, J. (2003). The test automation manifesto. In Maurer,
+  F. and Wells, D., editors, Third XP and Second Agile Universe Conference, volume
+  2753 of LNCS. Springer.
 Pacheco, C. and Ernst, M. (2007). Randoop: Feedback-directed random testing for java.
-ProceedingsoftheConferenceonObject-OrientedProgrammingSystems,Languages,
-andApplications,OOPSLA,pages815–816.
+  Proceedings of the Conference on Object-Oriented Programming Systems, Languages,
+  and Applications, OOPSLA, pages 815–816.
 Palomba, F., Nucci, D. D., Panichella, A., Oliveto, R., and Lucia, A. D. (2016). On the
-diffusion of test smells in automatically generated test code: An empirical study. In
-9thInternationalWorkshoponSearch-BasedSoftwareTesting(SBST).ACM.
+   diffusion of test smells in automatically generated test code: An empirical study. In
+   9th International Workshop on Search-Based Software Testing (SBST). ACM.
 Peruma, A., Almalki, K., Newman, C. D., Mkaouer, M. W., Ouni, A., and Palomba, F.
-(2019). On the distribution of test smells in open source android applications: An
-exploratorystudy. In29thAnnualInternationalConferenceonComputerScienceand
-SoftwareEngineering(CASCON).ACM.
-8https://jenkins.io/
-9https://www.eclipse.org/hudson/
-
-Silva, I. P. S. C., Alves, E. L. G., and Andrade, W. L. (2017). Analyzing automatic test
-generationtoolsforrefactoringvalidation. pages38–44.
-Some´,S.S.andCheng,X.(2008). Anapproachforsupportingsystem-leveltestscenarios
-generationfromtextualusecases. InACMSymposiumonAppliedComputing.ACM.
-Spadini,D.,Schvarcbacher,M.,Oprescu,A.-M.,Bruntink,M.,andBacchelli,A.(2020).
-Investigating severity thresholds for test smells. In 17th International Conference on
-MiningSoftwareRepositories(MSR).ACM.
+  (2019). On the distribution of test smells in open source android applications: An
+  exploratory study. In 29th Annual International Conference on Computer Science and
+  Software Engineering (CASCON). ACM.
+   8
+       https://jenkins.io/
+   9
+       https://www.eclipse.org/hudson/
+Silva, I. P. S. C., Alves, E. L. G., and Andrade, W. L. (2017). Analyzing automatic test
+   generation tools for refactoring validation. pages 38–44.
+Somé, S. S. and Cheng, X. (2008). An approach for supporting system-level test scenarios
+  generation from textual use cases. In ACM Symposium on Applied Computing. ACM.
+Spadini, D., Schvarcbacher, M., Oprescu, A.-M., Bruntink, M., and Bacchelli, A. (2020).
+  Investigating severity thresholds for test smells. In 17th International Conference on
+  Mining Software Repositories (MSR). ACM.
 van Deursen, A., Moonen, L., van den Bergh, A., and Kok, G. (2001). Refactoring
-test code. In 2nd International Conference on Extreme Programming and Flexible
-ProcessesinSoftwareEngineering(XP).
-Virg´ınio, T., Martins, L., Rocha, L., Santana, R., Costa, H., and Machado, I. (2020a). An
-empiricalstudyofautomatically-generatedtestsfromtheperspectiveoftestsmells. In
-34thBrazilianSymposiumonSoftwareEngineering(SBES).ACM.
-Virg´ınio, T., Martins, L., Rocha, L., Santana, R., Cruz, A., Costa, H., and Machado, I.
-(2020b). JNose: Java Test Smell Detector. In 34th Brazilian Symposium on Software
-Engineering(SBES).ACM.
-Virg´ınio, T., Martins, L., Rocha, L., Santana, R., Cruz, A., Costa, H., and Machado, I.
-(2021). On the test smells detection: an empirical study on the jnose test accuracy.
-JournalofSoftwareEngineeringResearchandDevelopment(JSERD). Emavaliac¸a˜o.
-Virg´ınio,T.,Railana,S.,Martins,L.A.,Soares,L.R.,Costa,H.,andMachado,I.(2019).
-On the influence of test smells on test coverage. In 33rd Brazilian Symposium on
-SoftwareEngineering(SBES).ACM.
-Wood,C.L.andAltavela,M.M.(1978). Large-sampleresultsforKolmogorov-Smirnov
-statisticsfordiscretedistributions. Biometrika,65(1):235–239.
+  test code. In 2nd International Conference on Extreme Programming and Flexible
+  Processes in Software Engineering (XP).
+Virgı́nio, T., Martins, L., Rocha, L., Santana, R., Costa, H., and Machado, I. (2020a). An
+   empirical study of automatically-generated tests from the perspective of test smells. In
+   34th Brazilian Symposium on Software Engineering (SBES). ACM.
+Virgı́nio, T., Martins, L., Rocha, L., Santana, R., Cruz, A., Costa, H., and Machado, I.
+   (2020b). JNose: Java Test Smell Detector. In 34th Brazilian Symposium on Software
+   Engineering (SBES). ACM.
+Virgı́nio, T., Martins, L., Rocha, L., Santana, R., Cruz, A., Costa, H., and Machado, I.
+   (2021). On the test smells detection: an empirical study on the jnose test accuracy.
+   Journal of Software Engineering Research and Development (JSERD). Em avaliação.
+Virgı́nio, T., Railana, S., Martins, L. A., Soares, L. R., Costa, H., and Machado, I. (2019).
+   On the influence of test smells on test coverage. In 33rd Brazilian Symposium on
+   Software Engineering (SBES). ACM.
+Wood, C. L. and Altavela, M. M. (1978). Large-sample results for Kolmogorov-Smirnov
+  statistics for discrete distributions. Biometrika, 65(1):235–239.

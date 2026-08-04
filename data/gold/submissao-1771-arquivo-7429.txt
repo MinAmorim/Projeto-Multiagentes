@@ -1,16 +1,16 @@
-Com a evolução de frameworks, bibliotecas comerciais e linguagens de programação ao longo
-do tempo o processo de desenvolvimento tornou-se mais flexível e simples, facilitando a
-entrega de um maior número de softwares em menos tempo. No entanto, essa flexibilidade
-também traz consigo desafios relacionados à qualidade do software. Devido à natureza
-dinâmica e flexível desses métodos, muitos programas são frequentemente testados quanto à
-qualidade e, em muitos casos, são encontrados erros e comportamentos inesperados. Com os
-avanços na área da computação, surgiram diversas plataformas de software amplamente
-utilizadas, especialmente em aplicações web e mobile. A automação de testes desempenha um
-papel fundamental ao testar a funcionalidade do sistema, e o uso de ferramentas automatizadas
-de teste de software pode economizar muito tempo dos testadores. Este estudo tem como
-objetivo realizar uma comparação entre as ferramentas de automação de teste de software
-Katalon Studio, Selenium e UFT, analisando as principais características relacionadas ao uso e
-aprendizado de cada uma delas. Foi desenvolvido um ambiente de testes para explorar e utilizar
-as funcionalidades de cada uma dessas ferramentas. O estudo busca identificar as vantagens e
-desvantagens de cada ferramenta, a fim de auxiliar na escolha da melhor opção para a
-automação de testes de software.
+Com a evolução de frameworks, bibliotecas comerciais e linguagens de programação ao longo 
+do tempo o processo de desenvolvimento tornou-se mais flexível e simples, facilitando a 
+entrega de um maior número de softwares em menos tempo. No entanto, essa flexibilidade 
+também traz consigo desafios relacionados à qualidade do software. Devido à natureza 
+dinâmica e flexível desses métodos, muitos programas são frequentemente testados quanto 
+à qualidade e, em muitos casos, são encontrados erros e comportamentos inesperados. Com 
+os avanços na área da computação, surgiram diversas plataformas de software amplamente 
+utilizadas, especialmente em aplicações web e mobile. A automação de testes desempenha 
+um papel fundamental ao testar a funcionalidade do sistema, e o uso de ferramentas 
+automatizadas de teste de software pode economizar muito tempo dos testadores. Este 
+estudo tem como objetivo realizar uma comparação entre as ferramentas de automação de 
+teste de software Katalon Studio, Selenium e UFT, analisando as principais características 
+relacionadas ao uso e aprendizado de cada uma delas. Foi desenvolvido um ambiente de testes 
+para explorar e utilizar as funcionalidades de cada uma dessas ferramentas. O estudo busca 
+identificar as vantagens e desvantagens de cada ferramenta, a fim de auxiliar na escolha 
+da melhor opção para a automação de testes de software.

@@ -9,4 +9,3 @@ reduzindo o trabalho repetitivo em tarefas simples. Como resultado, o protótipo
 conseguiu apresentar ótimo desempenho encontrando problemas com seus scripts
 em aplicativos, o Appium provou ser uma ferramenta poderosa para automatizar
 testes em dispositivos móveis, possuindo excelentes recursos a serem explorados.
-

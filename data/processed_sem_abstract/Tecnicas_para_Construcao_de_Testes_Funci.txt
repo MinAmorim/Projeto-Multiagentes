@@ -1,489 +1,233 @@
-1
-Técnicas para Construção de Testes
-Funcionais Automáticos
-Simone Antunes Correia, Alberto Rodrigues da Silva
-
-1 INTRODUÇÃO
-A crescente complexidade nos sistemas informáticos como objectivo verificar se o software construído está de
-juntamente com os métodos de desenvolvimento rápido e acordo com sua especificação e se satisfaz as expectativas
-incremental – como por exemplo, Rapid Application do cliente e ou utilizador do sistema. Esta definição é uma
-Development [16] e Extreme Programming [15], que prometem conclusão a partir do reconhecimento de que a actividade
-intervalos de entrega mais frequentes – requerem testes de dos testes é parte integrante do processo de Validação e
-qualidade que possam ser rapidamente executados sempre Verificação (V & V) da Engenharia de Software, sendo
-que necessário. Em tal cenário os testes manuais são pouco considerada a técnica dinâmica que exercita a
-vantajosos, visto que muitos testes são re-executados a cada implementação [5].
-release do sistema. Nesta secção apresentam-se os conceitos básicos sobre os
-Os testes automáticos fornecem uma solução neste sentido testes manuais e testes automáticos usados no âmbito da
-pois, quando desenvolvidos de forma adequada, serão engenharia de software. Introduz-se nomeadamente os
-facilmente executados. Muitos projectos revelam que o tópicos referentes a (1) planeamento de testes; (2)
-conhecimento na área de automação e experiência nos granularidade de testes; (3) abordagens de testes; (4) testes
-métodos e ferramentas disponíveis, bem como o uso de manuais vs automáticos; e (5) automatização da actividade
-técnicas que promovam a reutilização e facilidade de de teste.
-manutenção dos testes automáticos, são fundamentais para
-2.1 Planeamento de Testes
-se obter êxito nesta área [17], [18], [19].
-Este artigo contém informações abrangentes na área dos Tal como referido anteriormente, os testes “exercitam uma
-testes automáticos que auxiliarão aqueles que pretendam implementação”, mas é importante salientar que
-implantar ou melhorar o processo de testes dentro de uma previamente a este exercício os testes devem ser planeados
-organização. Através desta leitura, será possível de tal modo que satisfaçam seu objectivo principal que, na
-compreender a terminologia usada no âmbito dos testes opinião de Myers, é de “revelar a existência de defeitos” [7].
-automáticos, perceber as reais capacidades das ferramentas Um caso de teste é constituído por um conjunto de dados
-e conhecer o esforço necessário para construção de testes de entrada, condições de execução de uma ou mais
-automáticos de qualidade. operações e resultados esperados ou dados de saída,
-Este artigo apresenta uma análise geral à temática dos desenvolvidos com um objectivo particular. O desenho dos
-testes automáticos organizado da seguinte forma: a Secção casos de teste e a preparação dos dados de teste constituem
-1 introduz a motivação para a apresentação do artigo e actividades fundamentais do planeamento dos testes
-descreve a sua organização; a Secção 2 introduz os realizadas por um testador.
-conceitos básicos sobre testes manuais e testes automáticos Visto que o número de casos de teste normalmente é
-usados no âmbito da engenharia de software; a Secção 3 elevado, na maioria das vezes apenas é executado um
-apresenta as características das actuais ferramentas para subconjunto destes casos de testes. Faz parte também da
-construção e execução automática de testes funcionais; a actividade de planeamento determinar quais são os testes
-Secção 4 apresenta diferentes técnicas para automatização mais importantes e que deverão ser executados. Por
-de testes funcionais e finalmente, as considerações finais e exemplo, pode ser decidido que, os testes às
-de síntese do artigo são apresentadas na Secção 5. funcionalidades já existentes em outra versão do sistema
-devem ser prioritários aos testes às funcionalidades novas
-oferecidas na nova versão do sistema. Neste caso, as
-2. TESTES EM ENGENHARIA DE SOFTWARE
-funcionalidades já existentes que forem escolhidas para
-Podemos definir os testes como uma actividade que tem serem testadas serão exercitadas pelos chamados Testes de
 In Actas da 5ª Conferência para a Qualidade nas Tecnologias da Informação e Comunicaçõesde - pp 111-117.
 © Instituto Português de Qualidade 2004
 
-2 QUATIC’2004 PROCEEDINGS
-Regressão [6]. definição dos requisitos, pois através do uso de dados reais
-Testes de Regressão são definidos como sendo testes o sistema é exercitado de formas variadas.
-aplicados a uma nova versão ou release de um sistema a fim
+Técnicas para Construção de Testes Funcionais Automáticos
+
+Simone Antunes Correia, Alberto Rodrigues da Silva
+
+
+
+1 INTRODUÇÃO
+A crescente complexidade nos sistemas informáticos juntamente com os métodos de desenvolvimento rápido e incremental – como por exemplo, Rapid Application Development [16] e Extreme Programming [15], que prometem intervalos de entrega mais frequentes – requerem testes de qualidade que possam ser rapidamente executados sempre que necessário. Em tal cenário os testes manuais são pouco vantajosos, visto que muitos testes são re-executados a cada release do sistema.
+
+Os testes automáticos fornecem uma solução neste sentido pois, quando desenvolvidos de forma adequada, serão facilmente executados. Muitos projectos revelam que o conhecimento na área de automação e experiência nos métodos e ferramentas disponíveis, bem como o uso de técnicas que promovam a reutilização e facilidade de manutenção dos testes automáticos, são fundamentais para se obter êxito nesta área [17], [18], [19].
+
+Este artigo contém informações abrangentes na área dos testes automáticos que auxiliarão aqueles que pretendam implantar ou melhorar o processo de testes dentro de uma organização. Através desta leitura, será possível compreender a terminologia usada no âmbito dos testes automáticos, perceber as reais capacidades das ferramentas e conhecer o esforço necessário para construção de testes automáticos de qualidade.
+
+Este artigo apresenta uma análise geral à temática dos testes automáticos organizado da seguinte forma: a Secção 1 introduz a motivação para a apresentação do artigo e descreve a sua organização; a Secção 2 introduz os conceitos básicos sobre testes manuais e testes automáticos usados no âmbito da engenharia de software; a Secção 3 apresenta as características das actuais ferramentas para construção e execução automática de testes funcionais; a Secção 4 apresenta diferentes técnicas para automatização de testes funcionais e finalmente, as considerações finais e de síntese do artigo são apresentadas na Secção 5.
+
+2. TESTES EM ENGENHARIA DE SOFTWARE
+Podemos definir os testes como uma actividade que tem como objectivo verificar se o software construído está de acordo com sua especificação e se satisfaz as expectativas do cliente e ou utilizador do sistema. Esta definição é uma conclusão a partir do reconhecimento de que a actividade dos testes é parte integrante do processo de Validação e Verificação (V & V) da Engenharia de Software, sendo considerada a técnica dinâmica que exercita a implementação [5].
+
+Nesta secção apresentam-se os conceitos básicos sobre os testes manuais e testes automáticos usados no âmbito da engenharia de software. Introduz-se nomeadamente os tópicos referentes a (1) planeamento de testes; (2) granularidade de testes; (3) abordagens de testes; (4) testes manuais vs automáticos; e (5) automatização da actividade de teste.
+
+2.1 Planeamento de Testes
+Tal como referido anteriormente, os testes "exercitam uma implementação", mas é importante salientar que previamente a este exercício os testes devem ser planeados de tal modo que satisfaçam seu objectivo principal que, na opinião de Myers, é de "revelar a existência de defeitos" [7].
+
+Um caso de teste é constituído por um conjunto de dados de entrada, condições de execução de uma ou mais operações e resultados esperados ou dados de saída, desenvolvidos com um objectivo particular. O desenho dos casos de teste e a preparação dos dados de teste constituem actividades fundamentais do planeamento dos testes realizadas por um testador.
+
+Visto que o número de casos de teste normalmente é elevado, na maioria das vezes apenas é executado um subconjunto destes casos de testes. Faz parte também da actividade de planeamento determinar quais são os testes mais importantes e que deverão ser executados. Por exemplo, pode ser decidido que, os testes às funcionalidades já existentes em outra versão do sistema devem ser prioritários aos testes às funcionalidades novas oferecidas na nova versão do sistema. Neste caso, as funcionalidades já existentes que forem escolhidas para serem testadas serão exercitadas pelos chamados Testes de Regressão [6].
+
+Testes de Regressão são definidos como sendo testes aplicados a uma nova versão ou release de um sistema a fim de verificar que ele continua a realizar as mesmas funções e da mesma maneira que na versão anterior [6]. Os Testes de Regressão são reutilizados entre diferentes versões do sistema, sofrendo pouca ou nenhuma alteração.
+
+2.2 Granularidade de Testes
+Devido à complexidade dos sistemas a actividade de testes deve ser feita ao longo de diferentes estágios. O processo de testes mais utilizado é composto por cinco estágios, como mostramos na Figura 1.
+
+Figura 1 - Visão geral do processo de testes (adaptada de [5])
+[Diagrama de fluxo linear: Testes de Unidade -> Testes de Módulo -> Testes de Sub-Sistema -> Testes de Sistema -> Testes de Aceitação. Agrupamentos: "Testes de Componentes" (Unidade + Módulo), "Testes de Integração" (Sub-Sistema + Sistema), "Testes de utilizador" (Aceitação)]
+
+O processo é iterativo, sendo que a informação, produzida em cada estágio, poderá fluir entre estágios adjacentes. Os estágios do processo de testes segundo definições em [5] são:
+
+Testes de Unidade: Componentes individuais são testados independentemente de outros componentes para certificação de que operam correctamente.
+
+Testes de Módulo: Um módulo é uma colecção de Componentes relacionados tais como classes, tipos abstractos de dados ou um conjunto de procedimentos ou funções. Durante este estágio cada módulo é testado individualmente.
+
+Testes de unidade e de módulo fazem parte do processo de implementação e são da responsabilidade dos programadores que estiveram a desenvolver o componente alvo e ou o componente para testar o componente alvo.
+
+Testes de Sub-Sistema ou Testes de Integração: Esta fase envolve o teste de colecções de módulos integrados em sub-sistemas. Sub-sistemas podem ser desenhados e implementados independentemente. Um problema comum em grandes sistemas está na integração das interfaces entre os módulos dos sub-sistemas. Estes testes devem portanto concentrar-se no exercício rigoroso de tais interfaces para detecção de possíveis erros.
+
+Testes de Sistema: Os sub-sistemas são integrados para formarem um único sistema. O processo deste tipo de teste irá detectar falhas resultantes das interacções entre subsistemas e componentes de sistema.
+
+Testes de Aceitação: Este é o estágio final do processo de testes antes do sistema ser aceite para uso operacional. O sistema é testado com dados fornecidos pelo utilizador final, ao contrário de dados fictícios ou simulados. Os testes de aceitação revelam principalmente erros e omissões na definição dos requisitos, pois através do uso de dados reais o sistema é exercitado de formas variadas.
+
 2.3 Abordagens de Testes
-de verificar que ele continua a realizar as mesmas funções e
-da mesma maneira que na versão anterior [6]. Os Testes de Testes Black Box ou Testes Funcionais e Testes White Box ou
-Regressão são reutilizados entre diferentes versões do Testes Estruturais representam as principais abordagens
-sistema, sofrendo pouca ou nenhuma alteração. existentes de teste segundo [1]. Qualquer destas bordagens
-podem ser aplicadas, em princípio, durante qualquer
-2.2 Granularidade de Testes estágio do processo de testes, contudo cada uma delas é
-Devido à complexidade dos sistemas a actividade de testes preferencialmente aplicável a determinados tipos de
-deve ser feita ao longo de diferentes estágios. O processo de componentes e realizáveis por equipas distintas.
-testes mais utilizado é composto por cinco estágios, como Segundo [5], a abordagem funcional por exemplo, é melhor
-mostramos na Figura 1. aplicada sob componentes de sistema e realizada por uma
-equipa de testes, enquanto a abordagem estrutural é
-melhor aplicada a componentes individuais ou a colecções
-Testes de de componentes dependentes e realizada pela equipa de
-Unidade
-Testes de desenvolvimento.
-Módulo
-Através da abordagem de Testes Funcionais, os casos de
-Testes de
-Sub-Sistema testes são derivados a partir da especificação do sistema ou
-Testes de
-componente a ser testado. O sistema é visto como uma
-Sistema
-Testes de caixa fechada e o seu comportamento apenas pode ser
-Aceitação
-derivado através do estudo dos possíveis valores de
-entrada e dos valores de saída relacionados. Por outro lado,
-Testes de Componentes Testes de Integração Testes de utilizador
-através da abordagem de Testes Estruturais, o testador
-Figura 1 - Visão geral do processo de testes (adaptada de [5]) pode analisar o código e usar o conhecimento da estrutura
-do componente para derivar os casos de testes. No restante
-do artigo, quando não explicitada a abordagem de testes,
-O processo é iterativo, sendo que a informação, produzida
-deverá ser assumida como a de testes funcionais.
-em cada estágio, poderá fluir entre estágios adjacentes. Os
-estágios do processo de testes segundo definições em [5] 2.4 Testar versus Automatizar Testes
-são:
-A qualidade de um caso de teste é descrita através de
-quatro atributos [3]. O primeiro consiste na capacidade de
-Testes de Unidade: Componentes individuais são testados
-encontrar defeitos. O segundo refere a capacidade em
-independentemente de outros componentes para
-exercitar mais de um aspecto reduzindo assim a quantidade
-certificação de que operam correctamente.
-de casos de teste requeridos. O terceiro e quarto fazem
-Testes de Módulo: Um módulo é uma colecção de
-considerações de custo. O terceiro é inferido baseado no
-Componentes relacionados tais como classes, tipos
-custo necessário para a realização do caso de teste
-abstractos de dados ou um conjunto de procedimentos ou
-incluindo o esforço de desenho, execução e análise dos
-funções. Durante este estágio cada módulo é testado
-resultados de teste. O quarto atributo refere o esforço de
-individualmente.
-manutenção necessário sobre o caso de teste a cada
-Testes de unidade e de módulo fazem parte do processo de
-alteração do sistema. Estes quatro atributos devem ser
-implementação e são da responsabilidade dos
-balanceados de forma a se ter casos de teste de boa
-programadores que estiveram a desenvolver o componente
-qualidade.
-alvo e ou o componente para testar o componente alvo.
-A forma manual ou automática de realização de um teste,
-Testes de Sub-Sistema ou Testes de Integração: Esta fase
-não interfere nos dois primeiros atributos citados. A
-envolve o teste de colecções de módulos integrados em subautomatização de um caso de teste interfere apenas em
-sistemas. Sub-sistemas podem ser desenhados e
-quão económico o caso de teste será e que esforço de
-implementados independentemente. Um problema comum
-manutenção será necessário. O esforço de construção e de
-em grandes sistemas está na integração das interfaces entre
-manutenção requerido para um teste automático é
-os módulos dos sub-sistemas. Estes testes devem portanto
-normalmente maior do que para um teste manual
-concentrar-se no exercício rigoroso de tais interfaces para
-equivalente. Mas uma vez construído, o teste automático
-detecção de possíveis erros.
-tende a ser mais económico que o teste manual, o esforço de
-Testes de Sistema: Os sub-sistemas são integrados para
-execução e de verificação de resultados será uma pequena
-formarem um único sistema. O processo deste tipo de teste
-fracção do esforço de construção. Para testes funcionais sob
-irá detectar falhas resultantes das interacções entre
-sistemas com interface gráfica foi concluído por Linz e
-subsistemas e componentes de sistema.
-Daigl [11] que, após investimentos iniciais de criação de
-Testes de Aceitação: Este é o estágio final do processo de
-infra-estrutura, o gasto em testes automáticos representará
-testes antes do sistema ser aceite para uso operacional. O
-40% do gasto com testes manuais.
-sistema é testado com dados fornecidos pelo utilizador
-Visto que o custo original da implementação e o custo da
-final, ao contrário de dados fictícios ou simulados. Os testes
-manutenção de um caso de teste automático será diluído a
-de aceitação revelam principalmente erros e omissões na
+Testes Black Box ou Testes Funcionais e Testes White Box ou Testes Estruturais representam as principais abordagens existentes de teste segundo [1]. Qualquer destas bordagens podem ser aplicadas, em princípio, durante qualquer estágio do processo de testes, contudo cada uma delas é preferencialmente aplicável a determinados tipos de componentes e realizáveis por equipas distintas.
 
-SIMONE ANTUNES CORREIA, ALBERTO RODRIGUES SILVA: TÉCNICAS PARA CONSTRUÇÃO DE TESTES FUNCIONAIS AUTOMÁTICOS 3
-cada execução que seja necessária, os Testes de Regressão necessária para a execução do teste e a saída esperada. Os
-são fortes candidatos a serem automatizados. pré-requisitos para realização dos testes, tais como
-No entanto, os testes automáticos não são garantia da variáveis do ambiente de execução ou estado da base de
-existência de testes eficazes. A identificação, selecção e dados devem ser explicitados para cada caso de teste. A
-desenho dos casos de testes funcionais devem ser feitos por saída ou resultado esperado inclui a criação ou visualização
-um testador que domine o domínio da aplicação. O de itens, a modificação ou actualização de itens (em base de
-responsável que constrói testes automáticos e mantém os dados, por exemplo) ou a remoção de itens. O resultado
-artefactos relacionados com o uso de uma ferramenta de esperado deve indicar portanto o estado do sistema após a
-execução de testes é chamado de Test Automator ou realização da operação sob teste. A actividade de desenho
-Automatizador de Testes. O automatizador de testes pode de casos de testes exige um esforço intelectual por parte do
-ser ou não um testador, devendo sempre ter habilidades em testador.
-programação. A habilidade do automatizador ditará a Algumas ferramentas fazem a geração automática dos
-qualidade da automação, mas será a habilidade do testador casos de teste baseadas em código fonte [8], [9], [10] ou
-quem ditará a eficácia dos testes realizados. especificação formal [21].
-Construção
+Segundo [5], a abordagem funcional por exemplo, é melhor aplicada sob componentes de sistema e realizada por uma equipa de testes, enquanto a abordagem estrutural é melhor aplicada a componentes individuais ou a colecções de componentes dependentes e realizada pela equipa de desenvolvimento.
+
+Através da abordagem de Testes Funcionais, os casos de testes são derivados a partir da especificação do sistema ou componente a ser testado. O sistema é visto como uma caixa fechada e o seu comportamento apenas pode ser derivado através do estudo dos possíveis valores de entrada e dos valores de saída relacionados. Por outro lado, através da abordagem de Testes Estruturais, o testador pode analisar o código e usar o conhecimento da estrutura do componente para derivar os casos de testes. No restante do artigo, quando não explicitada a abordagem de testes, deverá ser assumida como a de testes funcionais.
+
+2.4 Testar versus Automatizar Testes
+A qualidade de um caso de teste é descrita através de quatro atributos [3]. O primeiro consiste na capacidade de encontrar defeitos. O segundo refere a capacidade em exercitar mais de um aspecto reduzindo assim a quantidade de casos de teste requeridos. O terceiro e quarto fazem considerações de custo. O terceiro é inferido baseado no custo necessário para a realização do caso de teste incluindo o esforço de desenho, execução e análise dos resultados de teste. O quarto atributo refere o esforço de manutenção necessário sobre o caso de teste a cada alteração do sistema. Estes quatro atributos devem ser balanceados de forma a se ter casos de teste de boa qualidade.
+
+A forma manual ou automática de realização de um teste, não interfere nos dois primeiros atributos citados. A automatização de um caso de teste interfere apenas em quão económico o caso de teste será e que esforço de manutenção será necessário. O esforço de construção e de manutenção requerido para um teste automático é normalmente maior do que para um teste manual equivalente. Mas uma vez construído, o teste automático tende a ser mais económico que o teste manual, o esforço de execução e de verificação de resultados será uma pequena fracção do esforço de construção. Para testes funcionais sob sistemas com interface gráfica foi concluído por Linz e Daigl [11] que, após investimentos iniciais de criação de infra-estrutura, o gasto em testes automáticos representará 40% do gasto com testes manuais.
+
+Visto que o custo original da implementação e o custo da manutenção de um caso de teste automático será diluído a cada execução que seja necessária, os Testes de Regressão são fortes candidatos a serem automatizados.
+
+No entanto, os testes automáticos não são garantia da existência de testes eficazes. A identificação, selecção e desenho dos casos de testes funcionais devem ser feitos por um testador que domine o domínio da aplicação. O responsável que constrói testes automáticos e mantém os artefactos relacionados com o uso de uma ferramenta de execução de testes é chamado de Test Automator ou Automatizador de Testes. O automatizador de testes pode ser ou não um testador, devendo sempre ter habilidades em programação. A habilidade do automatizador ditará a qualidade da automação, mas será a habilidade do testador quem ditará a eficácia dos testes realizados.
+
 2.5 Automatização da Actividade de Teste
-Nesta actividade os casos de teste são transformados em
-Nesta secção descrevemos as actividades de teste e suas scripts de teste que quando utilizados durante uma
-possíveis formas de automatização. As actividades de teste execução manual do teste, é também chamado de
-são normalmente realizadas na seguinte sequência: (1) procedimento de teste. Um procedimento de teste detalha a
-Identificação, (2) Desenho, (3) Construção, (4) Execução e informação descrita no caso de teste de modo que o
-(5) Comparação, como mostra a Figura 2. As três primeiras testador possa, seguindo as instruções do procedimento,
-actividades fazem parte do planeamento dos testes. Fa- executar e validar a execução de cada teste. Um script de
-laremos de cada uma individualmente. teste é normalmente armazenado em ficheiro e escrito em
-linguagem específica, usada por uma ferramenta de
-automação da execução do teste. Um script de teste pode
-Identificar as condições de testes e
-priorizá-las implementar um ou mais casos de teste. A ferramenta irá
-processar o script executando as acções por ele descritas.
-Identificação Desenhar casos de teste, indicando
-como as condições de teste serão A preparação dos dados de entrada do teste e do resultado
-testadas de saída esperado é tarefa fundamental da fase de
-Desenho construção do teste. Quando os resultados de saída forem
-Construir casos de teste
-(implementar scripts e dados) utilizados para comparação automática através de uma
-Construção ferramenta, estes devem ser minuciosamente descritos.
-Executar os casos de teste Uma comparação manual não exige tanto rigor na descrição
-do resultado esperado que normalmente está incluso
-Execução Comparar a saída do caso de
-dentro do procedimento de teste.
-teste com a saída esperada
+Nesta secção descrevemos as actividades de teste e suas possíveis formas de automatização. As actividades de teste são normalmente realizadas na seguinte sequência: (1) Identificação, (2) Desenho, (3) Construção, (4) Execução e (5) Comparação, como mostra a Figura 2. As três primeiras actividades fazem parte do planeamento dos testes. Falaremos de cada uma individualmente.
+
+Figura 2 - Actividades de teste (adaptada de [3])
+[Diagrama de fluxo: Identificação (Identificar as condições de testes e priorizá-las) -> Desenho (Desenhar casos de teste, indicando como as condições de teste serão testadas) -> Construção (Construir casos de teste - implementar scripts e dados) -> Execução (Executar os casos de teste) -> Comparação (Comparar a saída do caso de teste com a saída esperada) -> {testes finalizados}]
+
+Identificação
+Nesta primeira etapa, o testador determinará o que será testado identificando as condições de teste (itens ou eventos) que precisam ser verificados por cada teste. Condições de teste são descrições de circunstâncias que devem ser examinadas. Existem diversas técnicas para uma derivação rigorosa de condições de teste nomeadamente [1]: equivalence particioning, boundary value analysis, cause-effect graphing, todas indicadas para uso em uma abordagem de Testes Black Box ou Funcional. Algumas técnicas para derivação de condições de teste para uso sob uma abordagem White Box é apresentada em [1], como statement coverage e path coverage.
+
+Desenho
+O desenho dos casos de teste determinará como as condições de testes serão testadas. Um caso de teste é um conjunto de testes realizados em sequência e que possuem um objectivo comum que é a razão ou propósito do teste. Cada caso de teste possui dados de entrada, a informação necessária para a execução do teste e a saída esperada. Os pré-requisitos para realização dos testes, tais como variáveis do ambiente de execução ou estado da base de dados devem ser explicitados para cada caso de teste. A saída ou resultado esperado inclui a criação ou visualização de itens, a modificação ou actualização de itens (em base de dados, por exemplo) ou a remoção de itens. O resultado esperado deve indicar portanto o estado do sistema após a realização da operação sob teste. A actividade de desenho de casos de testes exige um esforço intelectual por parte do testador.
+
+Algumas ferramentas fazem a geração automática dos casos de teste baseadas em código fonte [8], [9], [10] ou especificação formal [21].
+
+Construção
+Nesta actividade os casos de teste são transformados em scripts de teste que quando utilizados durante uma execução manual do teste, é também chamado de procedimento de teste. Um procedimento de teste detalha a informação descrita no caso de teste de modo que o testador possa, seguindo as instruções do procedimento, executar e validar a execução de cada teste. Um script de teste é normalmente armazenado em ficheiro e escrito em linguagem específica, usada por uma ferramenta de automação da execução do teste. Um script de teste pode implementar um ou mais casos de teste. A ferramenta irá processar o script executando as acções por ele descritas.
+
+A preparação dos dados de entrada do teste e do resultado de saída esperado é tarefa fundamental da fase de construção do teste. Quando os resultados de saída forem utilizados para comparação automática através de uma ferramenta, estes devem ser minuciosamente descritos. Uma comparação manual não exige tanto rigor na descrição do resultado esperado que normalmente está incluso dentro do procedimento de teste.
+
 Execução
-Comparação Nesta actividade o sistema é executado utilizando os scripts
-de teste. Para testes manuais, esta fase pode consistir de
-{testes finalizados}
-testadores a seguirem as instruções existentes em um
-Figura 2 - Actividades de teste (adaptada de [3]) procedimento de teste. Para testes automáticos as tarefas
-Identificação desta fase podem ser resumidas apenas no lançamento do
-Nesta primeira etapa, o testador determinará o que será script de teste correspondente. Os dados de entrada podem
-testado identificando as condições de teste (itens ou estar no script de teste ou separado em ficheiros ou em base
-eventos) que precisam ser verificados por cada teste. de dados. A ferramenta irá executar o script, efectuando as
-Condições de teste são descrições de circunstâncias que acções que o testador efectuaria manualmente. Existem
-devem ser examinadas. Existem diversas técnicas para uma diferentes ferramentas para execução automática de testes e
-derivação rigorosa de condições de teste nomeadamente diferentes técnicas para criação de tais scripts como veremos
-[1]: equivalence particioning, boundary value analysis, cause- apresentados em 4.
-effect graphing, todas indicadas para uso em uma Comparação
-abordagem de Testes Black Box ou Funcional. Algumas Os resultados obtidos do sistema sob testes são usados para
-técnicas para derivação de condições de teste para uso sob determinação do resultado do teste. Existem dois possíveis
-uma abordagem White Box é apresentada em [1], como resultados: positivo ou negativo. A verificação do resultado
-statement coverage e path coverage. obtido pode ser feita com confirmação informal do que o
-testador espera ver ou pode ser um comparação rigorosa e
-Desenho detalhada entre o resultado obtido e a resultado esperado
-O desenho dos casos de teste determinará como as (determinado durante a fase de construção do teste).
-condições de testes serão testadas. Um caso de teste é um Alguns resultados podem ser comparados ainda durante a
-conjunto de testes realizados em sequência e que possuem execução do teste (uma mensagem que deve ser enviada ao
-um objectivo comum que é a razão ou propósito do teste. ecrã), mas, por exemplo, resultados que fazem modificações
-Cada caso de teste possui dados de entrada, a informação de registos em base de dados podem apenas ser
+Nesta actividade o sistema é executado utilizando os scripts de teste. Para testes manuais, esta fase pode consistir de testadores a seguirem as instruções existentes em um procedimento de teste. Para testes automáticos as tarefas desta fase podem ser resumidas apenas no lançamento do script de teste correspondente. Os dados de entrada podem estar no script de teste ou separado em ficheiros ou em base de dados. A ferramenta irá executar o script, efectuando as acções que o testador efectuaria manualmente. Existem diferentes ferramentas para execução automática de testes e diferentes técnicas para criação de tais scripts como veremos apresentados em 4.
 
-4 QUATIC’2004 PROCEEDINGS
-comparados depois que a execução do teste é finalizada. objectos utilizando outro identificador, chamado de “nome
-Um teste automático pode utilizar os dois métodos de lógico”. A relação entre o descritor físico e o nome lógico é
-comparação. mantida em ficheiros chamados de GuiMap[22]. Esta
-solução, permite que os scripts mantenham-se
-sintaticamente válidos mesmo quando há alteração nas
-3. FERRAMENTAS PARA CONSTRUÇÃO E EXECUÇÃO
-propriedades físicas dos objectos, passando a ser necessário
-DE TESTES AUTOMÁTICOS FUNCIONAIS
-apenas alteração no ficheiro GuiMap.
-As ferramentas para construção de testes automáticos A maioria das ferramentas GE permitem a criação de testes
-funcionais permitem a realização dos testes de uma forma que interajam com objectos gráficos e janelas criados com o
-não assistida. standard Microsoft Foundation Class Library (MFC). Objectos
-Na secção seguinte iremos destacar as ferramentas do tipo e janelas criados usando tecnologias diferentes por
-capture-replay fazendo uma descrição de suas exemplo, Java Foundation Class Library podem ou não ser
-funcionalidades, recursos, limitações e contextos de suportados pela ferramenta envolvida [13]. No caso da
-utilização. A ferramenta comercial WinRunner [14] será ferramenta WinRunner existem add-ins para o tratamento
-usada para a exemplificação de alguns aspectos descritos. de aplicações Java, PowerBuilder, Visual Basic e aplicações
-Web [12]. Caso uma ferramenta GE não consiga identificar
+Comparação
+Os resultados obtidos do sistema sob testes são usados para determinação do resultado do teste. Existem dois possíveis resultados: positivo ou negativo. A verificação do resultado obtido pode ser feita com confirmação informal do que o testador espera ver ou pode ser um comparação rigorosa e detalhada entre o resultado obtido e a resultado esperado (determinado durante a fase de construção do teste). Alguns resultados podem ser comparados ainda durante a execução do teste (uma mensagem que deve ser enviada ao ecrã), mas, por exemplo, resultados que fazem modificações de registos em base de dados podem apenas ser comparados depois que a execução do teste é finalizada. Um teste automático pode utilizar os dois métodos de comparação.
+
+3. FERRAMENTAS PARA CONSTRUÇÃO E EXECUÇÃO DE TESTES AUTOMÁTICOS FUNCIONAIS
+As ferramentas para construção de testes automáticos funcionais permitem a realização dos testes de uma forma não assistida.
+
+Na secção seguinte iremos destacar as ferramentas do tipo capture-replay fazendo uma descrição de suas funcionalidades, recursos, limitações e contextos de utilização. A ferramenta comercial WinRunner [14] será usada para a exemplificação de alguns aspectos descritos.
+
 3.1 Funcionalidades
-o tipo do objecto gráfico, como último recurso a ferramenta
-As ferramentas capture-replay ou gravação-execução que GE pode sempre reconhecer objecto pelas suas coordenadas
-daqui por diante abreviaremos por ferramentas GE, são espaciais do ecrã.
-ferramentas que permitem a criação, execução e a Muitas ferramentas GE, incluindo WinRunner, possuem
-verificação dos resultados de testes automáticos para funções próprias para a realização de queries SQL sob
-sistemas com interface gráfica standard. Na indústria qualquer base de dados que suporte a interface ODBC. Tal
-informática, são as ferramentas mais conhecidas para a funcionalidade permite inclusive que a verificação do
-realização de testes automáticos. resultado não seja feita apenas baseado no que é
-As ferramentas GE possuem duas funções principais de visualizado no ecrã, mas sim no que foi realmente alterado
-utilização, a função de gravação e a função de repetição. em base de dados.
-Através da primeira, todos os objectos visualizados no A possibilidade de permitir a criação de bibliotecas de
-sistema a ser testado são registados e toda a sequência de funções reutilizáveis é uma funcionalidade bastante
-interacções realizadas sob estes objectos são desejável e existente em muitas ferramentas. Além de
-registados/gravados em ficheiro. Este ficheiro ou script de permitir a criação de bibliotecas próprias algumas
-teste, como passa a ser chamado, contém todos os ferramentas permitem o acesso a bibliotecas externas
-movimentos do rato e teclado realizados, todas as entradas através de chamadas a ficheiros .dll.
-inseridas, as opções escolhidas e o resultado obtido. As linguagens de scripts fornecidas pelas ferramentas GE
-Quando interrompido o modo de gravação, a ferramenta normalmente são proprietárias e interpretadas. A
-pára de registar as acções no script. ferramenta WinRunner fornece uma linguagem
-Através da função de repetição, qualquer script escrito na estruturada, semelhante a C, chamada TSL (Test Script
-linguagem da ferramenta poderá ser executado, incluindo Language) [22].
-aquele criado pela função de gravação. A execução de um
-script que tenha sido gravado será uma repetição fiel de 3.3 Limitações
-todas as acções realizadas aquando da gravação. As actuais ferramentas comerciais GE são vendidas como
-O resultado obtido durante a gravação pode ser sendo uma solução fácil e auto-suficiente para a realização
-considerado o resultado esperado do teste e será de testes automáticos, no entanto a experiência mostra que
-comparado com os resultados obtidos durante as os scripts gravados possuem algumas limitações que
-subsequentes execuções automáticas como forma de inviabilizam a sua utilização como única forma de criação
-determinar o resultado final do teste. de testes. Abaixo mostraremos algumas das fragilidades
-dos scripts gravados, designadamente:
+As ferramentas capture-replay ou gravação-execução que daqui por diante abreviaremos por ferramentas GE, são ferramentas que permitem a criação, execução e a verificação dos resultados de testes automáticos para sistemas com interface gráfica standard. Na indústria informática, são as ferramentas mais conhecidas para a realização de testes automáticos.
+
+As ferramentas GE possuem duas funções principais de utilização, a função de gravação e a função de repetição. Através da primeira, todos os objectos visualizados no sistema a ser testado são registados e toda a sequência de interacções realizadas sob estes objectos são registados/gravados em ficheiro. Este ficheiro ou script de teste, como passa a ser chamado, contém todos os movimentos do rato e teclado realizados, todas as entradas inseridas, as opções escolhidas e o resultado obtido. Quando interrompido o modo de gravação, a ferramenta pára de registar as acções no script.
+
+Através da função de repetição, qualquer script escrito na linguagem da ferramenta poderá ser executado, incluindo aquele criado pela função de gravação. A execução de um script que tenha sido gravado será uma repetição fiel de todas as acções realizadas aquando da gravação.
+
+O resultado obtido durante a gravação pode ser considerado o resultado esperado do teste e será comparado com os resultados obtidos durante as subsequentes execuções automáticas como forma de determinar o resultado final do teste.
+
 3.2 Recursos Utilizados
-Existem duas principais formas usadas pelas ferramentas • Os scripts são pobremente estruturados. Os scripts
-GE para o reconhecimento dos elementos de uma interface gerados pelo modo de gravação resultam em
-gráfica da aplicação sob testes. A primeira é orientada pela scripts extensos onde todas as acções efectuadas
-posição das coordenadas do elemento gráfico no ecrã. A são registadas. Muitas destas acções poderiam ser
-segunda, mais flexível, reconhece os elementos da interface reutilizadas por outros testes mas são
-como objectos gráficos, possuidores de propriedades que repetidamente gravadas em cada novo script de
-determinam o seu aspecto e comportamento. teste gravado.
-Para a ferramenta WinRunner [14], que realiza testes sob • Inexistência de mecanismos de reutilização de
-aplicações com interface Windows ou Web, a lista das código. As acções (código), os dados de entrada e
-propriedades físicas juntamente com os respectivos valores de resultado esperado ficam todos juntos no script
-de atribuição, usados para identificação de cada objecto criado pelo modo de gravação. Isto não permite
-gráfico, formam o que é chamado de “descrição física” do que os scripts sejam escaláveis e reutilizados pois
-objecto [22]. No entanto, os scripts de teste referenciam os os dados estão hard-coded no script. Muitas vezes
+Existem duas principais formas usadas pelas ferramentas GE para o reconhecimento dos elementos de uma interface gráfica da aplicação sob testes. A primeira é orientada pela posição das coordenadas do elemento gráfico no ecrã. A segunda, mais flexível, reconhece os elementos da interface como objectos gráficos, possuidores de propriedades que determinam o seu aspecto e comportamento.
 
-SIMONE ANTUNES CORREIA, ALBERTO RODRIGUES SILVA: TÉCNICAS PARA CONSTRUÇÃO DE TESTES FUNCIONAIS AUTOMÁTICOS 5
-o que difere um caso de teste de outro são os dados São scripts que podem ser usados por mais de um caso de
-por ele processados, enquanto as acções são as teste. Os scripts partilhados podem ser específicos a uma
-mesmas. aplicação ou independente de aplicação. Uma vez
-Todas estas limitações podem ser ultrapassadas se, tal identificado um conjunto de acções úteis para mais de um
-como acontece na programação, utilizarmos as técnicas teste, um script partilhado deve ser criado e disponibilizado
-apropriadas para construção dos scripts. Na Secção 4 para invocação a partir de qualquer outro teste. As
-veremos algumas formas de se desenvolver scripts com informações variáveis devem ser passadas como parâmetro,
-baixo custo de manutenção e mais vantajosos num tal como acontece na invocação de uma função na
-desenvolvimento a longo prazo. programação estruturada.
-Scripts Data-driven
+Para a ferramenta WinRunner [14], que realiza testes sob aplicações com interface Windows ou Web, a lista das propriedades físicas juntamente com os respectivos valores de atribuição, usados para identificação de cada objecto gráfico, formam o que é chamado de "descrição física" do objecto [22]. No entanto, os scripts de teste referenciam os objectos utilizando outro identificador, chamado de "nome lógico". A relação entre o descritor físico e o nome lógico é mantida em ficheiros chamados de GuiMap [22]. Esta solução, permite que os scripts mantenham-se sintaticamente válidos mesmo quando há alteração nas propriedades físicas dos objectos, passando a ser necessário apenas alteração no ficheiro GuiMap.
+
+A maioria das ferramentas GE permitem a criação de testes que interajam com objectos gráficos e janelas criados com o standard Microsoft Foundation Class Library (MFC). Objectos e janelas criados usando tecnologias diferentes por exemplo, Java Foundation Class Library podem ou não ser suportados pela ferramenta envolvida [13]. No caso da ferramenta WinRunner existem add-ins para o tratamento de aplicações Java, PowerBuilder, Visual Basic e aplicações Web [12]. Caso uma ferramenta GE não consiga identificar o tipo do objecto gráfico, como último recurso a ferramenta GE pode sempre reconhecer objecto pelas suas coordenadas espaciais do ecrã.
+
+Muitas ferramentas GE, incluindo WinRunner, possuem funções próprias para a realização de queries SQL sob qualquer base de dados que suporte a interface ODBC. Tal funcionalidade permite inclusive que a verificação do resultado não seja feita apenas baseado no que é visualizado no ecrã, mas sim no que foi realmente alterado em base de dados.
+
+A possibilidade de permitir a criação de bibliotecas de funções reutilizáveis é uma funcionalidade bastante desejável e existente em muitas ferramentas. Além de permitir a criação de bibliotecas próprias algumas ferramentas permitem o acesso a bibliotecas externas através de chamadas a ficheiros .dll.
+
+As linguagens de scripts fornecidas pelas ferramentas GE normalmente são proprietárias e interpretadas. A ferramenta WinRunner fornece uma linguagem estruturada, semelhante a C, chamada TSL (Test Script Language) [22].
+
+3.3 Limitações
+As actuais ferramentas comerciais GE são vendidas como sendo uma solução fácil e auto-suficiente para a realização de testes automáticos, no entanto a experiência mostra que os scripts gravados possuem algumas limitações que inviabilizam a sua utilização como única forma de criação de testes. Abaixo mostraremos algumas das fragilidades dos scripts gravados, designadamente:
+
+- Os scripts são pobremente estruturados. Os scripts gerados pelo modo de gravação resultam em scripts extensos onde todas as acções efectuadas são registadas. Muitas destas acções poderiam ser reutilizadas por outros testes mas são repetidamente gravadas em cada novo script de teste gravado.
+- Inexistência de mecanismos de reutilização de código. As acções (código), os dados de entrada e de resultado esperado ficam todos juntos no script criado pelo modo de gravação. Isto não permite que os scripts sejam escaláveis e reutilizados pois os dados estão hard-coded no script. Muitas vezes o que difere um caso de teste de outro são os dados por ele processados, enquanto as acções são as mesmas.
+
+Todas estas limitações podem ser ultrapassadas se, tal como acontece na programação, utilizarmos as técnicas apropriadas para construção dos scripts. Na Secção 4 veremos algumas formas de se desenvolver scripts com baixo custo de manutenção e mais vantajosos num desenvolvimento a longo prazo.
+
 3.2 Contextos de Utilização
-São scripts mais abrangentes que lêem entradas de testes ou
-As ferramentas GE são fundamentalmente usadas para a resultados esperados a partir de um ficheiro de dados ou
-realização de testes funcionais, de aceitação, sob sistemas tabela de dados evitando termos dados hard-coded no
-com interface gráfica. próprio script. Além disto esta técnica permite que novos
-No entanto, se quisermos realizar testes automáticos sob testes sejam adicionados mais facilmente, uma vez que em
-formatos não gráficos, como por exemplo testes a stored alguns casos a existência de novos testes pode ser expressa
-procedures PL-SQL, a WebServices, aplicações servidor ou a pela inclusão de novas entradas na tabela de dados, sem
-um componente através de uma dll, a única solução nenhuma alteração no script de controlo. Os testes podem
-possível passa pela criação de uma camada de interface ser adicionados sem a necessidade de alteração no código
-gráfica standard simples, que possibilitará a invocação dos do script. Em adição à entrada de teste, o resultado
-serviços a serem testados. Esta interface abstrairá as esperado também pode ser removido do script e colocado
-características da interface não tratada directamente pela no ficheiro de dados, uma vez que o resultado esperado
-ferramenta, possibilitando a invocação dos serviços a serem está directamente associado com a entrada do teste.
-testados. Através da utilização deste recurso, podemos
-dizer que as ferramentas GE podem ser aplicáveis para Script de Controlo data-driven:
-execução e comparação automática de testes em todos os ClienteControle
-níveis: unidade, módulo, integração, sistema ou aceitação.
-Script original: OpenFile 'DadosCliente'
-AdicionaCliente For each record in DadosCliente
-Read NOME
-4. TÉCNICAS PARA CONSTRUÇÃO DE SCRIPTS DE FocusOn 'Cliente' Read TELEMÓVEL
-SelectOption 'Adiciona
-TESTE Read NRCONTRIBUINTE
-Cliente'
-FocusOn 'Adiciona Cliente'
-As técnicas para construção de scripts de testes automáticos FocusOn 'Cliente'
-Type 'João'
-são similares às técnicas de programação. Os scripts de SelectOption 'Adiciona Cliente'
-Type '91223344'
-FocusOn 'Adiciona Cliente'
-testes automáticos contêm dados e instruções para a Type '1284749303'
-Type 'NOME'
-ferramenta de teste. A minimização do esforço de LeftMouseClick 'OK' Type 'TELEMÓVEL'
-FocusOn 'Adiciona Cliente'
-manutenção dos scripts só é conseguida através de um Type 'NRCONTRIBUINTE'
-Type 'Joaquim'
-LeftMouseClick 'OK'
-investimento na construção dos scripts. Em [3], os autores Type '91223774'
-consideram a existência de cinco técnicas para criação de Type '1284939303'
-Ficheiro de Dados: DadosCliente
-LeftMouseClick 'OK'
-scripts, que se refere de seguida.
-. . . João, 91223344, 1284749303
-Scripts Lineares Joaquim, 91223774, 1284939303
-Um script linear é aquele obtido a partir da gravação feita Carlos, 918333441, 1284229303
-por uma ferramenta GE. É uma rápida forma de começar a Francisco, 945403399, 1284740303
-construir scripts de testes automáticos, pois não requer
-conhecimento da linguagem oferecida pela ferramenta. No Figura 3 - O script original AdicionaCliente, implementado pela técnica
-data-driven (adaptada de [3])
-entanto, estes scripts não são úteis num plano a longo
-prazo. Normalmente, possuem informação excessiva e
-repetida, dados registados junto às acções (hard-coded) e Muitas ferramentas GE encorajam a utilização desta técnica
-estão muito associados a particularidades do sistema na fornecendo mecanismos para armazenamento de dados de
-altura da gravação o que os torna bastante vulneráveis a entrada em ficheiro texto e atribuição dos mesmos, durante
-mudanças no sistema a ser testado. A criação de testes a execução, a variáveis do script.
-automáticos através de scripts gravados não é portanto uma Como uma limitação desta técnica podemos citar que os
-boa prática. scripts data-driven requerem que o desenho do teste seja
-Scripts Estruturados feito na linguagem de automação da ferramenta. Desta
-Tal como as linguagens de programação estruturadas estes forma, todos os envolvidos com o desenvolvimento de
-scripts usam estruturas de controlo como “If” e “Loop”, o testes automáticos ou execução automática de testes
-que garante uma flexibilidade não existente nos scripts precisam ser conhecedores do ambiente e da linguagem de
-lineares. Na escolha da ferramenta convém verificar, entre programação da ferramenta de automação. A Figura 3
-outras, a capacidade das suas linguagens no que se refere apresenta um exemplo de utilização desta técnica para
-às instruções de controlo. testes a um sistema de facturação. Os testes apresentados
-Scripts Partilhados fazem a inserção de clientes, onde os dados requeridos são:
+As ferramentas GE são fundamentalmente usadas para a realização de testes funcionais, de aceitação, sob sistemas com interface gráfica.
 
-6 QUATIC’2004 PROCEEDINGS
-nome, telemóvel e número de contribuinte. 5. CONSIDERAÇÕES FINAIS
-Concluímos este artigo com a apresentação da Figura 5 que
+No entanto, se quisermos realizar testes automáticos sob formatos não gráficos, como por exemplo testes a stored procedures PL-SQL, a WebServices, aplicações servidor ou a um componente através de uma dll, a única solução possível passa pela criação de uma camada de interface gráfica standard simples, que possibilitará a invocação dos serviços a serem testados. Esta interface abstrairá as características da interface não tratada directamente pela ferramenta, possibilitando a invocação dos serviços a serem testados. Através da utilização deste recurso, podemos dizer que as ferramentas GE podem ser aplicáveis para execução e comparação automática de testes em todos os níveis: unidade, módulo, integração, sistema ou aceitação.
+
+4. TÉCNICAS PARA CONSTRUÇÃO DE SCRIPTS DE TESTE
+As técnicas para construção de scripts de testes automáticos são similares às técnicas de programação. Os scripts de testes automáticos contêm dados e instruções para a ferramenta de teste. A minimização do esforço de manutenção dos scripts só é conseguida através de um investimento na construção dos scripts. Em [3], os autores consideram a existência de cinco técnicas para criação de scripts, que se refere de seguida.
+
+Scripts Lineares
+Um script linear é aquele obtido a partir da gravação feita por uma ferramenta GE. É uma rápida forma de começar a construir scripts de testes automáticos, pois não requer conhecimento da linguagem oferecida pela ferramenta. No entanto, estes scripts não são úteis num plano a longo prazo. Normalmente, possuem informação excessiva e repetida, dados registados junto às acções (hard-coded) e estão muito associados a particularidades do sistema na altura da gravação o que os torna bastante vulneráveis a mudanças no sistema a ser testado. A criação de testes automáticos através de scripts gravados não é portanto uma boa prática.
+
+Scripts Estruturados
+Tal como as linguagens de programação estruturadas estes scripts usam estruturas de controlo como "If" e "Loop", o que garante uma flexibilidade não existente nos scripts lineares. Na escolha da ferramenta convém verificar, entre outras, a capacidade das suas linguagens no que se refere às instruções de controlo.
+
+Scripts Partilhados
+São scripts que podem ser usados por mais de um caso de teste. Os scripts partilhados podem ser específicos a uma aplicação ou independente de aplicação. Uma vez identificado um conjunto de acções úteis para mais de um teste, um script partilhado deve ser criado e disponibilizado para invocação a partir de qualquer outro teste. As informações variáveis devem ser passadas como parâmetro, tal como acontece na invocação de uma função na programação estruturada.
+
+Scripts Data-driven
+São scripts mais abrangentes que lêem entradas de testes ou resultados esperados a partir de um ficheiro de dados ou tabela de dados evitando termos dados hard-coded no próprio script. Além disto esta técnica permite que novos testes sejam adicionados mais facilmente, uma vez que em alguns casos a existência de novos testes pode ser expressa pela inclusão de novas entradas na tabela de dados, sem nenhuma alteração no script de controlo. Os testes podem ser adicionados sem a necessidade de alteração no código do script. Em adição à entrada de teste, o resultado esperado também pode ser removido do script e colocado no ficheiro de dados, uma vez que o resultado esperado está directamente associado com a entrada do teste.
+
+Figura 3 - O script original AdicionaCliente, implementado pela técnica data-driven (adaptada de [3])
+[Diagrama mostrando três partes: Script de Controlo data-driven "ClienteControle" contendo o pseudocódigo: OpenFile 'DadosCliente'; For each record in DadosCliente: Read NOME, Read TELEMÓVEL, Read NRCONTRIBUINTE, FocusOn 'Cliente', SelectOption 'Adiciona Cliente', FocusOn 'Adiciona Cliente', Type 'NOME', Type 'TELEMÓVEL', Type 'NRCONTRIBUINTE', LeftMouseClick 'OK'. Ficheiro de Dados "DadosCliente" contendo os registros: João, 91223344, 1284749303 / Joaquim, 91223774, 1284939303 / Carlos, 918333441, 1284229303 / Francisco, 945403399, 1284740303. Script original "AdicionaCliente" mostrando o resultado expandido para cada cliente: FocusOn 'Cliente', SelectOption 'Adiciona Cliente', FocusOn 'Adiciona Cliente', Type 'João', Type '91223344', Type '1284749303', LeftMouseClick 'OK', FocusOn 'Adiciona Cliente', Type 'Joaquim', Type '91223774', Type '1284939303', LeftMouseClick 'OK', (...)]
+
+Muitas ferramentas GE encorajam a utilização desta técnica fornecendo mecanismos para armazenamento de dados de entrada em ficheiro texto e atribuição dos mesmos, durante a execução, a variáveis do script.
+
+Como uma limitação desta técnica podemos citar que os scripts data-driven requerem que o desenho do teste seja feito na linguagem de automação da ferramenta. Desta forma, todos os envolvidos com o desenvolvimento de testes automáticos ou execução automática de testes precisam ser conhecedores do ambiente e da linguagem de programação da ferramenta de automação. A Figura 3 apresenta um exemplo de utilização desta técnica para testes a um sistema de facturação. Os testes apresentados fazem a inserção de clientes, onde os dados requeridos são: nome, telemóvel e número de contribuinte.
+
 Scripts Keyword-driven
-sintetiza os conceitos e classificações apresentados neste
-Na técnica data-driven a navegação e acções realizadas são
-artigo sobre os testes de sistemas informáticos.
-as mesmas para cada caso de teste e o conhecimento lógico
-sobre os testes está distribuído no ficheiro de dados e no
-script de controlo e precisam ser sincronizados. A técnica
-keyword-driven combina a técnica data-driven com a
-possibilidade de especificar os casos de teste de forma
-menos detalhada, tal como é feito quando estamos a Tipo de Suporte Granularidade Unidade
-descrever um caso de teste manual. Manual
-Teste
-Módulo
-Script de Controlo Scripts de Suporte Automático
-F F o ic r h e e a ir c o h s O F d o T p e r E e T e n S e a F T s c i t _ l h e e r C N e s r a a U e T l d l c M E o 'K K S B r e d e T E y y _ i R w w n N o o U r r d d M ' BER L . . . . .E o . . . . . . . x g . . . . . . i g . . s . . . . i . . t . n . . e . . . . C . . . . . . . . . l . . i . . . e . . . . . . n . A . . A . . . . . . t . . . . . . d d e . . . .. . . i i . . . c c . . .. i i . .. o o . .. . .. n n . .. . .. a a . .. . .. C C . .. . . l o . . i . . e n . . . . n t A . . a. .. t . .. d e . .. . . i . . . c . . .. i . .. o . .. . .. n R . .. .. .. a .. .. e .. . F .. .m .. . a .. . .. .o c .. . .. .v t .. u .. e .. r . F . a .... a .... c .. t .. u .. r . a * Int S e i g s r t a e ç m ã a o
-EndFor ................. ...................................... ................................. Caixa Branca Caixa Preta
-CloseFile TEST_NUMBER ... ....................................
-EndFor ...
-Aceitação
-1
-Casos de Teste do Técnica Construção de Script Abordagem
-Ficheiros de Teste: FacturaçãoTeste1 sistema de
-Facturação
-Loggin admin admin
-AdicionaCliente João 91223344 1284749303
-FacturaçãoTeste2
-AdicionaFactura 10102004 João
-Loggin admin admin
-FacturaçãoTeste3 AdicionaCliente Carlos 918333441 1284229303
-RemoveFactura 10102004 Francisco Estruturada Partilhada Data-driven Keyword-driven
-Loggin admin admin
-ExisteCliente Carlos 913442233
-AdicionaFactura 11102004 Carlos Figura 5 - Visão geral dos tipos de testes
-Figura 4 – Aplicação da técnica keyword-driven (adaptada de [3])
-Vista como actividade que promove o aumento na
-qualidade do software, a realização de testes de acordo com
-Esta técnica expande o ficheiro de dados da técnica anterior uma metodologia tem vindo a se tornar cada vez mais
-de forma a torná-lo uma descrição dos casos de teste que frequente na indústria informática. Vimos neste artigo que
-queremos automatizar, utilizando um conjunto de palavras esta actividade deve ser realizada segundo um processo
-chave (keywords). Este novo ficheiro que é chamado de bem definido que valorize a qualidade do desenho dos
-ficheiro de testes descreve apenas o que o caso de testes faz, testes independente do tipo de suporte possível: manual ou
-mas não a forma como é feito. O script de controlo tem automático.
-habilidade de interpretar estas keywords, as quais estão Neste artigo, apresentamos os diferentes tipos de testes
-implementadas fora do script de controlo. Esta separação na segundo sua granularidade e as principais abordagens de
-implementação das keywords requer um nível adicional de teste existentes. Indicamos como cada uma das actividades
-implementação técnica, que é feito através dos chamados de testes pode ser realizada automaticamente, salientando e
-scripts de suporte. Temos portanto três estruturas básicas discutindo o contexto onde a automatização é mais
-que são o script de controlo, os ficheiros de teste e os scripts indicada.
-de suporte. Apresentamos as funcionalidades das ferramentas que
-Esta técnica permite usar o conhecimento de um testador permitem a execução e comparação automática dos testes,
-experiente no domínio da aplicação para o desenho ou bem como suas limitações e contextos de utilização.
-construção dos casos de testes em ficheiros de teste e o Diferentes técnicas para a construção de testes automáticos
-conhecimento técnico de um automatizador nas foram apresentadas, tendo sido salientadas as mais
-ferramentas e linguagens existentes para a construção dos evoluídas data-driven e keyword-driven, que permitem a
-scripts de suporte, utilizando assim perfis distintos de criação de testes automáticos reutilizáveis e flexíveis.
-testadores para a construção de testes automáticos mais Um procedimento favorável ao sucesso da automação é
-efectivos e robustos. A Figura 4 apresenta a utilização desta tratá-lo como um projecto de desenvolvimento de software
-técnica para o exemplo de um sistema de facturação, onde [23]. Neste sentido, sugere-se a criação de uma infraos testes pretendem verificar a realização de operações estrutura de testes automáticos reutilizáveis e de fácil
-básicas, como adicionar/remover factura e manutenção, com um objectivo de sucesso a longo prazo.
-adicionar/remover cliente. As palavras chave Apenas desta forma poderão ser constatadas as vantagens
-AdicionaFactura e RemoveFactura, são invocadas em da automação.
-diferentes testes ou ficheiros de teste, mas estão Recomendamos que a realização dos testes automáticos seja
-implementadas apenas nos scripts de suporte feita de forma planeada, a pensar não apenas no sistema
-correspondentes. actualmente a ser testado, mas tendo em consideração que,
+Na técnica data-driven a navegação e acções realizadas são as mesmas para cada caso de teste e o conhecimento lógico sobre os testes está distribuído no ficheiro de dados e no script de controlo e precisam ser sincronizados. A técnica keyword-driven combina a técnica data-driven com a possibilidade de especificar os casos de teste de forma menos detalhada, tal como é feito quando estamos a descrever um caso de teste manual.
 
-SIMONE ANTUNES CORREIA, ALBERTO RODRIGUES SILVA: TÉCNICAS PARA CONSTRUÇÃO DE TESTES FUNCIONAIS AUTOMÁTICOS 7
-com algum esforço adicional, os scripts poderão ser usados, [23] B.Pettichord. Seven Steps to Test Automation Sucess. STAR West
-por diferentes releases do mesmo sistema, e também por Conference, 1999. Versão revisada em 2001
-diferentes sistemas, com menor esforço de concepção e
-desenvolvimento.
-Simone Antunes Correia Licenciatura em Ciência da Computação
-A partir da constatação de que muitas actividades de testes
-pela Universidade Federal de Pernambuco. Estudante de mestrado do
-são comuns a diferentes sistemas, pensamos que, um MEIC-IST/UTL. Trabalha actualmente como consultora na área de
-desafio para o futuro está na concepção de arquitecturas de Testes de Software.
-testes e na implementação de testes genéricos. Tais testes,
-Alberto Rodrigues da Silva Doutoramento e mestrado em
-mediante configuração específica do sistema alvo,
-Engenharia Informática e Computadores pelo IST/UTL e licenciatura
-nomeadamente o modelo de interface gráfica e de estrutura em Engenharia Informática pela FCT/UNL. Professor auxiliar no
-de dados, poderiam ser utilizados eficientemente por Departamento de Engenharia Informática do IST/UTL, investigador
-distintos sistemas. sénior no INESC-ID na área de Sistemas de Informação e consultor
-em diferentes empresas e instituições.
+Figura 4 – Aplicação da técnica keyword-driven (adaptada de [3])
+[Diagrama mostrando: Script de Controlo "Casos de Teste do sistema de Facturação" contendo o pseudocódigo: For each TEST_NUMBER: OpenFile TEST_NUMBER, For each record in FicheirosdeTestes: read Keyword, Call 'Keyword', EndFor, CloseFile TEST_NUMBER, EndFor. Ficheiros de Teste: "FacturaçãoTeste1" contendo linhas como "Loggin admin admin", "AdicionaCliente João 91223344 1284749303", "AdicionaFactura 10102004 João", "Loggin ..."; "FacturaçãoTeste2" contendo "Loggin admin admin", "ExisteCliente Carlos 913442233", "AdicionaFactura 11102004 Carlos"; "FacturaçãoTeste3" contendo "Loggin admin admin", "AdicionaCliente Carlos 918333441 1284229303", "RemoveFactura 10102004 Francisco". Scripts de Suporte: AdicionaCliente, AdicionaFactura, RemoveFactura, ExisteCliente, AdicionaConta, cada um com seu próprio bloco de implementação]
+
+Esta técnica expande o ficheiro de dados da técnica anterior de forma a torná-lo uma descrição dos casos de teste que queremos automatizar, utilizando um conjunto de palavras chave (keywords). Este novo ficheiro que é chamado de ficheiro de testes descreve apenas o que o caso de testes faz, mas não a forma como é feito. O script de controlo tem habilidade de interpretar estas keywords, as quais estão implementadas fora do script de controlo. Esta separação na implementação das keywords requer um nível adicional de implementação técnica, que é feito através dos chamados scripts de suporte. Temos portanto três estruturas básicas que são o script de controlo, os ficheiros de teste e os scripts de suporte.
+
+Esta técnica permite usar o conhecimento de um testador experiente no domínio da aplicação para o desenho ou construção dos casos de testes em ficheiros de teste e o conhecimento técnico de um automatizador nas ferramentas e linguagens existentes para a construção dos scripts de suporte, utilizando assim perfis distintos de testadores para a construção de testes automáticos mais efectivos e robustos. A Figura 4 apresenta a utilização desta técnica para o exemplo de um sistema de facturação, onde os testes pretendem verificar a realização de operações básicas, como adicionar/remover factura e adicionar/remover cliente. As palavras chave AdicionaFactura e RemoveFactura, são invocadas em diferentes testes ou ficheiros de teste, mas estão implementadas apenas nos scripts de suporte correspondentes.
+
+5. CONSIDERAÇÕES FINAIS
+Concluímos este artigo com a apresentação da Figura 5 que sintetiza os conceitos e classificações apresentados neste artigo sobre os testes de sistemas informáticos.
+
+Figura 5 - Visão geral dos tipos de testes
+[Diagrama de classificação hierárquica em quatro dimensões: Granularidade (Teste, Unidade, Módulo, Integração, Sistema, Aceitação); Abordagem (Caixa Branca, Caixa Preta); Tipo de Suporte (Manual, Automático); Técnica Construção de Script (Estruturada, Partilhada, Data-driven, Keyword-driven)]
+
+Vista como actividade que promove o aumento na qualidade do software, a realização de testes de acordo com uma metodologia tem vindo a se tornar cada vez mais frequente na indústria informática. Vimos neste artigo que esta actividade deve ser realizada segundo um processo bem definido que valorize a qualidade do desenho dos testes independente do tipo de suporte possível: manual ou automático.
+
+Neste artigo, apresentamos os diferentes tipos de testes segundo sua granularidade e as principais abordagens de teste existentes. Indicamos como cada uma das actividades de testes pode ser realizada automaticamente, salientando e discutindo o contexto onde a automatização é mais indicada.
+
+Apresentamos as funcionalidades das ferramentas que permitem a execução e comparação automática dos testes, bem como suas limitações e contextos de utilização. Diferentes técnicas para a construção de testes automáticos foram apresentadas, tendo sido salientadas as mais evoluídas data-driven e keyword-driven, que permitem a criação de testes automáticos reutilizáveis e flexíveis.
+
+Um procedimento favorável ao sucesso da automação é tratá-lo como um projecto de desenvolvimento de software [23]. Neste sentido, sugere-se a criação de uma infra-estrutura de testes automáticos reutilizáveis e de fácil manutenção, com um objectivo de sucesso a longo prazo. Apenas desta forma poderão ser constatadas as vantagens da automação.
+
+Recomendamos que a realização dos testes automáticos seja feita de forma planeada, a pensar não apenas no sistema actualmente a ser testado, mas tendo em consideração que, com algum esforço adicional, os scripts poderão ser usados, por diferentes releases do mesmo sistema, e também por diferentes sistemas, com menor esforço de concepção e desenvolvimento.
+
+A partir da constatação de que muitas actividades de testes são comuns a diferentes sistemas, pensamos que, um desafio para o futuro está na concepção de arquitecturas de testes e na implementação de testes genéricos. Tais testes, mediante configuração específica do sistema alvo, nomeadamente o modelo de interface gráfica e de estrutura de dados, poderiam ser utilizados eficientemente por distintos sistemas.
+
 REFERÊNCIAS
-[1] E. Kit. Software Testing in the Real World: Improving the Process.
-Addison-Wesley, 1995.
-[2] Bodgan Bereza, Jarocinski. Tools and Automation in a Shoestring.
-Workshop Eurostar. Estocolmo, 2001.
-[3] M.Fewster e D.Grahm. Software Test Automation. Addison-Wesley,
-1999.
+[1] E. Kit. Software Testing in the Real World: Improving the Process. Addison-Wesley, 1995.
+
+[2] Bodgan Bereza, Jarocinski. Tools and Automation in a Shoestring. Workshop Eurostar. Estocolmo, 2001.
+
+[3] M.Fewster e D.Grahm. Software Test Automation. Addison-Wesley, 1999.
+
 [4] H.Buwalda, D.Janssen, I.Pinkster. Integrated Test Design and Automation: Using the TestFrame Method. Addison-Wesley, 2002.
+
 [5] Sommerville. Software Engineering. Addison-Wesley, 2000.
-[6] Share Lawrence Pfleeger. Software Engineering: Theory and Practice.
-Prentice Hall, 2001.
-[7] Glenford J.Myers. The Art of Software Testing. New York: John
-Wiley and Sons, 1979.
+
+[6] Share Lawrence Pfleeger. Software Engineering: Theory and Practice. Prentice Hall, 2001.
+
+[7] Glenford J.Myers. The Art of Software Testing. New York: John Wiley and Sons, 1979.
+
 [8] IPL, www.iplbath.com (AdaTEST, Cantata, Cantata++)
-[9] LDRA Ltd, www.ldra.com (LDRA Testbed, geração automática de
-ambiente de testes - harness, stubs e drivers)
-[10] Testwell, www.testwell.sci.fi/homepage.html (ferramentas de
-teste para C, C++ e Java)
-[11] Tilo Linz, Matthias Daigl. White Paper: How to Automate Testing of
-Graphical User Interfaces. Alemanha, 1998.
-http://www.imbus.de/forschung/pie24306/gui/aquis-full_paper1.3.html.
-[12] Horwath, Green & Lawler. White Paper: SilkTest and WinRunner
-Feature Descriptions, 2000.
-[13] Elisabeth Hendrickson. Making the Right Choice. Revista
-StqeMagazine, Maio/Junho 1999.
-http://www.qualitytree.com/feature/mtrc.pdf
-[14] WinRunner information.
-http://www.mercury.com/us/products/quality-center/functionaltesting/winrunner/
+
+[9] LDRA Ltd, www.ldra.com (LDRA Testbed, geração automática de ambiente de testes - harness, stubs e drivers)
+
+[10] Testwell, www.testwell.sci.fi/homepage.html (ferramentas de teste para C, C++ e Java)
+
+[11] Tilo Linz, Matthias Daigl. White Paper: How to Automate Testing of Graphical User Interfaces. Alemanha, 1998. http://www.imbus.de/forschung/pie24306/gui/aquis-full_paper1.3.html.
+
+[12] Horwath, Green & Lawler. White Paper: SilkTest and WinRunner Feature Descriptions, 2000.
+
+[13] Elisabeth Hendrickson. Making the Right Choice. Revista StqeMagazine, Maio/Junho 1999. http://www.qualitytree.com/feature/mtrc.pdf
+
+[14] WinRunner information. http://www.mercury.com/us/products/quality-center/functional-testing/winrunner/
+
 [15] Kent Beck. Extreme Programming Explained. Addison-Wesley, 2000.
+
 [16] Steve Mcconnell. Rapid Development. Microsoft Press, 1996.
-[17] JimDougherty, Keith Haber. Test Automation: Reducing Time to
-Market. International Conference on Software Testing, Analysis & Review, 2002.
+
+[17] JimDougherty, Keith Haber. Test Automation: Reducing Time to Market. International Conference on Software Testing, Analysis & Review, 2002.
+
 [18] Tilo Linz. Case Study: IMBUS GmbH. Automated Testing of Graphical User Interfaces, 1998. www.esi.es/VASIE/Reports/All/24151/guitest1.pdf
-[19] Elisabeth Hendricson. White Paper: The Difference between Test
-Automation Failure and Success, 1998.
-www.qualitytree.com/feature/dbtasaf.pdf
-[20] Cem Kaner. Improving the Maintainability of Automated Test
-Suites. Quality Week Conference, 1997
+
+[19] Elisabeth Hendricson. White Paper: The Difference between Test Automation Failure and Success, 1998. www.qualitytree.com/feature/dbtasaf.pdf
+
+[20] Cem Kaner. Improving the Maintainability of Automated Test Suites. Quality Week Conference, 1997
+
 [21] ADL Translation System
-[22] WinRunner User’s Guide Versão 7.6, Mercury Interactive Corporation.
+
+[22] WinRunner User's Guide Versão 7.6, Mercury Interactive Corporation.
+
+[23] B.Pettichord. Seven Steps to Test Automation Sucess. STAR West Conference, 1999. Versão revisada em 2001
+
+Simone Antunes Correia — Licenciatura em Ciência da Computação pela Universidade Federal de Pernambuco. Estudante de mestrado do MEIC-IST/UTL. Trabalha actualmente como consultora na área de Testes de Software.
+
+Alberto Rodrigues da Silva — Doutoramento e mestrado em Engenharia Informática e Computadores pelo IST/UTL e licenciatura em Engenharia Informática pela FCT/UNL. Professor auxiliar no Departamento de Engenharia Informática do IST/UTL, investigador sénior no INESC-ID na área de Sistemas de Informação e consultor em diferentes empresas e instituições.

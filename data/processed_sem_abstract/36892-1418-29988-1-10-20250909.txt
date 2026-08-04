@@ -1,174 +1,319 @@
 Automação de Testes de APIs REST no SisNIR
-João Victor de Morais Neumar Costa Malheiros Ricardo Terra
-Fundação de Desenvolvimento Universidade Federal de Lavras Universidade Federal de Lavras
-Científico e Cultural Lavras, Minas Gerais, Brasil Lavras, Minas Gerais, Brasil
-Lavras, Minas Gerais, Brasil neumar@ufla.br terra@ufla.br
+
+João Victor de Morais
+Fundação de Desenvolvimento Científico e Cultural
+Lavras, Minas Gerais, Brasil
 joaomorais.ti@fundecc.org.br
 
-1 Introdução unifica o envio de requisições, a validação de respostas e
-a geração automatizada de relatórios em um único fluxo,
+Neumar Costa Malheiros
+Universidade Federal de Lavras
+Lavras, Minas Gerais, Brasil
+neumar@ufla.br
+
+Ricardo Terra
+Universidade Federal de Lavras
+Lavras, Minas Gerais, Brasil
+terra@ufla.br
+
+SAST'25, September 22–26, 2025, Recife, PE
+
+
+
+--------------------------------------------------------------------------------
+1 Introdução
+--------------------------------------------------------------------------------
 As APIs REST (Representational State Transfer) são um
-promovendo eficácia, padronização e facilitando a manutenestilo arquitetural amplamente adotado no desenvolvimento
-ção. Apesar de estender o JUnit, o Zettalenium se diferencia
-de sistemas distribuídos devido à sua simplicidade, escalapor sua abordagem unificada, eliminando a necessidade de
-bilidade e eficiência [5]. Fundamentadas no modelo clienteintegrar e configurar múltiplas bibliotecas manualmente.
-servidor, utilizam o protocolo HTTP para padronizar interaSeu uso permite validar desde fluxos simples até cenários
-ções por meio de métodos bem definidos, como GET, POST,
-complexos de integração, nos quais múltiplas rotas possuem
+estilo arquitetural amplamente adotado no desenvolvimento
+de sistemas distribuídos devido à sua simplicidade, escalabilidade e eficiência [5]. Fundamentadas no modelo cliente-
+servidor, utilizam o protocolo HTTP para padronizar interações por meio de métodos bem definidos, como GET, POST,
 PUT e DELETE [2, 3]. Além disso, operam sobre recursos
-dependênciasentresi—como,nocasodoSisNIR,ocadastro
-identificados por URIs e comumente representados no forde um Projeto Público de Irrigação, que é pré-requisito para
-mato JSON por sua legibilidade e facilidade de integração
-o registro de um Plano Operativo Anual. O Zettalenium
+identificados por URIs e comumente representados no formato JSON por sua legibilidade e facilidade de integração
 entre sistemas heterogêneos [6, 8].
-foi projetado para atender a essas demandas, eliminando
+
 A crescente dependência de sistemas baseados em APIs
-tarefas repetitivas e centralizando utilitários essenciais para
-RESTparaintegrarserviçoseaplicaçõestrouxeumaumento
-a execução dos testes.
+REST para integrar serviços e aplicações trouxe um aumento
 significativo na complexidade e na necessidade de qualidade
-A Figura 1 ilustra a arquitetura do Zettalenium, que indesses sistemas [4]. Esse cenário, associado à natureza dinâtegra diversas dependências externas para viabilizar suas
-micadasAPIs,geradesafiosespecíficos,comoavalidaçãode
-operações. O framework utiliza a biblioteca JUnit1 para remúltiplos cenários de integração e o tratamento de respostas
-alizar as asserções de respostas durante os testes; a Apache
+desses sistemas [4]. Esse cenário, associado à natureza dinâmica das APIs, gera desafios específicos, como a validação de
+múltiplos cenários de integração e o tratamento de respostas
 variadas [7].
-HttpClient2 para o envio de requisições HTTP; e a biblioNo desenvolvimento do Sistema Nacional de Informações
-sobre Irrigação (SisNIR), o Ministério da Integração e do teca JSON3 para a manipulação de arquivos e estruturas
-Desenvolvimento Regional (MIDR) estipulou como requisito de dados em formato JSON. Também emprega o Log4j4
-essencial a criação e documentação de testes funcionais au1https://junit.org/junit5/
-tomatizados para todas as rotas da API REST. No entanto,
-2https://hc.apache.org/httpcomponents-client-4.5.x/index.html
-ferramentas tradicionais como Postman e Insomnia apresen- 3https://www.json.org/json-en.html
-taramlimitaçõesimportantes:exigemconfiguraçõesmanuais, 4https://logging.apache.org/log4j/
 
-SAST’25,September22–26,2025,Recife,PE Morais,MalheiroseTerra
-para registrar logs detalhados de cada etapa do teste, fa- 1 public class ItensTestCase extends ZTestCase {
-2 private static Logger LOGGER = LogManager.getLogger(
-cilitando o rastreamento e a auditabilidade da execução. ItensTestCase.class);
-Internamente,odesenvolvedorcriacasosdetesteestendendo 3
-4 private final static String path = "/itens";
-a classe base ZTestCase que centraliza métodos reutilizáveis 5
-6 @Test
+No desenvolvimento do Sistema Nacional de Informações
+sobre Irrigação (SisNIR), o Ministério da Integração e do
+Desenvolvimento Regional (MIDR) estipulou como requisito
+essencial a criação e documentação de testes funcionais automatizados para todas as rotas da API REST. No entanto,
+ferramentas tradicionais como Postman e Insomnia apresentaram limitações importantes: exigem configurações manuais,
+não geram relatórios detalhados e dificultam a padronização e
+manutenção de testes extensos com diversas assertivas [1, 10].
+
+Diante desse cenário, este trabalho descreve a aplicação do
+Zettalenium, um framework de testes automatizados desenvolvido para atender às demandas do projeto SisNIR, conduzido
+em parceria com o MIDR. O framework foi empregado para
+simplificar a automação de testes de APIs REST, integrando
+de forma unificada o envio de requisições, validações e geração de relatórios. Com essa abordagem, buscou-se reduzir
+a duplicação de código, facilitar a manutenção dos testes
+e garantir maior transparência e confiabilidade durante o
+desenvolvimento do sistema.
+
+Este artigo está organizado da seguinte forma: a Seção 2
+apresenta o framework Zettalenium, explicando sua proposta,
+funcionamento e principais componentes. A Seção 3 descreve
+a sua aplicação no desenvolvimento do SisNIR, ressaltando
+os benefícios obtidos. Por fim, a Seção 4 encerra o artigo com
+considerações finais e indicações de trabalhos futuros.
+
+--------------------------------------------------------------------------------
+2 O framework Zettalenium
+--------------------------------------------------------------------------------
+O Zettalenium, desenvolvido neste artigo, tem o objetivo de
+simplificar e estruturar o processo de automação de testes
+funcionais em APIs REST. Trata-se de um framework que
+unifica o envio de requisições, a validação de respostas e
+a geração automatizada de relatórios em um único fluxo,
+promovendo eficácia, padronização e facilitando a manutenção. Apesar de estender o JUnit, o Zettalenium se diferencia
+por sua abordagem unificada, eliminando a necessidade de
+integrar e configurar múltiplas bibliotecas manualmente.
+
+Seu uso permite validar desde fluxos simples até cenários
+complexos de integração, nos quais múltiplas rotas possuem
+dependências entre si — como, no caso do SisNIR, o cadastro
+de um Projeto Público de Irrigação, que é pré-requisito para
+o registro de um Plano Operativo Anual. O Zettalenium
+foi projetado para atender a essas demandas, eliminando
+tarefas repetitivas e centralizando utilitários essenciais para
+a execução dos testes.
+
+A Figura 1 ilustra a arquitetura do Zettalenium, que integra diversas dependências externas para viabilizar suas
+operações. O framework utiliza a biblioteca JUnit
+(https://junit.org/junit5/) para realizar as asserções de respostas durante os testes; a Apache
+HttpClient (https://hc.apache.org/httpcomponents-client-4.5.x/index.html) para o envio de requisições HTTP; e a biblioteca JSON
+(https://www.json.org/json-en.html) para a manipulação de arquivos e estruturas
+de dados em formato JSON. Também emprega o Log4j
+(https://logging.apache.org/log4j/) para registrar logs detalhados de cada etapa do teste, facilitando o rastreamento e a auditabilidade da execução.
+
+Internamente, o desenvolvedor cria casos de teste estendendo
+a classe base ZTestCase que centraliza métodos reutilizáveis
 e assegura padronização. A execução envolve componentes
-7 @ZTest(tester = "Joao Victor",
-como BasicRest, para as operações HTTP, e TestUtils, 8 description = "Metodo que cadastra um item, depois o
-busca e confere se foi salvo como esperado.",
-para manipulações e comparações de dados. A geração auto- 9 createdAt = "06/08/2024",
-mática do relatório ocorre ao final dos testes, consolidando 10 revisedAt = "07/08/2024"
-11 )
-informações em um arquivo HTML. Em suma, Zettalenium 12 public void testFluxoSimples() {
-seapresentacomoumasoluçãounificadaparatestesdeAPIs 13 LOGGER.trace("Cadastra um novo item.");
-14 JSONObject resultCreate = post(this.path, 201, "item001.
-REST, reduzindo a complexidade e o esforço de codifica- json", JSONObject.class);
-15 Integer generatedId = resultCreate.getInt("id");
-ção – um diferencial significativo em relação a ferramentas
-16 assertNotNull(generatedId);
-tradicionais, como o uso puro do JUnit. 17
-18 LOGGER.trace("Checa se a criacao foi bem-sucedida");
-19 JSONObject expectedResultCreate = TestUtils.readJsonFile("
-Figura1:ArquiteturadoZettalenium item-create-result.json");
-20 this.assertJsonContains(resultCreate,expectedResultCreate);
-21
-Dependências Externas ZettaLenium 22 LOGGER.trace("Busca o item e verifica os dados.");
-BasicRest ZTestCase 23 JSONObject resultRetrieve = get(this.path + "/" +
-generatedId, 200, null, JSONObject.class);
-JSON Parser 24 this.assertJsonContains(resultCreate, resultRetrieve);
-usa 25 }
-26 }
-Apache HTTP TestUtils ItensTestCase
-usa usa documentation Código1:TesteFuncionalAutomatizadocomZettalenium
-gera gera
-JUnit
-3 Estudo de Caso
-resources/json
-O Zettalenium foi inicialmente concebido e aplicado no âmLog4j Resultados Relatórios
-bito do SisNIR, uma plataforma estratégica prevista na Política Nacional de Irrigação, cujo objetivo é subsidiar o plaO Código 1 exemplifica um teste funcional utilizando o nejamento da expansão da agricultura irrigada no Brasil. O
-Zettalenium. O fluxo é composto por duas etapas principais: sistema foi desenvolvido para coletar, armazenar e recuperar
-(i) o cadastro de um item via requisição POST (linhas 13 informações sobre irrigação, consolidando dados essenciais
-a 16) e (ii) a validação desse cadastro com uma requisição para a gestão de programas voltados ao desenvolvimento
-GET (linhas 22 a 24), garantindo que os dados persistidos sustentável do setor.
-sejam consistentes. A comparação com os dados esperados O SisNIR foi desenvolvido por meio de uma parceria enocorre entre as linhas 18 e 20. Operações como o envio de tre o Ministério da Integração e do Desenvolvimento Regirequisições e a validação de respostas são encapsuladas por onal (MIDR) e a Universidade Federal de Lavras (UFLA).
-métodos utilitários como post, get e assertJsonContains, Essa colaboração resultou em uma solução robusta, confiável
-reduzindo a repetição de código, melhorando a legibilidade e e alinhada às demandas institucionais e setoriais.
-facilitando a manutenção dos testes. Durante o desenvolvimento, o MIDR definiu como requiO framework também disponibiliza um conjunto abran- sito essencial a implementação e documentação de testes
-gente de funções utilitárias, como leitura e comparação de funcionais automatizados para todas as rotas da API REST
-arquivos JSON, manipulação de datas e tratamento de tex- dosistema.Inicialmente,averificaçãoeraconduzidamanualtos, reduzindo significativamente o esforço e o risco de erros mente com ferramentas como o Postman, porém demandava
-durante a implementação dos testes. Por exemplo, funções esforço considerável para a execução repetitiva e a verificacomo readJson e assertJsonContains foram amplamente ção manual dos resultados. Para superar essas limitações, o
-utilizadas no projeto para validar as respostas das APIs de Zettalenium foi adotado, oferecendo uma abordagem padroforma eficiente e confiável. nizada, auditável e eficiente, capaz de assegurar a qualidade
-Por fim, o Zettalenium inclui mecanismos de suporte à e a rastreabilidade ao longo do ciclo de vida do software.
-auditoria: ao executar os testes, ele gera logs detalhados que Aotodo,foramdesenvolvidos41casosdeteste,totalizando
-permitemacompanharaexecuçãodeformaheadlessnoservi- 78 métodos, organizados de forma modular: para cada fundor, uma vez que todas as funções do framework já possuem cionalidade da API, foi criado um testcase específico. Essa
-logsembutidos.Essaautomaçãonãoapenasevitaqueotesta- estrutura favoreceu a escalabilidade e a manutenção dos tesdorpreciseadicionarlogsmanualmente,mastambémgarante tes, sobretudo em funcionalidades mais complexas, onde se
-apadronizaçãoeaconsistênciadosregistrosdeauditoriaem validaram fluxos completos de operações create, read, update
-todos os testes, o que é fundamental para a auditabilidade. edelete (CRUD).CenáriosdeerrotambémforamcontemplaAlémdisso,geraumrelatórioquesintetizainformaçõessobre dos, incluindo tentativas de cadastro com campos inválidos
-ostestesemumformatoclaroeacessível,facilitandoaanálise ou dados mal formatados, elevando a robustez e a resiliência
-dos resultados. da API frente a entradas inesperadas.
+como BasicRest, para as operações HTTP, e TestUtils,
+para manipulações e comparações de dados. A geração automática do relatório ocorre ao final dos testes, consolidando
+informações em um arquivo HTML. Em suma, Zettalenium
+se apresenta como uma solução unificada para testes de APIs
+REST, reduzindo a complexidade e o esforço de codificação – um diferencial significativo em relação a ferramentas
+tradicionais, como o uso puro do JUnit.
 
-AutomaçãodeTestesdeAPIsRESTnoSisNIR SAST’25,September22–26,2025,Recife,PE
-A Figura 2 apresenta o fluxo de execução dos testes auto- SisNIR. Embora o estudo se restrinja a um único projeto, o
-matizados com o Zettalenium, adotado antes de cada deploy que representa uma limitação à generalização dos resultados,
-como parte do processo de testes de regressão. O processo a utilização do framework possibilitou a estruturação de um
-se inicia com a atualização do código ou o desenvolvimento conjunto consistente de testes automatizados, promovendo
-de uma nova funcionalidade. Em seguida, os testes são exe- padronização, reduzindo duplicidades e facilitando a manucutados de forma automatizada e headless, dispensando a tenção do código de testes ao longo do projeto. Além disso,
-necessidade de interação manual ou interface gráfica. Após a atendeu aos requisitos de documentação e auditabilidade
-execução, os resultados são validados por meio dos relatórios estabelecidos, contribuindo para a garantia da qualidade,
-e logs de auditoria gerados pelo framework, permitindo iden- confiabilidade e transparência do sistema durante todo o seu
-tificar eventuais falhas ou inconsistências. Quando os testes ciclo de desenvolvimento.
-são aprovados, o deploy é autorizado, garantindo que altera- A aplicação no SisNIR também evidenciou a viabilidade
-ções recentes não comprometam funcionalidades existentes. do uso de frameworks personalizados em projetos governaEssaabordagemcontribuiudiretamenteparaaestabilidadee mentais, demonstrando que soluções especializadas podem
-confiabilidadedosistemaaolongodeseudesenvolvimento[9]. atender de forma eficiente a requisitos específicos de conformidade e controle exigidos em ambientes públicos. Esses
-resultadosindicamopotencialdeadoçãodoZettaleniumem
-Dev Team featur N e/ o c v o a rreção Concluída Zettalenium Sucesso outros contextos organizacionais com demandas semelhantes.
-Atualmente,oZettaleniumestásendoampliadocomfuncionalidadesdeautomaçãodetestespontaaponta,integrando
-Tarefa
-Atribuida correção Falha deploy o Selenium5 para possibilitar a validação de interfaces de
-usuário. Essa evolução busca transformar a ferramenta em
-Figura2:FluxodeexecuçãodostestesnoSisNIR umasolução maisabrangenteeintegrada,capaz deabranger
-tanto a validação de APIs quanto a verificação funcional de
-AsfunçõesutilitáriasdoZettalenium,comoreadJsonpara aplicações completas, atendendo a múltiplas etapas do ciclo
-carregardadoseassertJsonContainsparavalidarrespostas, de testes de software.
+[Figura 1: Arquitetura do Zettalenium]
+Diagrama mostrando: Dependências Externas (JSON Parser, Apache HTTP, JUnit,
+Log4j) usadas pelo módulo "ZettaLenium", que contém os componentes
+BasicRest, TestUtils, ZTestCase e ItensTestCase (este último "usa" BasicRest,
+TestUtils e ZTestCase). ItensTestCase usa a pasta "resources/json" e gera
+"documentation". O framework gera "Resultados" e "Relatórios" (HTML).
+
+O Código 1 exemplifica um teste funcional utilizando o
+Zettalenium. O fluxo é composto por duas etapas principais:
+(i) o cadastro de um item via requisição POST (linhas 13
+a 16) e (ii) a validação desse cadastro com uma requisição
+GET (linhas 22 a 24), garantindo que os dados persistidos
+sejam consistentes. A comparação com os dados esperados
+ocorre entre as linhas 18 e 20. Operações como o envio de
+requisições e a validação de respostas são encapsuladas por
+métodos utilitários como post, get e assertJsonContains,
+reduzindo a repetição de código, melhorando a legibilidade e
+facilitando a manutenção dos testes.
+
+O framework também disponibiliza um conjunto abrangente de funções utilitárias, como leitura e comparação de
+arquivos JSON, manipulação de datas e tratamento de textos, reduzindo significativamente o esforço e o risco de erros
+durante a implementação dos testes. Por exemplo, funções
+como readJson e assertJsonContains foram amplamente
+utilizadas no projeto para validar as respostas das APIs de
+forma eficiente e confiável.
+
+Por fim, o Zettalenium inclui mecanismos de suporte à
+auditoria: ao executar os testes, ele gera logs detalhados que
+permitem acompanhar a execução de forma headless no servidor, uma vez que todas as funções do framework já possuem
+logs embutidos. Essa automação não apenas evita que o testador precise adicionar logs manualmente, mas também garante
+a padronização e a consistência dos registros de auditoria em
+todos os testes, o que é fundamental para a auditabilidade.
+Além disso, gera um relatório que sintetiza informações sobre
+os testes em um formato claro e acessível, facilitando a análise
+dos resultados.
+
+[Código 1: Teste Funcional Automatizado com Zettalenium]
+
+public class ItensTestCase extends ZTestCase {
+    private static Logger LOGGER = LogManager.getLogger(
+            ItensTestCase.class);
+
+    private final static String path = "/itens";
+
+    @Test
+    @ZTest(tester = "Joao Victor",
+        description = "Metodo que cadastra um item, depois o
+                busca e confere se foi salvo como esperado.",
+        createdAt = "06/08/2024",
+        revisedAt = "07/08/2024"
+    )
+    public void testFluxoSimples() {
+        LOGGER.trace("Cadastra um novo item.");
+        JSONObject resultCreate = post(this.path, 201, "item001.
+                json", JSONObject.class);
+        Integer generatedId = resultCreate.getInt("id");
+        assertNotNull(generatedId);
+
+        LOGGER.trace("Checa se a criacao foi bem-sucedida");
+        JSONObject expectedResultCreate = TestUtils.readJsonFile("
+                item-create-result.json");
+        this.assertJsonContains(resultCreate, expectedResultCreate);
+
+        LOGGER.trace("Busca o item e verifica os dados.");
+        JSONObject resultRetrieve = get(this.path + "/" +
+                generatedId, 200, null, JSONObject.class);
+        this.assertJsonContains(resultCreate, resultRetrieve);
+    }
+}
+
+--------------------------------------------------------------------------------
+3 Estudo de Caso
+--------------------------------------------------------------------------------
+O Zettalenium foi inicialmente concebido e aplicado no âmbito do SisNIR, uma plataforma estratégica prevista na Política Nacional de Irrigação, cujo objetivo é subsidiar o planejamento da expansão da agricultura irrigada no Brasil. O
+sistema foi desenvolvido para coletar, armazenar e recuperar
+informações sobre irrigação, consolidando dados essenciais
+para a gestão de programas voltados ao desenvolvimento
+sustentável do setor.
+
+O SisNIR foi desenvolvido por meio de uma parceria entre o Ministério da Integração e do Desenvolvimento Regional (MIDR) e a Universidade Federal de Lavras (UFLA).
+Essa colaboração resultou em uma solução robusta, confiável
+e alinhada às demandas institucionais e setoriais.
+
+Durante o desenvolvimento, o MIDR definiu como requisito essencial a implementação e documentação de testes
+funcionais automatizados para todas as rotas da API REST
+do sistema. Inicialmente, a verificação era conduzida manualmente com ferramentas como o Postman, porém demandava
+esforço considerável para a execução repetitiva e a verificação manual dos resultados. Para superar essas limitações, o
+Zettalenium foi adotado, oferecendo uma abordagem padronizada, auditável e eficiente, capaz de assegurar a qualidade
+e a rastreabilidade ao longo do ciclo de vida do software.
+
+Ao todo, foram desenvolvidos 41 casos de teste, totalizando
+78 métodos, organizados de forma modular: para cada funcionalidade da API, foi criado um testcase específico. Essa
+estrutura favoreceu a escalabilidade e a manutenção dos testes, sobretudo em funcionalidades mais complexas, onde se
+validaram fluxos completos de operações create, read, update
+e delete (CRUD). Cenários de erro também foram contemplados, incluindo tentativas de cadastro com campos inválidos
+ou dados mal formatados, elevando a robustez e a resiliência
+da API frente a entradas inesperadas.
+
+A Figura 2 apresenta o fluxo de execução dos testes automatizados com o Zettalenium, adotado antes de cada deploy
+como parte do processo de testes de regressão. O processo
+se inicia com a atualização do código ou o desenvolvimento
+de uma nova funcionalidade. Em seguida, os testes são executados de forma automatizada e headless, dispensando a
+necessidade de interação manual ou interface gráfica. Após a
+execução, os resultados são validados por meio dos relatórios
+e logs de auditoria gerados pelo framework, permitindo identificar eventuais falhas ou inconsistências. Quando os testes
+são aprovados, o deploy é autorizado, garantindo que alterações recentes não comprometam funcionalidades existentes.
+Essa abordagem contribuiu diretamente para a estabilidade e
+confiabilidade do sistema ao longo de seu desenvolvimento [9].
+
+[Figura 2: Fluxo de execução dos testes no SisNIR]
+Diagrama de fluxo: Dev Team desenvolve Nova feature/correção -> Tarefa
+Atribuída -> Concluída -> executada pelo Zettalenium -> resultado Falha (volta
+para correção) ou Sucesso -> deploy.
+
+As funções utilitárias do Zettalenium, como readJson para
+carregar dados e assertJsonContains para validar respostas,
 contribuíram para testes mais claros, padronizados e fáceis
-de manter. A automação proporcionada pelo framework se AGRADECIMENTOS
-traduziuemumesforçosignificativamentemenorporparteda
-Os autores agradecem à Zetta a colaboração no desenvolviequipe. Embora não tenha sido realizado um estudo formal,
-mento do Zettalenium, e ao Ministério da Integração e do
+de manter. A automação proporcionada pelo framework se
+traduziu em um esforço significativamente menor por parte da
+equipe. Embora não tenha sido realizado um estudo formal,
 tal redução se justifica pela eliminação da necessidade de
-Desenvolvimento Regional (MIDR) o apoio institucional e a
-executarevalidartestesmanualmente,oqueeraumprocesso
-oportunidadedeaplicarevalidaraferramentanocontextodo
+executar e validar testes manualmente, o que era um processo
 repetitivo e propenso a falhas.
-Sistema Nacional de Informações sobre Irrigação (SisNIR).
-Outro diferencial relevante foi o suporte à auditoria automática. A cada execução, o framework gera logs detalhados REFERÊNCIAS
+
+Outro diferencial relevante foi o suporte à auditoria automática. A cada execução, o framework gera logs detalhados
 e relatórios em HTML, permitindo o acompanhamento da
-[1] API Expert. 2023. The Limitations of Postman. Disponível
-execuçãodeformaheadless esemnecessidadedeintervenção em:<https://apiexpert.medium.com/the-limitations-of-postmanmanual. Esses relatórios, além de servirem como documenta- bff619577a7b>. Acessoem:04maio2024.
-[2] R.Fielding,J.Gettys,J.Mogul,H.Frystyk,andT.Berners-Lee.
-ção técnica, foram utilizados como critério formal de aceite
-1997. Hypertext Transfer Protocol – HTTP/1.1. RFC 2068.
-pelo MIDR, reforçando a transparência do processo. InternetEngineeringTaskForce(IETF).
-Adicionalmente, observou-se um desempenho satisfatório: [3] David Gourley and Brian Totty. 2002. HTTP: The Definitive
-Guide. O’ReillyMedia,Sebastopol,EstadosUnidos.
-o tempo médio de execução por método foi de aproximada-
-[4] Yi Liu. 2024. Semantics-aware Human-computer Interaction
-mente 300 ms, mesmo em ambiente remoto e com múltiplas SoftwareTesting. Ph.D.Dissertation.CollegeofComputingand
-dependências. Essa agilidade na execução possibilitou a va- DataScience,NanyangTechnologicalUniversity,Singapura.
-[5] SamNewman.2015. Building Microservices: Designing Finelidação contínua das funcionalidades do sistema, o que foi GrainedSystems. O’ReillyMedia,Sebastopol,EstadosUnidos.
-fundamental para o ciclo de desenvolvimento do SisNIR. [6] FelipePezoa,JuanL.Reutter,FernandoSuarez,MartínUgarte,
-andDomagojVrgoč.2016. FoundationsofJSONSchema.In25th
-Em síntese, a adoção do Zettalenium no SisNIR demonsInternationalWorldWideWebConference(WWW).263–273.
-trou ser uma solução eficaz e confiável para estruturar, au- [7] ValeriaPontilloandMaximeVandercammen.2024. FERRARI:
-tomatizar e auditar testes de APIs REST em projetos de FailurERepRoductionthroughautomatictestcAsegeneration
-andstacktRaceanalysIs.In23rdBelgium-NetherlandsSoftware
+execução de forma headless e sem necessidade de intervenção
+manual. Esses relatórios, além de servirem como documentação técnica, foram utilizados como critério formal de aceite
+pelo MIDR, reforçando a transparência do processo.
+
+Adicionalmente, observou-se um desempenho satisfatório:
+o tempo médio de execução por método foi de aproximadamente 300 ms, mesmo em ambiente remoto e com múltiplas
+dependências. Essa agilidade na execução possibilitou a validação contínua das funcionalidades do sistema, o que foi
+fundamental para o ciclo de desenvolvimento do SisNIR.
+
+Em síntese, a adoção do Zettalenium no SisNIR demonstrou ser uma solução eficaz e confiável para estruturar, automatizar e auditar testes de APIs REST em projetos de
 sistemas para o setor público, indicando seu potencial como
-EvolutionWorkshop(BENEVOL).45–56.
-ferramenta de referência também para outros setores regula- [8] AmazonWebServices.2024. OqueéaAPIRESTful? Disponível
-dos, como o financeiro e o de saúde, com severos requisitos em: <https://aws.amazon.com/what-is/restful-api/>. Acesso
-em:29maio2024.
-de conformidade, que exigem alto grau de controle, rastrea- [9] IanSommerville.2015. SoftwareEngineering. Addison-Wesley,
-bilidade e qualidade. Boston,EstadosUnidos.
-[10] TestsigmaEngineeringTeam.2024. InsomniavsPostman:Which
-is better for your project? Disponível em: <https://testsigma.
+ferramenta de referência também para outros setores regulados, como o financeiro e o de saúde, com severos requisitos
+de conformidade, que exigem alto grau de controle, rastreabilidade e qualidade.
+
+--------------------------------------------------------------------------------
 4 Considerações Finais
-com/blog/insomnia-vs-postman/>. Acessoem:04jul.2024.
-EstetrabalhorelatouaadoçãodoZettaleniumcomosolução
-de automação de testes funcionais no desenvolvimento do 5https://www.selenium.dev/
+--------------------------------------------------------------------------------
+Este trabalho relatou a adoção do Zettalenium como solução
+de automação de testes funcionais no desenvolvimento do
+SisNIR. Embora o estudo se restrinja a um único projeto, o
+que representa uma limitação à generalização dos resultados,
+a utilização do framework possibilitou a estruturação de um
+conjunto consistente de testes automatizados, promovendo
+padronização, reduzindo duplicidades e facilitando a manutenção do código de testes ao longo do projeto. Além disso,
+atendeu aos requisitos de documentação e auditabilidade
+estabelecidos, contribuindo para a garantia da qualidade,
+confiabilidade e transparência do sistema durante todo o seu
+ciclo de desenvolvimento.
+
+A aplicação no SisNIR também evidenciou a viabilidade
+do uso de frameworks personalizados em projetos governamentais, demonstrando que soluções especializadas podem
+atender de forma eficiente a requisitos específicos de conformidade e controle exigidos em ambientes públicos. Esses
+resultados indicam o potencial de adoção do Zettalenium em
+outros contextos organizacionais com demandas semelhantes.
+
+Atualmente, o Zettalenium está sendo ampliado com funcionalidades de automação de testes ponta a ponta, integrando
+o Selenium (https://www.selenium.dev/) para possibilitar a validação de interfaces de
+usuário. Essa evolução busca transformar a ferramenta em
+uma solução mais abrangente e integrada, capaz de abranger
+tanto a validação de APIs quanto a verificação funcional de
+aplicações completas, atendendo a múltiplas etapas do ciclo
+de testes de software.
+
+--------------------------------------------------------------------------------
+AGRADECIMENTOS
+--------------------------------------------------------------------------------
+Os autores agradecem à Zetta a colaboração no desenvolvimento do Zettalenium, e ao Ministério da Integração e do
+Desenvolvimento Regional (MIDR) o apoio institucional e a
+oportunidade de aplicar e validar a ferramenta no contexto do
+Sistema Nacional de Informações sobre Irrigação (SisNIR).
+
+--------------------------------------------------------------------------------
+REFERÊNCIAS
+--------------------------------------------------------------------------------
+[1] API Expert. 2023. The Limitations of Postman. Disponível
+em: <https://apiexpert.medium.com/the-limitations-of-postman-
+bff619577a7b>. Acesso em: 04 maio 2024.
+
+[2] R. Fielding, J. Gettys, J. Mogul, H. Frystyk, and T. Berners-Lee.
+1997. Hypertext Transfer Protocol – HTTP/1.1. RFC 2068.
+Internet Engineering Task Force (IETF).
+
+[3] David Gourley and Brian Totty. 2002. HTTP: The Definitive
+Guide. O'Reilly Media, Sebastopol, Estados Unidos.
+
+[4] Yi Liu. 2024. Semantics-aware Human-computer Interaction
+Software Testing. Ph. D. Dissertation. College of Computing and
+Data Science, Nanyang Technological University, Singapura.
+
+[5] Sam Newman. 2015. Building Microservices: Designing Fine-
+Grained Systems. O'Reilly Media, Sebastopol, Estados Unidos.
+
+[6] Felipe Pezoa, Juan L. Reutter, Fernando Suarez, Martín Ugarte,
+and Domagoj Vrgoč. 2016. Foundations of JSON Schema. In 25th
+International World Wide Web Conference (WWW). 263–273.
+
+[7] Valeria Pontillo and Maxime Vandercammen. 2024. FERRARI:
+FailurE RepRoduction through automatic test cAse generation
+and stack tRace analysIs. In 23rd Belgium-Netherlands Software
+Evolution Workshop (BENEVOL). 45–56.
+
+[8] Amazon Web Services. 2024. O que é a API RESTful? Disponível
+em: <https://aws.amazon.com/what-is/restful-api/>. Acesso
+em: 29 maio 2024.
+
+[9] Ian Sommerville. 2015. Software Engineering. Addison-Wesley,
+Boston, Estados Unidos.
+
+[10] Testsigma Engineering Team. 2024. Insomnia vs Postman: Which
+is better for your project? Disponível em: <https://testsigma.
+com/blog/insomnia-vs-postman/>. Acesso em: 04 jul. 2024.

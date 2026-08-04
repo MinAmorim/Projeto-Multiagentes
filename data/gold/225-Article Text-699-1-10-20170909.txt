@@ -7,4 +7,3 @@ despendido na realização de testes funcionais realizados pela equipe de
 qualidade. A principal contribuição científica deste trabalho foi a geração de
 dados e informações da utilização da ferramenta JMeter para a realização de
 testes funcionais por meio de envio de XML via comunicação web service.
-Palavras–chave: Sistemas de Informação, Testes de Software, Automatização.

@@ -1,0 +1,11 @@
+DevSecOps combina desenvolvimento, segurança e operações para
+criar um processo ágil e seguro de entrega de software. A metodologia
+promove a integração da segurança no ciclo de desenvolvimento, o que
+diminui custos e esforços de correção. As pipelines de CI/CD automatizam o
+fluxo do código desde a construção até a produção, enquanto ferramentas
+SAST e SCA detectam vulnerabilidades de segurança. Neste artigo,
+apresentamos o HuskyCI, uma ferramenta de código aberto que orquestra
+testes de segurança em pipelines CI, oferecendo suporte a múltiplas
+linguagens e integração com ferramentas existentes. Conduzimos uma
+avaliação sobre tempo de execução dos testes e concluímos que ele não
+compromete o ciclo de desenvolvimento ágil dos projetos.

@@ -1,16 +1,3 @@
 **Resumo**
 
-O aumento exponencial no uso de aplicativos móveis e a fragmentação da plataforma 
-Android impõem desafios significativos à garantia da qualidade de software, 
-especialmente em termos de tempo e custo de testes. Este artigo tem como objetivo 
-comparar a eficiência de testes manuais e automatizados em um ambiente de nuvem, 
-utilizando emuladores para múltiplos dispositivos. A metodologia adotada incluiu
-a definição de cenários de teste, configuração do ambiente em nuvem e execução 
-de testes manuais e automatizados. Os resultados mostraram que, embora os testes 
-manuais apresentassem um desempenho superior em termos de tempo de execução, os 
-testes automatizados permitiram a execução em paralelo, reduzindo significativamente
-o tempo total de testes. A pesquisa contribui para a compreensão da eficácia dos 
-testes automatizados em ambientes de nuvem, destacando sua escalabilidade e potencial 
-para otimizar processos de teste em um mercado competitivo. Futuros estudos podem 
-explorar cenários mais complexos e aspectos não funcionais, como testes de carga 
-e performance.
+O aumento do uso de aplicativos móveis e a fragmentação da plataforma Android impõem desafios significativos à garantia da qualidade de software, especialmente em termos de tempo e custo de testes. Este artigo tem como objetivo comparar a eficiência de testes manuais e automatizados em um ambiente de nuvem, utilizando emuladores para múltiplos dispositivos. A metodologia adotada incluiu a definição de cenários de teste, configuração do ambiente e execução de testes manuais e automatizados, com análise dos tempos de execução. Os resultados mostraram que, embora os testes manuais apresentassem um desempenho superior em termos de tempo total, os testes automatizados, quando executados em paralelo, demonstraram uma eficiência significativa, reduzindo o tempo de execução em até 45,86%. A pesquisa contribui para a compreensão da viabilidade de testes automatizados em ambientes de nuvem, destacando sua escalabilidade e potencial para otimizar processos de teste em um mercado competitivo.

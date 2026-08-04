@@ -38,7 +38,6 @@ mostrar que um sistema está em conformidade com sua especificação e que atend
 expectativas do cliente [Sommerville, 2011]. Com a complexidade da tecnologia e
 consequentemente das aplicações e com o advento do ambiente cliente/servidor e
 260
-
 XIV Simpósio Brasileiro de Qualidade de Software / XIV Brazilian Symposium on Software Quality
 Relatos de Experiência / Experience reports
 posteriormente da web, partes dos sistemas (ou ele todo) se tornaram mais complexos
@@ -85,7 +84,6 @@ requer mão de obra qualificada [Chiavegatto et al., 2014].
 Um ganho essencial que pode ser identificado na automatização de testes
 segundo Chiavegatto et al. (2014), refere-se ao custo benefício quando é necessário
 261
-
 XIV Simpósio Brasileiro de Qualidade de Software / XIV Brazilian Symposium on Software Quality
 Relatos de Experiência / Experience reports
 executar testes repetitivos e de regressão. Também podem ser identificados ganhos com
@@ -100,7 +98,8 @@ BDD. Neste relato de experiência será utilizado o Cucumber-JVM [Wynne e Helles
 2012] para especificação dos cenários de teste conforme ilustrado na Figura 1.
 Figura 1. Exemplo de Mapeamento do teste de aceitação no Cucumber-JVM
 Na Figura 1 pode-se observar a especificação em Gherkin do comportamento do
-sistema utilizando a técnica BDD [North, 2006]. Além disso, na Classe Java Steps podese notar seu mapeamento para linguagem de programação. Para a execução dos testes
+sistema utilizando a técnica BDD [North, 2006]. Além disso, na Classe Java Steps pode-
+se notar seu mapeamento para linguagem de programação. Para a execução dos testes
 (cenários especificados), utilizam-se os arcabouços de teste Selenium WebDriver
 [Selenium, 2008] e JUnit [Tahchiev et al., 2011]. Tais ferramentas e arcabouços foram
 escolhidos considerando que são Open Source, podendo ser adaptados conforme a
@@ -118,7 +117,6 @@ aceitação, atendendo os cenários de aceite ao quais o sistema se propõe, sem
 necessidade de uma intervenção humana para verificar que tais critérios são ou não
 atendidos.
 262
-
 XIV Simpósio Brasileiro de Qualidade de Software / XIV Brazilian Symposium on Software Quality
 Relatos de Experiência / Experience reports
 O foco principal da técnica BDD é o comportamento do software, entretanto ela
@@ -165,6 +163,9 @@ ferramenta Cucumber-JVM. A Figura 3 apresenta uma feature com o cenário de
 cadastro de cliente no navegador Internet Explorer.
 263
 
+[TABELAS DA PÁGINA]
+Linhas de código | Complexidade das Classes | Complexidade das funções | Qtde de Classes | Qtde de funções
+1402 | 6,4 | 2 | 26 | 82
 XIV Simpósio Brasileiro de Qualidade de Software / XIV Brazilian Symposium on Software Quality
 Relatos de Experiência / Experience reports
 Na segunda atividade do processo (Atividade 2) é criado um projeto Java em um
@@ -185,7 +186,6 @@ features, conforme requisitado pela (Atividade 5). Por fim na (Atividade 6), é 
 relatório automático por meio do Cucumber-JVM, que contemplará os cenários que
 passaram e falharam na execução.
 264
-
 XIV Simpósio Brasileiro de Qualidade de Software / XIV Brazilian Symposium on Software Quality
 Relatos de Experiência / Experience reports
 3.3 Resultados Obtidos
@@ -233,6 +233,15 @@ testes, totalizando 1000 casos de teste executados, é observado um ganho de 29%
 custo da execução utilizando a automatização de testes de aceitação frente aos testes
 265
 
+[TABELAS DA PÁGINA]
+Atividade | Automatizado | Manual | Qtde de casos de teste | Qtde - A (Ambiente), R (Reteste), T (Total de casos de teste executados) |  |  |  |  | 
+ |  |  |  | 1º Amostra |  |  | 2° Amostra |  | 
+ |  |  |  | A | R | T | A | R | T
+ | Tempo Médio gasto nas atividades (min) |  | 20 | 3 | 2 | 120 | 5 | 10 | 1000
+Especificação / Implementação | 100 | 30 |  |  |  |  |  |  | 
+Execução (um ambiente) | 2 | 5 |  |  |  |  |  |  | 
+% ganho em tempo para automatização de testes de aceitação frente o teste manual |  |  |  | -87% |  |  | 29% |  | 
+% ganho em tempo de teste manual e especificação por script frente o teste automatizado |  |  |  | 46% |  |  | -40% |  | 
 XIV Simpósio Brasileiro de Qualidade de Software / XIV Brazilian Symposium on Software Quality
 Relatos de Experiência / Experience reports
 manuais. Na Figura 5 pode-se observar a tendência de gasto em horas para mais
@@ -266,7 +275,6 @@ Este artigo teve como objetivo relatar um estudo de caso no teste de uma aplica�
 utilizando a técnica Behavior-Driven Development (BDD) em conjunto com os
 arcabouços Cucumber-JVM, Selenium WebDriver e JUnit.
 266
-
 XIV Simpósio Brasileiro de Qualidade de Software / XIV Brazilian Symposium on Software Quality
 Relatos de Experiência / Experience reports
 Pode-se notar uma vantagem a médio e longo prazo na execução dos testes
