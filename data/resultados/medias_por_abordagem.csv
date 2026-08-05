@@ -1,6 +1,0 @@
-,rouge1,rouge1,rouge2,rouge2,rougeL,rougeL,bertscore_f1,bertscore_f1,cobertura_score,cobertura_score,fidelidade_nota,fidelidade_nota,fidelidade_qtd_nao_suportadas,fidelidade_qtd_nao_suportadas,tempo_segundos,tempo_segundos,tokens_total,tokens_total,numero_chamadas,numero_chamadas
-,mean,std,mean,std,mean,std,mean,std,mean,std,mean,std,mean,std,mean,std,mean,std,mean,std
-abordagem,,,,,,,,,,,,,,,,,,,,
-multi_agent,0.296,0.094,0.125,0.05,0.171,0.046,0.719,0.022,4.967,0.183,3.2,0.664,2.4,1.276,120.618,551.693,115067.6,35871.083,16.0,0.0
-reflection_agent,0.42,0.113,0.166,0.065,0.229,0.064,0.739,0.024,5.0,0.0,2.8,0.407,2.633,0.615,8.758,3.521,13500.933,4466.091,2.0,0.0
-single_agent,0.436,0.119,0.178,0.069,0.233,0.064,0.745,0.027,5.0,0.0,2.9,0.403,2.8,0.761,4.523,3.519,6635.167,2229.225,1.0,0.0

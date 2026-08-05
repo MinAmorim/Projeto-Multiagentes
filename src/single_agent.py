@@ -8,20 +8,26 @@ load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 CAMINHO_BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PASTA_PROCESSADOS = os.path.join(CAMINHO_BASE, "data", "processed_sem_abstract")
+PASTA_PROCESSADOS = os.path.join(CAMINHO_BASE, "data", "processed_sem_resumo")
 PASTA_OUTPUT = os.path.join(CAMINHO_BASE, "data", "outputs", "single_agent")
 CAMINHO_CUSTO = os.path.join(CAMINHO_BASE, "data", "resultados", "custo.csv")
 
 
 
-def abstract_single_agent(nome_arquivo, texto_artigo):
+def resumo_single_agent(nome_arquivo, texto_artigo):
     
     prompt_sistema = """
     Você é um pesquisador acadêmico.
-    Sua tarefa é ler o corpo de um artigo científico e escrever um abstract científico claro e conciso.
+    Sua tarefa é ler o corpo de um artigo científico e escrever um resumo científico claro e conciso.
     O resumo deve ser escrito obrigatoriamente em português do Brasil.
 
-    O abstract deve conter:
+    Regras obrigatórias:
+    - Utilize apenas as informações presentes no texto fornecido.
+    - Não acrescente informações externas, nem faça suposições
+    - Não invente dados, métricas ou conclusões
+    - Caso alguma das informações solicitadas não esteja presente ou não esteja clara no texto original, simplesmente não a inclua na resposta
+
+    O resumo deve conter:
     - problema
     - objetivo
     - método
@@ -67,7 +73,7 @@ def executar ():
         with open(caminho_leitura, "r", encoding="utf-8") as f:
             conteudo = f.read()
         
-        resumo_gerado = abstract_single_agent(nome, conteudo)
+        resumo_gerado = resumo_single_agent(nome, conteudo)
 
         caminho_salvamento = os.path.join(PASTA_OUTPUT, nome)
         with open(caminho_salvamento, "w", encoding="utf-8") as f:

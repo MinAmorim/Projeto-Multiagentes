@@ -41,20 +41,20 @@ def calcular_bertscore(gold, gerado):
         "f1": f1.item(),
     }
 
-def avaliar_cobertura_semantica(texto_original, abstract_gerado):
+def avaliar_cobertura_semantica(texto_original, resumo_gerado):
     prompt = f"""
 Analise o resumo gerado com base no trecho do artigo original fornecido.
 Verifique a presença de cinco elementos estruturais no resumo: problema,
 objetivo, método, resultados e contribuição.
 
-Seja RIGOROSO: só marque presente=1 se o elemento estiver explicitamente e
-inequivocamente no abstract, com um trecho concreto que comprove isso. Não
+Seja rigoroso: só marque presente=1 se o elemento estiver explicitamente e
+inequivocamente no resumo, com um trecho concreto que comprove isso. Não
 marque 1 por inferência, insinuação, ou porque "parece que está implícito".
-Um abstract bem escrito ainda pode deixar de contemplar um ou mais desses
-elementos com clareza -- não hesite em marcar 0 nesses casos.
+Um resumo bem escrito ainda pode deixar de contemplar um ou mais desses
+elementos com clareza, não hesite em marcar 0 nesses casos.
 
 Para cada elemento, retorne presente (0 ou 1) e evidencia (uma citação curta
-e literal do abstract gerado que comprove a marcação; string vazia "" se
+e literal do resumo gerado que comprove a marcação; string vazia "" se
 presente=0).
 
 Retorne exclusivamente este JSON, sem texto adicional:
@@ -68,7 +68,7 @@ Retorne exclusivamente este JSON, sem texto adicional:
 
 Artigo original: {texto_original}
 
-Abstract gerado: {abstract_gerado}
+Resumo gerado: {resumo_gerado}
 """.strip()
 
     resposta = client.chat.completions.create(
@@ -93,11 +93,11 @@ Abstract gerado: {abstract_gerado}
 
     return cobertura, evidencias
 
-def avaliar_fidelidade(texto_original, abstract_gerado):
+def avaliar_fidelidade(texto_original, resumo_gerado):
     prompt = f"""
 Compare o resumo gerado com o artigo original.
 Primeiro, identifique qualquer afirmação, dado numérico, método ou conclusão
-presente no abstract que não tenha suporte direto no texto original.
+presente no resumo que não tenha suporte direto no texto original.
 
 Depois, atribua a nota_fidelidade seguindo ESTRITAMENTE esta régua, para
 manter a nota consistente com a lista de afirmações não suportadas que você
@@ -118,7 +118,7 @@ Retorne estritamente um JSON neste formato, sem explicações adicionais:
 
 Artigo original: {texto_original}
 
-Abstract gerado: {abstract_gerado}
+resumo gerado: {resumo_gerado}
 """.strip()
 
     resposta = client.chat.completions.create(

@@ -7,13 +7,13 @@ from utils.custo import registrar_custo
 load_dotenv()
 
 CAMINHO_BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PASTA_PROCESSADOS = os.path.join(CAMINHO_BASE, "data", "processed_sem_abstract")
+PASTA_PROCESSADOS = os.path.join(CAMINHO_BASE, "data", "processed_sem_resumo")
 PASTA_OUTPUT = os.path.join(CAMINHO_BASE, "data", "outputs", "multi_agent")
 CAMINHO_CUSTO = os.path.join(CAMINHO_BASE, "data", "resultados", "custo.csv")
 
 os.makedirs(PASTA_OUTPUT, exist_ok=True)
 
-def gerar_abstract_multiagente(nome_arquivo, texto_artigo):
+def gerar_resumo_multiagente(nome_arquivo, texto_artigo):
 
     llm_padrao = LLM(model="gpt-4o-mini", temperature=0.0)
    
@@ -47,7 +47,7 @@ def gerar_abstract_multiagente(nome_arquivo, texto_artigo):
     agente_sintetizador = Agent(
         role='Sintetizador de Resumo Final',
         goal='Escrever um resumo científico claro, conciso e completo em português do Brasil, unindo os achados dos outros especialistas e mantendo fidelidade absoluta ao artigo.',
-        backstory='Você é um redator chefe e editor de uma renomada revista científica. Você nunca inventa dados. Você usa as notas dos especialistas apenas como um roteiro estrutural, mas sempre valida e extrai os termos, números e conclusões exatas do artigo original fornecido.',
+        backstory='Você é um redator chefe e editor de uma renomada revista científica. Você nunca inventa dados. Você usa as notas dos especialistas apenas como um roteiro estrutural, mas sempre valida e extrai os termos, números e conclusões exatas do artigo original fornecido. Antes de entregar qualquer texto, você sempreconfere cada número e conclusão contra o artigo original, palavra por palavra',
         verbose=False,
         allow_delegation=False,
         llm=llm_padrao
@@ -73,9 +73,10 @@ def gerar_abstract_multiagente(nome_arquivo, texto_artigo):
 
     tarefa_sintese = Task(
         description=f'''A partir do problema, método e resultados extraídos pelos outros especialistas, redija o resumo final.
-        
-        Você deve ancorar toda a sua redação no texto original abaixo. 
-        Não invente métricas, nomes, métodos ou conclusões que não estejam explicitamente no texto.
+        Siga este processo em duas etapas:
+        1 - Utilize as notas produzidas pelos especialistas como base para estruturar o resumo, tomando sempre o texto original como principal referência.
+        2 - Revise o resumo elaborado e verifique se todas as afirmações numéricas, métodos, ferramentas e conclusões apresentados estão explicitamente fundamentados no texto original. Confirme também se cada informação preserva o mesmo contexto e escopo em que foi apresentada no artigo. Quando um resultado estiver restrito a um cenário, método, ferramenta ou módulo específico, essa restrição deve permanecer explícita no resumo. Caso identifique informações sem suporte direto, interpretações ou generalizações indevidas, corrija-as ou remova-as. Em situações de dúvida, prefira uma formulação mais conservadora, compatível com as evidências disponíveis no texto.
+        Retorne apenas a versão final do resumo, sem incluir o rascunho ou o processo de revisão.
         Texto original do artigo: {texto_artigo}
         O resumo deve ser escrito obrigatoriamente em português do Brasil e ser um texto coeso e fluido.''',
         expected_output='Um resumo científico completo e fluido, 100% fiel ao texto original, escrito em português do Brasil.',
@@ -117,7 +118,7 @@ def executar():
         with open(caminho_leitura, "r", encoding="utf-8") as f:
             conteudo = f.read()
             
-        resumo_gerado = gerar_abstract_multiagente(nome, conteudo)
+        resumo_gerado = gerar_resumo_multiagente(nome, conteudo)
         
         caminho_salvamento = os.path.join(PASTA_OUTPUT, nome)
         with open(caminho_salvamento, "w", encoding="utf-8") as f:
