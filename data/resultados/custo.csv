@@ -1,91 +1,91 @@
 arquivo,abordagem,tempo_segundos,tokens_prompt,tokens_completion,tokens_total,numero_chamadas
-submissao-1771-arquivo-7429.txt,single_agent,9.47,4144,215,4359,1
-15297-1550-12039-1-10-20210524.txt,single_agent,6.07,4525,197,4722,1
-16179-1550-12890-1-10-20210713.txt,single_agent,4.12,5176,168,5344,1
-AutoTest-Um_Framework_Reutilizavel_para_a_Automaca.txt,single_agent,4.92,11185,230,11415,1
-Tecnicas_para_Construcao_de_Testes_Funci.txt,single_agent,5.71,7715,201,7916,1
-5932-1045-13355-1-10-20210721.txt,single_agent,5.01,6777,179,6956,1
-15441-1550-12186-1-10-20210531.txt,single_agent,3.73,4236,171,4407,1
-146-Relatório do Projeto-982-1-10-20230821.txt,single_agent,4.04,5569,226,5795,1
-225-Article Text-699-1-10-20170909.txt,single_agent,6.56,5661,336,5997,1
-CA234CS19.txt,single_agent,6.03,5235,244,5479,1
-31858-1310-26107-1-10-20241203.txt,single_agent,16.01,6776,206,6982,1
-3229345.3229356.txt,single_agent,12.86,9962,284,10246,1
-15225-1550-11966-1-10-20210521.txt,single_agent,5.63,5765,231,5996,1
-artigo2.txt,single_agent,6.12,4578,166,4744,1
-15231-1550-11972-1-10-20210521.txt,single_agent,17.73,5101,237,5338,1
-THIAGO SANTOS DE MOURA - TCC CIÊNCIA DA COMPUTAÇÃO 2021.txt,single_agent,14.13,10356,246,10602,1
-30122-853-24563-1-10-20240904.txt,single_agent,19.33,5890,275,6165,1
-15438-1550-12183-1-10-20210531.txt,single_agent,9.85,5945,280,6225,1
-WICSI_2016_Artigo_Augusto_12_04.txt,single_agent,5.83,4651,261,4912,1
-Alisson Schmitz de Medeiros.txt,single_agent,4.71,5009,173,5182,1
-36892-1418-29988-1-10-20250909.txt,single_agent,5.02,4064,231,4295,1
-93-2024.2 -Michele Ramos Borowski.txt,single_agent,6.12,9214,271,9485,1
-Automação de Testes_ Um Estudo de Caso.txt,single_agent,4.83,8275,222,8497,1
-158-Article Text-453-1-10-20160906.txt,single_agent,6.24,5841,273,6114,1
-27294-853-22364-1-10-20240125.txt,single_agent,15.83,8361,301,8662,1
-36890-1418-29986-1-10-20250909.txt,single_agent,5.17,6575,312,6887,1
-373-Artigo+.txt,single_agent,4.81,6430,279,6709,1
-Joslaine2.txt,single_agent,3.48,3433,167,3600,1
-Utilizacao_de_Padroes_para_Otimizar_a_Au.txt,single_agent,5.63,6434,165,6599,1
-17292-1189-13883-1-10-20210924.txt,single_agent,6.09,12062,229,12291,1
-submissao-1771-arquivo-7429.txt,reflection_agent,11.28,8460,374,8834,2
-15297-1550-12039-1-10-20210524.txt,reflection_agent,8.36,9278,476,9754,2
-16179-1550-12890-1-10-20210713.txt,reflection_agent,10.13,10673,649,11322,2
-AutoTest-Um_Framework_Reutilizavel_para_a_Automaca.txt,reflection_agent,16.44,22578,466,23044,2
-Tecnicas_para_Construcao_de_Testes_Funci.txt,reflection_agent,19.64,15623,421,16044,2
-5932-1045-13355-1-10-20210721.txt,reflection_agent,14.73,13744,413,14157,2
-15441-1550-12186-1-10-20210531.txt,reflection_agent,7.99,8637,375,9012,2
-146-Relatório do Projeto-982-1-10-20230821.txt,reflection_agent,8.53,11361,546,11907,2
-225-Article Text-699-1-10-20170909.txt,reflection_agent,15.12,11609,606,12215,2
-CA234CS19.txt,reflection_agent,12.28,10653,416,11069,2
-31858-1310-26107-1-10-20241203.txt,reflection_agent,13.21,13747,423,14170,2
-3229345.3229356.txt,reflection_agent,17.92,20107,412,20519,2
-15225-1550-11966-1-10-20210521.txt,reflection_agent,20.68,11745,457,12202,2
-artigo2.txt,reflection_agent,6.86,9298,324,9622,2
-15231-1550-11972-1-10-20210521.txt,reflection_agent,10.75,10430,508,10938,2
-THIAGO SANTOS DE MOURA - TCC CIÊNCIA DA COMPUTAÇÃO 2021.txt,reflection_agent,17.15,20909,422,21331,2
-30122-853-24563-1-10-20240904.txt,reflection_agent,8.85,11980,450,12430,2
-15438-1550-12183-1-10-20210531.txt,reflection_agent,13.2,12155,557,12712,2
-WICSI_2016_Artigo_Augusto_12_04.txt,reflection_agent,9.94,9498,406,9904,2
-Alisson Schmitz de Medeiros.txt,reflection_agent,5.83,10185,364,10549,2
-36892-1418-29988-1-10-20250909.txt,reflection_agent,7.37,8342,441,8783,2
-93-2024.2 -Michele Ramos Borowski.txt,reflection_agent,8.1,18633,428,19061,2
-Automação de Testes_ Um Estudo de Caso.txt,reflection_agent,14.31,16776,474,17250,2
-158-Article Text-453-1-10-20160906.txt,reflection_agent,13.83,11900,476,12376,2
-27294-853-22364-1-10-20240125.txt,reflection_agent,8.3,16921,428,17349,2
-36890-1418-29986-1-10-20250909.txt,reflection_agent,17.0,13438,601,14039,2
-373-Artigo+.txt,reflection_agent,16.81,13075,507,13582,2
-Joslaine2.txt,reflection_agent,6.55,7013,317,7330,2
-Utilizacao_de_Padroes_para_Otimizar_a_Au.txt,reflection_agent,11.75,13061,401,13462,2
-17292-1189-13883-1-10-20210924.txt,reflection_agent,18.63,24334,460,24794,2
-submissao-1771-arquivo-7429.txt,multi_agent,16.06,72136,3776,75912,16
-15297-1550-12039-1-10-20210524.txt,multi_agent,22.5,79312,4920,84232,16
-16179-1550-12890-1-10-20210713.txt,multi_agent,25.3,90016,5804,95820,16
-AutoTest-Um_Framework_Reutilizavel_para_a_Automaca.txt,multi_agent,27.6,185340,5196,190536,16
-Tecnicas_para_Construcao_de_Testes_Funci.txt,multi_agent,34.59,129804,4548,134352,16
-5932-1045-13355-1-10-20210721.txt,multi_agent,30.66,113720,3772,117492,16
-15441-1550-12186-1-10-20210531.txt,multi_agent,16.4,73104,3840,76944,16
-146-Relatório do Projeto-982-1-10-20230821.txt,multi_agent,23.14,95392,4464,99856,16
-225-Article Text-699-1-10-20170909.txt,multi_agent,36.62,96852,4560,101412,16
-CA234CS19.txt,multi_agent,20.84,89564,4448,94012,16
-31858-1310-26107-1-10-20241203.txt,multi_agent,23.68,114456,4520,118976,16
-3229345.3229356.txt,multi_agent,20.68,166072,4416,170488,16
-15225-1550-11966-1-10-20210521.txt,multi_agent,19.93,98872,4584,103456,16
-artigo2.txt,multi_agent,18.6,79504,4420,83924,16
-15231-1550-11972-1-10-20210521.txt,multi_agent,20.04,87856,4976,92832,16
-THIAGO SANTOS DE MOURA - TCC CIÊNCIA DA COMPUTAÇÃO 2021.txt,multi_agent,44.67,173204,4700,177904,16
-30122-853-24563-1-10-20240904.txt,multi_agent,21.36,99968,3780,103748,16
-15438-1550-12183-1-10-20210531.txt,multi_agent,22.41,101744,4028,105772,16
-WICSI_2016_Artigo_Augusto_12_04.txt,multi_agent,19.31,81612,4952,86564,16
-Alisson Schmitz de Medeiros.txt,multi_agent,27.41,87512,5808,93320,16
-36892-1418-29988-1-10-20250909.txt,multi_agent,22.68,72356,5572,77928,16
-93-2024.2 -Michele Ramos Borowski.txt,multi_agent,28.62,154812,4732,159544,16
-Automação de Testes_ Um Estudo de Caso.txt,multi_agent,26.4,141200,6256,147456,16
-158-Article Text-453-1-10-20160906.txt,multi_agent,34.98,99396,4976,104372,16
-27294-853-22364-1-10-20240125.txt,multi_agent,26.4,140228,4780,145008,16
-36890-1418-29986-1-10-20250909.txt,multi_agent,23.79,111332,4772,116104,16
-373-Artigo+.txt,multi_agent,35.46,110724,5480,116204,16
-Joslaine2.txt,multi_agent,22.37,61940,4228,66168,16
-Utilizacao_de_Padroes_para_Otimizar_a_Au.txt,multi_agent,29.62,108848,4508,113356,16
-17292-1189-13883-1-10-20210924.txt,multi_agent,41.63,199224,5784,205008,16
+submissao-1771-arquivo-7429.txt,single_agent,5.1,4212,200,4412,1
+15297-1550-12039-1-10-20210524.txt,single_agent,3.38,4593,229,4822,1
+16179-1550-12890-1-10-20210713.txt,single_agent,4.19,5244,184,5428,1
+AutoTest-Um_Framework_Reutilizavel_para_a_Automaca.txt,single_agent,4.61,11253,301,11554,1
+Tecnicas_para_Construcao_de_Testes_Funci.txt,single_agent,4.5,7783,245,8028,1
+5932-1045-13355-1-10-20210721.txt,single_agent,3.8,6845,212,7057,1
+15441-1550-12186-1-10-20210531.txt,single_agent,5.21,4304,328,4632,1
+146-Relatório do Projeto-982-1-10-20230821.txt,single_agent,9.93,5637,213,5850,1
+225-Article Text-699-1-10-20170909.txt,single_agent,6.86,5729,301,6030,1
+CA234CS19.txt,single_agent,9.28,5303,187,5490,1
+31858-1310-26107-1-10-20241203.txt,single_agent,7.51,6844,293,7137,1
+3229345.3229356.txt,single_agent,10.42,10030,314,10344,1
+15225-1550-11966-1-10-20210521.txt,single_agent,3.71,5833,244,6077,1
+artigo2.txt,single_agent,2.97,4646,154,4800,1
+15231-1550-11972-1-10-20210521.txt,single_agent,5.83,5169,354,5523,1
+THIAGO SANTOS DE MOURA - TCC CIÊNCIA DA COMPUTAÇÃO 2021.txt,single_agent,4.5,10424,308,10732,1
+30122-853-24563-1-10-20240904.txt,single_agent,4.3,5958,296,6254,1
+15438-1550-12183-1-10-20210531.txt,single_agent,3.99,6013,296,6309,1
+WICSI_2016_Artigo_Augusto_12_04.txt,single_agent,3.38,4719,219,4938,1
+Alisson Schmitz de Medeiros.txt,single_agent,4.09,5077,242,5319,1
+36892-1418-29988-1-10-20250909.txt,single_agent,3.58,4132,213,4345,1
+93-2024.2 -Michele Ramos Borowski.txt,single_agent,5.89,9282,295,9577,1
+Automação de Testes_ Um Estudo de Caso.txt,single_agent,4.86,8343,247,8590,1
+158-Article Text-453-1-10-20160906.txt,single_agent,5.73,5909,333,6242,1
+27294-853-22364-1-10-20240125.txt,single_agent,6.45,8429,299,8728,1
+36890-1418-29986-1-10-20250909.txt,single_agent,4.85,6643,319,6962,1
+373-Artigo+.txt,single_agent,6.4,6498,305,6803,1
+Joslaine2.txt,single_agent,2.91,3501,180,3681,1
+Utilizacao_de_Padroes_para_Otimizar_a_Au.txt,single_agent,4.15,6502,175,6677,1
+17292-1189-13883-1-10-20210924.txt,single_agent,2220.02,12130,254,12384,1
+submissao-1771-arquivo-7429.txt,reflection_agent,10.71,8518,393,8911,2
+15297-1550-12039-1-10-20210524.txt,reflection_agent,15.87,9327,467,9794,2
+16179-1550-12890-1-10-20210713.txt,reflection_agent,27.64,10850,710,11560,2
+AutoTest-Um_Framework_Reutilizavel_para_a_Automaca.txt,reflection_agent,28.89,22686,390,23076,2
+Tecnicas_para_Construcao_de_Testes_Funci.txt,reflection_agent,13.09,15727,372,16099,2
+5932-1045-13355-1-10-20210721.txt,reflection_agent,25.22,13902,408,14310,2
+15441-1550-12186-1-10-20210531.txt,reflection_agent,27.3,8884,434,9318,2
+146-Relatório do Projeto-982-1-10-20230821.txt,reflection_agent,19.86,11550,479,12029,2
+225-Article Text-699-1-10-20170909.txt,reflection_agent,21.75,11763,592,12355,2
+CA234CS19.txt,reflection_agent,14.13,10758,364,11122,2
+31858-1310-26107-1-10-20241203.txt,reflection_agent,15.57,13904,402,14306,2
+3229345.3229356.txt,reflection_agent,29.14,20368,486,20854,2
+15225-1550-11966-1-10-20210521.txt,reflection_agent,17.96,11953,478,12431,2
+artigo2.txt,reflection_agent,10.19,9453,269,9722,2
+15231-1550-11972-1-10-20210521.txt,reflection_agent,27.65,10555,512,11067,2
+THIAGO SANTOS DE MOURA - TCC CIÊNCIA DA COMPUTAÇÃO 2021.txt,reflection_agent,25.09,21049,427,21476,2
+30122-853-24563-1-10-20240904.txt,reflection_agent,26.47,12163,384,12547,2
+15438-1550-12183-1-10-20210531.txt,reflection_agent,21.15,12369,557,12926,2
+WICSI_2016_Artigo_Augusto_12_04.txt,reflection_agent,20.21,9581,434,10015,2
+Alisson Schmitz de Medeiros.txt,reflection_agent,23.69,10337,375,10712,2
+36892-1418-29988-1-10-20250909.txt,reflection_agent,25.17,8472,431,8903,2
+93-2024.2 -Michele Ramos Borowski.txt,reflection_agent,47.42,18811,401,19212,2
+Automação de Testes_ Um Estudo de Caso.txt,reflection_agent,27.41,16872,409,17281,2
+158-Article Text-453-1-10-20160906.txt,reflection_agent,19.48,11965,442,12407,2
+27294-853-22364-1-10-20240125.txt,reflection_agent,19.0,16966,426,17392,2
+36890-1418-29986-1-10-20250909.txt,reflection_agent,38.94,13581,569,14150,2
+373-Artigo+.txt,reflection_agent,34.62,13309,459,13768,2
+Joslaine2.txt,reflection_agent,15.36,7207,366,7573,2
+Utilizacao_de_Padroes_para_Otimizar_a_Au.txt,reflection_agent,23.82,13319,415,13734,2
+17292-1189-13883-1-10-20210924.txt,reflection_agent,37.71,24449,478,24927,2
+submissao-1771-arquivo-7429.txt,multi_agent,24.56,73984,4520,78504,16
+15297-1550-12039-1-10-20210524.txt,multi_agent,50.11,79864,4872,84736,16
+16179-1550-12890-1-10-20210713.txt,multi_agent,39.25,90648,5180,95828,16
+AutoTest-Um_Framework_Reutilizavel_para_a_Automaca.txt,multi_agent,54.79,187048,5576,192624,16
+Tecnicas_para_Construcao_de_Testes_Funci.txt,multi_agent,35.96,130520,3876,134396,16
+5932-1045-13355-1-10-20210721.txt,multi_agent,22.71,115428,4360,119788,16
+15441-1550-12186-1-10-20210531.txt,multi_agent,48.32,75580,5160,80740,16
+146-Relatório do Projeto-982-1-10-20230821.txt,multi_agent,25.79,96692,5172,101864,16
+225-Article Text-699-1-10-20170909.txt,multi_agent,59.49,100900,5928,106828,16
+CA234CS19.txt,multi_agent,46.87,92364,5848,98212,16
+31858-1310-26107-1-10-20241203.txt,multi_agent,23.92,115752,4488,120240,16
+3229345.3229356.txt,multi_agent,63.42,167712,6212,173924,16
+15225-1550-11966-1-10-20210521.txt,multi_agent,24.56,100420,5364,105784,16
+artigo2.txt,multi_agent,17.32,79632,3760,83392,16
+15231-1550-11972-1-10-20210521.txt,multi_agent,33.29,89440,5592,95032,16
+THIAGO SANTOS DE MOURA - TCC CIÊNCIA DA COMPUTAÇÃO 2021.txt,multi_agent,51.82,173884,4724,178608,16
+30122-853-24563-1-10-20240904.txt,multi_agent,31.5,102104,4796,106900,16
+15438-1550-12183-1-10-20210531.txt,multi_agent,26.3,103768,5212,108980,16
+WICSI_2016_Artigo_Augusto_12_04.txt,multi_agent,24.1,82716,4856,87572,16
+Alisson Schmitz de Medeiros.txt,multi_agent,26.05,87068,4080,91148,16
+36892-1418-29988-1-10-20250909.txt,multi_agent,24.13,73736,5360,79096,16
+93-2024.2 -Michele Ramos Borowski.txt,multi_agent,32.17,156328,4400,160728,16
+Automação de Testes_ Um Estudo de Caso.txt,multi_agent,37.08,142600,5840,148440,16
+158-Article Text-453-1-10-20160906.txt,multi_agent,30.13,101332,5464,106796,16
+27294-853-22364-1-10-20240125.txt,multi_agent,39.32,141216,4936,146152,16
+36890-1418-29986-1-10-20250909.txt,multi_agent,30.03,113284,5272,118556,16
+373-Artigo+.txt,multi_agent,33.5,111332,5200,116532,16
+Joslaine2.txt,multi_agent,19.34,62340,3904,66244,16
+Utilizacao_de_Padroes_para_Otimizar_a_Au.txt,multi_agent,31.48,110512,4608,115120,16
+17292-1189-13883-1-10-20210924.txt,multi_agent,57.42,201428,5532,206960,16

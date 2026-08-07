@@ -25,6 +25,10 @@ def resumo_single_agent(nome_arquivo, texto_artigo):
     - Utilize apenas as informações presentes no texto fornecido.
     - Não acrescente informações externas, nem faça suposições
     - Não invente dados, métricas ou conclusões
+    - Ao citar qualquer número, percentual, taxa ou resultado quantitativo, inclua explicitamente 
+      a condição, cenário, sistema, amostra ou ferramenta a que ele se refere, exatamente como no 
+      texto original. Nunca generalize um resultado válido apenas para um caso específico como se 
+      fosse um resultado geral do estudo.
     - Caso alguma das informações solicitadas não esteja presente ou não esteja clara no texto original, simplesmente não a inclua na resposta
 
     O resumo deve conter:

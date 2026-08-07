@@ -18,13 +18,16 @@ def gerar_resumo_multiagente(nome_arquivo, texto_artigo):
     llm_padrao = LLM(model="gpt-4o-mini", temperature=0.0)
    
     agente_problema = Agent(
-        role='Extrator de Problema e Lacuna',
-        goal='Identificar de forma precisa o problema de pesquisa e a lacuna científica no texto fornecido.',
-        backstory='Você é um pesquisador acadêmico experiente, focado em compreender a motivação e o problema central de artigos científicos.',
-        verbose=False,
-        allow_delegation=False,
-        llm=llm_padrao
-    )
+    role='Extrator de Problema e Lacuna',
+    goal='Identificar de forma precisa o problema de pesquisa e a lacuna científica no texto fornecido, '
+         'sem afirmar a existência da lacuna com mais certeza do que o próprio artigo expressa.',
+    backstory='Você é um pesquisador acadêmico experiente. Você nunca infere ou reforça uma lacuna '
+              'científica além do que os autores dizem explicitamente. Se os autores não afirmam '
+              'categoricamente que algo é uma lacuna, você não afirma isso categoricamente também.',
+    verbose=False,
+    allow_delegation=False,
+    llm=llm_padrao
+)
 
     agente_metodo = Agent(
         role='Extrator de Método',
@@ -37,8 +40,14 @@ def gerar_resumo_multiagente(nome_arquivo, texto_artigo):
 
     agente_resultados = Agent(
         role='Extrator de Resultados e Contribuições',
-        goal='Extrair os principais resultados, conclusões e contribuições empíricas do texto.',
-        backstory='Você é um analista de dados acadêmicos especializado em sintetizar as descobertas e impactos de pesquisas.',
+        goal='Extrair os principais resultados, conclusões e contribuições empíricas do texto, preservando '
+             'exatamente as condições, cenários ou sistemas a que cada resultado se refere, e sem apresentar '
+             'a contribuição do estudo com mais certeza, generalidade ou impacto do que os autores expressam '
+             'explicitamente no artigo.',
+        backstory='Você é um analista de dados acadêmicos especializado em sintetizar as descobertas e impactos '
+                  'de pesquisas. Você nunca amplia o alcance de uma contribuição além do que os próprios autores '
+                  'afirmam, se os autores apresentam algo como um resultado preliminar ou específico de um '
+                  'cenário, você preserva essa limitação em vez de generalizar.',
         verbose=False,
         allow_delegation=False,
         llm=llm_padrao
@@ -54,7 +63,7 @@ def gerar_resumo_multiagente(nome_arquivo, texto_artigo):
     )
 
     tarefa_problema = Task(
-        description=f'Leia o seguinte artigo e extraia o problema e a lacuna. Artigo: {texto_artigo}',
+        description=f'Leia o seguinte artigo e extraia o problema e a lacuna. Regra: cite apenas o que os autores afirmam explicitamente sobre o problema/lacuna. Não reforce, generalize nem torne a afirmação mais categórica do que o texto original permite. Artigo: {texto_artigo}',
         expected_output='Um parágrafo descrevendo o problema de pesquisa.',
         agent=agente_problema
     )
@@ -66,7 +75,11 @@ def gerar_resumo_multiagente(nome_arquivo, texto_artigo):
     )
 
     tarefa_resultados = Task(
-        description=f'Leia o seguinte artigo e extraia os resultados e contribuições. Artigo: {texto_artigo}',
+        description=f'''Leia o seguinte artigo e extraia os resultados e contribuições.
+        Regra: preserve o cenário/sistema/condição exata a que cada resultado numérico se refere. Ao descrever 
+        a contribuição do estudo, não amplie seu alcance nem a apresente como mais certa ou geral do que os 
+        autores expressam, cite apenas o que está explicitamente afirmado.
+        Artigo: {texto_artigo}''',
         expected_output='Um parágrafo descrevendo os resultados e contribuições.',
         agent=agente_resultados
     )
@@ -76,6 +89,7 @@ def gerar_resumo_multiagente(nome_arquivo, texto_artigo):
         Siga este processo em duas etapas:
         1 - Utilize as notas produzidas pelos especialistas como base para estruturar o resumo, tomando sempre o texto original como principal referência.
         2 - Revise o resumo elaborado e verifique se todas as afirmações numéricas, métodos, ferramentas e conclusões apresentados estão explicitamente fundamentados no texto original. Confirme também se cada informação preserva o mesmo contexto e escopo em que foi apresentada no artigo. Quando um resultado estiver restrito a um cenário, método, ferramenta ou módulo específico, essa restrição deve permanecer explícita no resumo. Caso identifique informações sem suporte direto, interpretações ou generalizações indevidas, corrija-as ou remova-as. Em situações de dúvida, prefira uma formulação mais conservadora, compatível com as evidências disponíveis no texto.
+        3 - Verifique também o tom das frases de abertura (problema/lacuna) e fechamento (contribuição): elas devem refletir o mesmo grau de certeza que os autores expressam no artigo. Se os autores sugerem ou discutem algo, não reescreva como se fosse um fato estabelecido. Prefira formulações como "os autores argumentam que..." quando a afirmação for interpretação, não fato direto.
         Retorne apenas a versão final do resumo, sem incluir o rascunho ou o processo de revisão.
         Texto original do artigo: {texto_artigo}
         O resumo deve ser escrito obrigatoriamente em português do Brasil e ser um texto coeso e fluido.''',

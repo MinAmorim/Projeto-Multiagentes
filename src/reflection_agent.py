@@ -40,29 +40,55 @@ def resumo_reflection_agent(nome_arquivo, texto_artigo):
     )
     primeira_resposta = primeira_resposta_obj.choices[0].message.content
 
-    prompt_reflexao = f"""
-    Você é um revisor científico rigoroso.
+    
+
+    prompt_auditoria = f"""
+    Você é um auditor de fidelidade factual, não um editor de texto.
     Texto original: {texto_artigo}
     resumo atual: {primeira_resposta}
 
-    1. Identifique todas as afirmações numéricas, os métodos, as ferramentas e as conclusões apresentados no resumo atual.
-    2. Verifique se cada uma dessas informações está explicitamente presente no texto original e se mantém o mesmo contexto e escopo, sem generalizações.
-    3. Reescreva o resumo em português do Brasil, removendo ou corrigindo qualquer informação que não tenha suporte direto no texto original. Preserve o contexto e o significado de cada dado, método e conclusão.
+    Liste, em tópicos curtos, apenas os problemas encontrados no resumo atual:
+    - Afirmações numéricas, métodos, ferramentas ou conclusões que NÃO estão explicitamente no texto original.
+    - Afirmações que generalizam um resultado restrito a um cenário/sistema/amostra específico como se fosse geral.
+    
+    Regras:
+    - NÃO reescreva o resumo aqui. Apenas liste os problemas encontrados, citando a frase problemática.
+    - Se não encontrar nenhum problema, responda apenas: "Nenhum problema encontrado."
+    - Não questione nem altere números que já estão corretos e com o escopo correto, liste apenas o que 
+      está genuinamente incorreto ou sem suporte.
+    """
 
-    Regras obrigatórias:
-    - Utilize apenas as informações presentes no texto fornecido.
-    - Não acrescente informações externas, nem faça suposições
-    - Não invente dados, métricas ou conclusões
-    - Caso alguma das informações solicitadas não esteja presente ou não esteja clara no texto original, simplesmente não a inclua na resposta
+    auditoria_obj = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "Você é um auditor de fidelidade factual. Sua função é apenas apontar "
+                                            "problemas, nunca reescrever texto."},
+            {"role": "user", "content": prompt_auditoria}
+        ],
+        temperature=0.0
+    )
+    lista_problemas = auditoria_obj.choices[0].message.content
 
-    Retorne apenas o resumo final revisado
+    prompt_correcao = f"""
+    Texto original: {texto_artigo}
+    resumo atual: {primeira_resposta}
+    problemas identificados pela auditoria: {lista_problemas}
+
+    Reescreva o resumo em português do Brasil, aplicando somente as correções necessárias para resolver os 
+    problemas listados pela auditoria (removendo ou corrigindo essas informações específicas).
+    não altere, reescreva ou reformule nenhuma outra parte do resumo que não tenha sido apontada como problema,
+    preserve o texto original nessas partes, inclusive números e escopos já corretos.
+    Se a auditoria não encontrou nenhum problema, retorne o resumo atual exatamente como está, sem nenhuma alteração.
+
+    Retorne apenas o resumo final.
     """
 
     resposta_final_obj = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "Você é um revisor sênior."},
-            {"role": "user", "content": prompt_reflexao}
+            {"role": "system", "content": "Você aplica apenas as correções pontuais indicadas, preservando o "
+                                            "restante do texto exatamente como está."},
+            {"role": "user", "content": prompt_correcao}
         ],
         temperature=0.0
     )
