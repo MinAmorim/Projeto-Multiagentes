@@ -26,6 +26,21 @@ def resumo_reflection_agent(nome_arquivo, texto_artigo):
     - resultados (se houver)
     - contribuição
 
+    EXEMPLOS DE COMPORTAMENTO ESPERADO:
+
+    Se o texto original diz: "Os testes no servidor Alpha reduziram o tempo de execução em 20%."
+    CORRETO: "Houve redução de 20% no tempo de execução no servidor Alpha."
+    ERRADO: "A automação reduziu o tempo em 20%." (generalizou o servidor Alpha para todo o estudo)
+    ERRADO: "Reduziu o tempo significativamente." (omitiu o dado real e adicionou um qualificador vago)
+
+    Se o texto original diz: "Os autores sugerem que a automação pode melhorar a manutenibilidade."
+    CORRETO: "Os autores sugerem que a automação pode melhorar a manutenibilidade."
+    ERRADO: "A automação melhora a manutenibilidade." (transformou uma sugestão em fato estabelecido)
+
+    Se o texto original diz: "A ferramenta identificou 12 defeitos no módulo de login.":
+    CORRETO: "A ferramenta identificou 12 defeitos no módulo de login."
+    ERRADO: "A ferramenta identificou uma quantidade significativa de defeitos." (trocou o dado
+    concreto por um qualificador vago que o texto não usa)
     """
 
     inicio = time.time()
@@ -47,12 +62,22 @@ def resumo_reflection_agent(nome_arquivo, texto_artigo):
     Texto original: {texto_artigo}
     resumo atual: {primeira_resposta}
 
-    Liste, em tópicos curtos, apenas os problemas encontrados no resumo atual:
-    - Afirmações numéricas, métodos, ferramentas ou conclusões que NÃO estão explicitamente no texto original.
-    - Afirmações que generalizam um resultado restrito a um cenário/sistema/amostra específico como se fosse geral.
-    
+    Liste, em tópicos curtos, apenas os problemas encontrados no resumo atual, organizados nas
+    seguintes categorias (pule a categoria se não houver problema nela):
+
+    1. DADOS SEM SUPORTE: números, métodos, ferramentas ou conclusões que NÃO estão explicitamente
+       no texto original.
+    2. PERDA DE ESCOPO: um resultado restrito a um cenário/sistema/amostra/ferramenta específico
+       foi generalizado como se fosse válido para todo o estudo.
+    3. QUALIFICADOR SEM SUPORTE: palavras como "significativa", "essencial", "considerável",
+       "demonstra que" foram adicionadas sem que o texto original expresse esse grau de certeza.
+    4. INTERPRETAÇÃO COMO FATO: o artigo apresenta algo como sugestão, hipótese ou discussão, mas
+       o resumo o escreve como conclusão definitiva.
+    5. FUSÃO INDEVIDA: duas afirmações ou resultados distintos do artigo foram combinados criando
+       uma relação de causa e efeito que o texto original não estabelece.
+
     Regras:
-    - NÃO reescreva o resumo aqui. Apenas liste os problemas encontrados, citando a frase problemática.
+    - Não reescreva o resumo aqui. Apenas liste os problemas encontrados, citando a frase problemática.
     - Se não encontrar nenhum problema, responda apenas: "Nenhum problema encontrado."
     - Não questione nem altere números que já estão corretos e com o escopo correto, liste apenas o que 
       está genuinamente incorreto ou sem suporte.
@@ -97,18 +122,19 @@ def resumo_reflection_agent(nome_arquivo, texto_artigo):
     tempo = time.time() - inicio
 
     uso1 = primeira_resposta_obj.usage
-    uso2 = resposta_final_obj.usage
-    tokens_total = uso1.total_tokens + uso2.total_tokens
+    uso2 = auditoria_obj.usage
+    uso3 = resposta_final_obj.usage
+    tokens_total = uso1.total_tokens + uso2.total_tokens + uso3.total_tokens
     registrar_custo(CAMINHO_CUSTO, {
         "arquivo": nome_arquivo,
         "abordagem": "reflection_agent",
         "tempo_segundos": round(tempo, 2),
-        "tokens_prompt": uso1.prompt_tokens + uso2.prompt_tokens,
-        "tokens_completion": uso1.completion_tokens + uso2.completion_tokens,
+        "tokens_prompt": uso1.prompt_tokens + uso2.prompt_tokens + uso3.prompt_tokens,
+        "tokens_completion": uso1.completion_tokens + uso2.completion_tokens + uso3.completion_tokens,
         "tokens_total": tokens_total,
-        "numero_chamadas": 2,
+        "numero_chamadas": 3,
     })
-    print(f"  {nome_arquivo}: {tempo:.2f}s, {tokens_total} tokens, 2 chamadas")
+    print(f"  {nome_arquivo}: {tempo:.2f}s, {tokens_total} tokens, 3 chamadas")
 
     return resposta_final
 

@@ -29,6 +29,11 @@ def resumo_single_agent(nome_arquivo, texto_artigo):
       a condição, cenário, sistema, amostra ou ferramenta a que ele se refere, exatamente como no 
       texto original. Nunca generalize um resultado válido apenas para um caso específico como se 
       fosse um resultado geral do estudo.
+    - Não transforme sugestões, hipóteses ou discussões dos autores em afirmações categóricas.
+      Se o artigo diz "os autores sugerem" ou "os resultados indicam", preserve esse grau de 
+      certeza no resumo, não escreva como fato definitivo.
+    - Não funda duas frases ou resultados distintos do artigo em uma única afirmação que crie
+      uma relação de causa e efeito que não está explícita no texto original.
     - Caso alguma das informações solicitadas não esteja presente ou não esteja clara no texto original, simplesmente não a inclua na resposta
 
     O resumo deve conter:
@@ -38,6 +43,32 @@ def resumo_single_agent(nome_arquivo, texto_artigo):
     - resultados (se houver)
     - contribuição
 
+    EXEMPLOS DE COMPORTAMENTO ESPERADO:
+
+    Se o texto original diz: "Os testes no servidor Alpha reduziram o tempo de execução em 20%."
+    CORRETO: "Houve redução de 20% no tempo de execução no servidor Alpha."
+    ERRADO: "A automação reduziu o tempo em 20%." (generalizou o servidor Alpha para todo o estudo)
+    ERRADO: "Reduziu o tempo significativamente." (omitiu o dado real e adicionou um qualificador vago)
+
+    Se o texto original diz: "Os autores sugerem que a automação pode melhorar a manutenibilidade."
+    CORRETO: "Os autores sugerem que a automação pode melhorar a manutenibilidade."
+    ERRADO: "A automação melhora a manutenibilidade." (transformou uma sugestão em fato estabelecido)
+
+    Se o texto original diz: "A cobertura passou de 15% em 2020 para 43% em 2023." e, em outro
+    trecho, "a equipe relatou maior confiança no processo de deploy":
+    CORRETO: manter as duas informações como observações separadas.
+    ERRADO: "O aumento da cobertura de 15% para 43% resultou em maior confiança da equipe no
+    deploy." (criou uma relação causal entre dois fatos que o artigo não conecta explicitamente)
+
+    Se o texto original diz: "A ferramenta identificou 12 defeitos no módulo de login.":
+    CORRETO: "A ferramenta identificou 12 defeitos no módulo de login."
+    ERRADO: "A ferramenta identificou uma quantidade significativa de defeitos." (trocou o dado
+    concreto por um qualificador vago que o texto não usa)
+    ERRADO: "A ferramenta demonstrou grande eficácia na detecção de defeitos." (inseriu uma
+    avaliação de mérito, "grande eficácia", que o artigo não faz)
+
+    Antes de finalizar sua resposta, revise mentalmente cada frase do resumo e confirme que ela
+    tem suporte direto e no mesmo escopo do texto original.
     """
 
     inicio = time.time()

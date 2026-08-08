@@ -93,8 +93,21 @@ Resumo gerado: {resumo_gerado}
 
     return cobertura, evidencias
 
-def avaliar_fidelidade(texto_original, resumo_gerado):
-    prompt = f"""
+def _rodar_avaliacao_fidelidade_uma_vez(texto_original, resumo_gerado):
+    resposta = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": _montar_prompt_fidelidade(texto_original, resumo_gerado)}],
+        temperature=0,
+    ).choices[0].message.content
+
+    try:
+        return json.loads(_limpar_json(resposta))
+    except json.JSONDecodeError:
+        return {"nota_fidelidade": None, "afirmacoes_nao_suportadas": []}
+
+
+def _montar_prompt_fidelidade(texto_original, resumo_gerado):
+    return f"""
 Compare o resumo gerado com o artigo original.
 Primeiro, identifique qualquer afirmação, dado numérico, método ou conclusão
 presente no resumo que não tenha suporte direto no texto original.
@@ -121,17 +134,62 @@ Artigo original: {texto_original}
 resumo gerado: {resumo_gerado}
 """.strip()
 
-    resposta = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0,
-    ).choices[0].message.content
 
-    try:
-        fidelidade = json.loads(_limpar_json(resposta))
-    except json.JSONDecodeError:
-        fidelidade = {"nota_fidelidade": None, "afirmacoes_nao_suportadas": []}
-    return fidelidade
+def avaliar_fidelidade(texto_original, resumo_gerado):
+    """
+    Roda a auditoria de fidelidade duas vezes de forma independente e consolida
+    por consenso, para reduzir o ruído do próprio avaliador (mesmo em
+    temperature=0 o LLM-juiz tem variância residual entre chamadas, o que pode
+    mascarar diferenças reais e pequenas entre abordagens).
+
+    - nota_fidelidade final: média das duas notas, arredondada para o inteiro
+      mais próximo (ties arredondam para cima), mantendo a régua 1-5.
+    - afirmacoes_nao_suportadas final: apenas as afirmações que a auditoria
+      considerou problemáticas nas DUAS rodadas (interseção aproximada por
+      similaridade textual simples), para não penalizar por um julgamento
+      espúrio isolado de uma única rodada.
+    """
+    rodada_1 = _rodar_avaliacao_fidelidade_uma_vez(texto_original, resumo_gerado)
+    rodada_2 = _rodar_avaliacao_fidelidade_uma_vez(texto_original, resumo_gerado)
+
+    notas = [r["nota_fidelidade"] for r in (rodada_1, rodada_2) if r.get("nota_fidelidade") is not None]
+    if notas:
+        nota_final = int(round(sum(notas) / len(notas)))
+    else:
+        nota_final = None
+
+    afirmacoes_1 = rodada_1.get("afirmacoes_nao_suportadas", []) or []
+    afirmacoes_2 = rodada_2.get("afirmacoes_nao_suportadas", []) or []
+
+    def _normalizar(texto):
+        return " ".join(texto.lower().split())
+
+    normalizadas_2 = [_normalizar(a) for a in afirmacoes_2]
+    consenso = []
+    for afirmacao in afirmacoes_1:
+        alvo = _normalizar(afirmacao)
+        # match aproximado: considera consenso se uma afirmação da rodada 1
+        # compartilha uma fração substancial de palavras com alguma da rodada 2
+        for outra in normalizadas_2:
+            palavras_alvo = set(alvo.split())
+            palavras_outra = set(outra.split())
+            if not palavras_alvo or not palavras_outra:
+                continue
+            sobreposicao = len(palavras_alvo & palavras_outra) / min(len(palavras_alvo), len(palavras_outra))
+            if sobreposicao >= 0.5:
+                consenso.append(afirmacao)
+                break
+
+    return {
+        "nota_fidelidade": nota_final,
+        "afirmacoes_nao_suportadas": consenso,
+        "nota_fidelidade_rodada_1": rodada_1.get("nota_fidelidade"),
+        "nota_fidelidade_rodada_2": rodada_2.get("nota_fidelidade"),
+        "concordancia_notas": (
+            rodada_1.get("nota_fidelidade") == rodada_2.get("nota_fidelidade")
+            if notas and len(notas) == 2 else None
+        ),
+    }
 
 def avaliar_arquivo(nome_arquivo, abordagem):
     caminho_gold = os.path.join(PASTA_GOLD, nome_arquivo)
@@ -166,6 +224,9 @@ def avaliar_arquivo(nome_arquivo, abordagem):
         "fidelidade_nota": fidelidade["nota_fidelidade"],
         "fidelidade_qtd_nao_suportadas": len(fidelidade["afirmacoes_nao_suportadas"]),
         "fidelidade_afirmacoes_nao_suportadas": " | ".join(fidelidade["afirmacoes_nao_suportadas"]),
+        "fidelidade_nota_rodada_1": fidelidade.get("nota_fidelidade_rodada_1"),
+        "fidelidade_nota_rodada_2": fidelidade.get("nota_fidelidade_rodada_2"),
+        "fidelidade_concordancia_rodadas": fidelidade.get("concordancia_notas"),
     }
     for elemento in ELEMENTOS_COBERTURA:
         linha[f"cobertura_{elemento}"] = cobertura.get(elemento)

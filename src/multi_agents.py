@@ -63,14 +63,22 @@ def gerar_resumo_multiagente(nome_arquivo, texto_artigo):
     )
 
     tarefa_problema = Task(
-        description=f'Leia o seguinte artigo e extraia o problema e a lacuna. Regra: cite apenas o que os autores afirmam explicitamente sobre o problema/lacuna. Não reforce, generalize nem torne a afirmação mais categórica do que o texto original permite. Artigo: {texto_artigo}',
-        expected_output='Um parágrafo descrevendo o problema de pesquisa.',
+        description=f'''Leia o seguinte artigo e extraia o problema e a lacuna. Regra: cite apenas o que os 
+        autores afirmam explicitamente sobre o problema/lacuna. Não reforce, generalize nem torne a afirmação 
+        mais categórica do que o texto original permite. Para cada afirmação que você fizer, inclua entre 
+        aspas um trecho curto (citação literal) do artigo original que a comprove diretamente.
+        Artigo: {texto_artigo}''',
+        expected_output='Um parágrafo descrevendo o problema de pesquisa, com cada afirmação acompanhada de '
+                         'uma citação literal curta entre aspas que a comprove no texto original.',
         agent=agente_problema
     )
 
     tarefa_metodo = Task(
-        description=f'Leia o seguinte artigo e extraia o método e materiais. Artigo: {texto_artigo}',
-        expected_output='Um parágrafo descrevendo a metodologia e o desenho do estudo.',
+        description=f'''Leia o seguinte artigo e extraia o método e materiais. Para cada afirmação que você 
+        fizer, inclua entre aspas um trecho curto (citação literal) do artigo original que a comprove diretamente.
+        Artigo: {texto_artigo}''',
+        expected_output='Um parágrafo descrevendo a metodologia e o desenho do estudo, com cada afirmação '
+                         'acompanhada de uma citação literal curta entre aspas que a comprove no texto original.',
         agent=agente_metodo
     )
 
@@ -78,24 +86,45 @@ def gerar_resumo_multiagente(nome_arquivo, texto_artigo):
         description=f'''Leia o seguinte artigo e extraia os resultados e contribuições.
         Regra: preserve o cenário/sistema/condição exata a que cada resultado numérico se refere. Ao descrever 
         a contribuição do estudo, não amplie seu alcance nem a apresente como mais certa ou geral do que os 
-        autores expressam, cite apenas o que está explicitamente afirmado.
+        autores expressam, cite apenas o que está explicitamente afirmado. Para cada afirmação que você fizer, 
+        inclua entre aspas um trecho curto (citação literal) do artigo original que a comprove diretamente.
+
+        Exemplo: se o artigo diz "Os testes no servidor Alpha reduziram o tempo de execução em 20%",
+        escreva "Houve redução de 20% no tempo de execução no servidor Alpha" — nunca "A automação
+        reduziu o tempo em 20%" (isso generalizaria um resultado restrito ao servidor Alpha).
+
         Artigo: {texto_artigo}''',
-        expected_output='Um parágrafo descrevendo os resultados e contribuições.',
+        expected_output='Um parágrafo descrevendo os resultados e contribuições, com cada afirmação '
+                         'acompanhada de uma citação literal curta entre aspas que a comprove no texto original.',
         agent=agente_resultados
     )
 
     tarefa_sintese = Task(
-        description=f'''A partir do problema, método e resultados extraídos pelos outros especialistas, redija o resumo final.
-        Siga este processo em duas etapas:
-        1 - Utilize as notas produzidas pelos especialistas como base para estruturar o resumo, tomando sempre o texto original como principal referência.
-        2 - Revise o resumo elaborado e verifique se todas as afirmações numéricas, métodos, ferramentas e conclusões apresentados estão explicitamente fundamentados no texto original. Confirme também se cada informação preserva o mesmo contexto e escopo em que foi apresentada no artigo. Quando um resultado estiver restrito a um cenário, método, ferramenta ou módulo específico, essa restrição deve permanecer explícita no resumo. Caso identifique informações sem suporte direto, interpretações ou generalizações indevidas, corrija-as ou remova-as. Em situações de dúvida, prefira uma formulação mais conservadora, compatível com as evidências disponíveis no texto.
-        3 - Verifique também o tom das frases de abertura (problema/lacuna) e fechamento (contribuição): elas devem refletir o mesmo grau de certeza que os autores expressam no artigo. Se os autores sugerem ou discutem algo, não reescreva como se fosse um fato estabelecido. Prefira formulações como "os autores argumentam que..." quando a afirmação for interpretação, não fato direto.
-        Retorne apenas a versão final do resumo, sem incluir o rascunho ou o processo de revisão.
+        description=f'''A partir do problema, método e resultados extraídos pelos outros especialistas (que 
+        incluem citações literais do artigo como evidência), redija o resumo final em português do Brasil, 
+        coeso e fluido, tomando sempre o texto original como principal referência.
+
+        Regras de fidelidade:
+        - Utilize apenas as informações presentes nas notas dos especialistas e no artigo original.
+        - Se uma nota diz que um resultado é válido apenas para um cenário/sistema/ferramenta específico
+          (ex: "no servidor Alpha"), mantenha essa restrição no resumo — não generalize para "a automação"
+          ou "o sistema" de forma ampla.
+        - Se uma nota expressa uma sugestão ou hipótese dos autores, mantenha esse grau de certeza
+          ("os autores sugerem que...") em vez de escrever como fato estabelecido.
+        - Não adicione qualificadores como "significativa", "essencial" ou "considerável" que não estejam
+          nas notas ou no artigo original.
+        - Não combine duas afirmações distintas criando uma relação de causa e efeito que o artigo não
+          estabelece explicitamente.
+
+        Antes de finalizar, revise mentalmente cada frase e confirme que tem suporte direto e no mesmo
+        escopo do texto original.
+
         Texto original do artigo: {texto_artigo}
         O resumo deve ser escrito obrigatoriamente em português do Brasil e ser um texto coeso e fluido.''',
-        expected_output='Um resumo científico completo e fluido, 100% fiel ao texto original, escrito em português do Brasil.',
+        expected_output='Um resumo científico completo e fluido, 100% fiel ao texto original, escrito em '
+                         'português do Brasil.',
         agent=agente_sintetizador,
-        context=[tarefa_problema, tarefa_metodo, tarefa_resultados] 
+        context=[tarefa_problema, tarefa_metodo, tarefa_resultados]
     )
 
     equipe = Crew(
