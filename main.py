@@ -5,8 +5,6 @@ import subprocess
 CAMINHO_BASE = os.path.dirname(os.path.abspath(__file__))
 
 ETAPAS = [
-    os.path.join(CAMINHO_BASE, "src", "utils", "convert_pdf.py"),
-    os.path.join(CAMINHO_BASE, "src", "utils", "extract_gold.py"),
     os.path.join(CAMINHO_BASE, "src", "single_agent.py"),
     os.path.join(CAMINHO_BASE, "src", "reflection_agent.py"),
     os.path.join(CAMINHO_BASE, "src", "multi_agents.py"),

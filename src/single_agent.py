@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 from utils.custo import registrar_custo
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
+client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
+MODELO = "qwen2.5-16k"
 CAMINHO_BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PASTA_PROCESSADOS = os.path.join(CAMINHO_BASE, "data", "processed_sem_resumo")
 PASTA_OUTPUT = os.path.join(CAMINHO_BASE, "data", "outputs", "single_agent")
@@ -15,74 +15,97 @@ CAMINHO_CUSTO = os.path.join(CAMINHO_BASE, "data", "resultados", "custo.csv")
 
 
 def resumo_single_agent(nome_arquivo, texto_artigo):
-    
+
+
     prompt_sistema = """
-    Você é um pesquisador acadêmico.
-    Sua tarefa é ler o corpo de um artigo científico e escrever um resumo científico claro e conciso.
-    O resumo deve ser escrito obrigatoriamente em português do Brasil.
+Você é um pesquisador acadêmico. Leia o corpo de um artigo científico e escreva um resumo
+em português do Brasil.
 
-    Regras obrigatórias:
-    - Utilize apenas as informações presentes no texto fornecido.
-    - Não acrescente informações externas, nem faça suposições
-    - Não invente dados, métricas ou conclusões
-    - Ao citar qualquer número, percentual, taxa ou resultado quantitativo, inclua explicitamente 
-      a condição, cenário, sistema, amostra ou ferramenta a que ele se refere, exatamente como no 
-      texto original. Nunca generalize um resultado válido apenas para um caso específico como se 
-      fosse um resultado geral do estudo.
-    - Não transforme sugestões, hipóteses ou discussões dos autores em afirmações categóricas.
-      Se o artigo diz "os autores sugerem" ou "os resultados indicam", preserve esse grau de 
-      certeza no resumo, não escreva como fato definitivo.
-    - Não funda duas frases ou resultados distintos do artigo em uma única afirmação que crie
-      uma relação de causa e efeito que não está explícita no texto original.
-    - Caso alguma das informações solicitadas não esteja presente ou não esteja clara no texto original, simplesmente não a inclua na resposta
+FORMATO OBRIGATÓRIO: um único parágrafo corrido, entre 150 e 250 palavras. Nunca use
+títulos, seções, listas numeradas ou tópicos. Nunca cite o nome dos autores, o título do
+artigo, nem a instituição ou universidade a que os autores são vinculados. Nunca use
+aspas com trechos literais do texto original, reescreva com suas próprias palavras. Nunca
+mencione "a tabela X", "a figura X" ou "o gráfico X"; descreva a informação diretamente,
+sem referenciar o elemento visual de onde ela veio.
 
-    O resumo deve conter:
-    - problema
-    - objetivo
-    - método
-    - resultados (se houver)
-    - contribuição
+REGRA DE COESÃO: o resumo precisa ter começo, meio e fim, como um texto corrido e
+contínuo, não um amontoado de frases desconexas em que cada uma trata de um tópico
+isolado sem ligação com a anterior. Uma frase deve levar naturalmente à próxima.
 
-    EXEMPLOS DE COMPORTAMENTO ESPERADO:
+REGRA DE SOBRIEDADE: evite o uso excessivo de adjetivos e advérbios que não tenham
+suporte direto no texto original. Prefira descrever o fato de forma direta a qualificá-lo
+com termos de valor (ex: em vez de "resultados extremamente positivos", descreva o
+resultado concreto que o artigo apresenta).
 
-    Se o texto original diz: "Os testes no servidor Alpha reduziram o tempo de execução em 20%."
-    CORRETO: "Houve redução de 20% no tempo de execução no servidor Alpha."
-    ERRADO: "A automação reduziu o tempo em 20%." (generalizou o servidor Alpha para todo o estudo)
-    ERRADO: "Reduziu o tempo significativamente." (omitiu o dado real e adicionou um qualificador vago)
+REGRAS DE FIDELIDADE:
+- Use só o que está no texto fornecido. Não invente dados, métricas ou conclusões.
+- Ao citar qualquer número ou resultado, inclua o cenário/sistema/amostra exato a que ele
+  se refere. Nunca generalize um resultado específico como se valesse para o estudo todo.
+- Se o artigo trata algo como sugestão ou hipótese ("os autores sugerem que..."), preserve
+  esse grau de incerteza no resumo. Não transforme em afirmação categórica.
+- Não funda dois resultados distintos numa relação de causa e efeito que o artigo não
+  estabelece explicitamente.
+- Se usar uma sigla, escreva por extenso entre parênteses na primeira aparição.
+- Não adicione ressalvas como "embora", "no entanto", "apesar de" a não ser que o artigo
+  genuinamente discuta aquele contraponto naquele ponto específico.
 
-    Se o texto original diz: "Os autores sugerem que a automação pode melhorar a manutenibilidade."
-    CORRETO: "Os autores sugerem que a automação pode melhorar a manutenibilidade."
-    ERRADO: "A automação melhora a manutenibilidade." (transformou uma sugestão em fato estabelecido)
+REGRA DE REGISTRO (norma ABNT NBR 6028): escreva na voz ativa, terceira pessoa do singular
+("o estudo identificou", "os autores desenvolveram"), nunca na voz passiva ("foi
+desenvolvida"). Evite comentar o artigo de fora ("o artigo apresenta", "este trabalho
+discute"); vá direto ao conteúdo.
 
-    Se o texto original diz: "A cobertura passou de 15% em 2020 para 43% em 2023." e, em outro
-    trecho, "a equipe relatou maior confiança no processo de deploy":
-    CORRETO: manter as duas informações como observações separadas.
-    ERRADO: "O aumento da cobertura de 15% para 43% resultou em maior confiança da equipe no
-    deploy." (criou uma relação causal entre dois fatos que o artigo não conecta explicitamente)
+REGRA DE ABERTURA: não comece com uma frase genérica que serviria para qualquer artigo da
+área (ex: "a automação de testes é importante para a qualidade do software"). Comece pelo
+problema, ferramenta ou achado específico deste artigo.
 
-    Se o texto original diz: "A ferramenta identificou 12 defeitos no módulo de login.":
-    CORRETO: "A ferramenta identificou 12 defeitos no módulo de login."
-    ERRADO: "A ferramenta identificou uma quantidade significativa de defeitos." (trocou o dado
-    concreto por um qualificador vago que o texto não usa)
-    ERRADO: "A ferramenta demonstrou grande eficácia na detecção de defeitos." (inseriu uma
-    avaliação de mérito, "grande eficácia", que o artigo não faz)
+EXEMPLO DE RESUMO NO FORMATO CORRETO:
+"Os movimentos sociais que surgiram a partir da década de 1970 imprimiram uma nova noção de 
+cidadania através da participação popular para a ampliação de espaços públicos. Propõe-se 
+a observar a possibilidade de reconhecimento de um espaço público de interlocução e deliberação, 
+segundo um modelo de atenção pública não estatal, focalizando o caso da Organização Social de Saúde 
+Hospital Geral do Grajaú. Trata-se de entidade instituída com base na proposta de parcerias entre 
+Estado e sociedade civil, do governo federal, de reforma do aparelho de Estado, com características 
+próprias no Estado de São Paulo - exclusividade para o Sistema Único de Saúde, serviço novo e controle 
+da Secretaria Estadual de Saúde. Por meio de estudo da legislação pertinente e com uso de metodologia
+qualitativa, procedeu-se à observação participante e a entrevistas semi-estruturadas, com lideranças 
+de movimentos sociais e de gerentes do Estado na região das sub-Prefeituras de Capela da Socorro e 
+Parelheiros. O estudo recuperou a história de participação popular na região por recursos que 
+possibilitassem condições de vida e saúde, caracterizando atores que se mantêm atuantes, e buscam o 
+diálogo institucional no sistema de saúde e, em especial, na organização social. Constatou a carência 
+de recursos para atender à demanda de saúde na região, para a qual a organização social vem dando respostas, 
+e as dificuldades em estabelecer um sistema referenciado. Observou possibilidades de interlocução entre a 
+população organizada e a organização social. Concluiu que parcerias reguladas se efetivam no cotidiano e 
+que para tal, é necessário também, postura participativa, bem como, permeabilidade para relações democráticas."
 
-    Antes de finalizar sua resposta, revise mentalmente cada frase do resumo e confirme que ela
-    tem suporte direto e no mesmo escopo do texto original.
-    """
+CASOS CERTO/ERRADO:
+- Original: "Os testes no servidor Alpha reduziram o tempo de execução em 20%."
+  CERTO: "Houve redução de 20% no tempo de execução no servidor Alpha."
+  ERRADO: "A automação reduziu o tempo em 20%." (generalizou um cenário específico)
+- Original: "Os autores sugerem que a automação pode melhorar a manutenibilidade."
+  CERTO: manter como sugestão.
+  ERRADO: "A automação melhora a manutenibilidade." (virou fato definitivo)
+- ERRADO: "O artigo de João Silva apresenta uma ferramenta..." (cita nome de autor)
+  ERRADO: "Os autores afirmam que 'a ferramenta reduziu o tempo em 40%'." (usa aspas)
 
+Antes de responder, confira: o texto é um único parágrafo, tem entre 150 e 250 palavras,
+não tem headers nem listas, não cita autor, tem fluxo contínuo entre as frases, e cada
+frase tem suporte direto no artigo.
+"""
+    
+    
     inicio = time.time()
-    response = client.chat.completions.create(
-        model = "gpt-4o-mini",
+    resposta = client.chat.completions.create(
+      model = MODELO,
         messages = [
             {"role": "system", "content": prompt_sistema},
             {"role": "user", "content": f"Artigo para processar: {texto_artigo}"}
         ],
-        temperature=0.0
+        temperature=0.0,
+        extra_body={"options": {"num_ctx": 16384}}
     )
     tempo = time.time() - inicio
 
-    uso = response.usage
+    uso = resposta.usage
     registrar_custo(CAMINHO_CUSTO, {
         "arquivo": nome_arquivo,
         "abordagem": "single_agent",
@@ -94,7 +117,7 @@ def resumo_single_agent(nome_arquivo, texto_artigo):
     })
     print(f"  {nome_arquivo}: {tempo:.2f}s, {uso.total_tokens} tokens, 1 chamada")
 
-    return response.choices[0].message.content
+    return resposta.choices[0].message.content
 
 def executar ():
     arquivos = [f for f in os.listdir(PASTA_PROCESSADOS) if f.endswith(".txt")]

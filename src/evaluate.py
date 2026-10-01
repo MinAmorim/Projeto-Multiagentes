@@ -7,7 +7,8 @@ from rouge_score import rouge_scorer
 from bert_score import score as bert_score
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
+MODELO = "qwen2.5-16k"
 
 CAMINHO_BASE = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 PASTA_PROCESSADOS = os.path.join(CAMINHO_BASE, "data", "processed")
@@ -21,6 +22,7 @@ ELEMENTOS_COBERTURA = ["problema", "objetivo", "metodo", "resultados", "contribu
 
 scorer_rouge = rouge_scorer.RougeScorer(["rouge1", "rouge2", "rougeL"], use_stemmer=False)
 
+
 def _limpar_json(resposta_llm):
     texto = resposta_llm.strip()
     if texto.startswith("```"):
@@ -29,9 +31,29 @@ def _limpar_json(resposta_llm):
             texto = texto[4:]
     return texto.strip()
 
+
+def _normalizar_texto(texto):
+    return " ".join(texto.lower().split())
+
+
+def _evidencia_esta_no_resumo(evidencia, resumo_gerado):
+    """
+    Checagem programática simples: confirma se a evidência citada pelo juiz
+    realmente aparece (literalmente) no resumo gerado, e não no artigo
+    original. Uma evidência vazia (elemento marcado como ausente) não
+    precisa ser validada.
+    """
+    if not evidencia:
+        return True
+    evidencia_norm = _normalizar_texto(evidencia)
+    resumo_norm = _normalizar_texto(resumo_gerado)
+    return evidencia_norm in resumo_norm
+
+
 def calcular_rouge(gold, gerado):
     scores = scorer_rouge.score(gold, gerado)
     return {chave: valor.fmeasure for chave, valor in scores.items()}
+
 
 def calcular_bertscore(gold, gerado):
     precisao, recall, f1 = bert_score([gerado], [gold], lang="pt", verbose=False)
@@ -41,68 +63,91 @@ def calcular_bertscore(gold, gerado):
         "f1": f1.item(),
     }
 
+
 def avaliar_cobertura_semantica(texto_original, resumo_gerado):
     prompt = f"""
-Analise o resumo gerado com base no trecho do artigo original fornecido.
-Verifique a presença de cinco elementos estruturais no resumo: problema,
-objetivo, método, resultados e contribuição.
+Você vai analisar dois textos: um ARTIGO ORIGINAL (mais longo) e um RESUMO GERADO (mais
+curto, entre 150 e 250 palavras). Sua tarefa é avaliar apenas o RESUMO GERADO.
+
+Verifique a presença de cinco elementos estruturais no RESUMO GERADO: problema, objetivo,
+método, resultados e contribuição.
 
 Seja rigoroso: só marque presente=1 se o elemento estiver explicitamente e
-inequivocamente no resumo, com um trecho concreto que comprove isso. Não
-marque 1 por inferência, insinuação, ou porque "parece que está implícito".
-Um resumo bem escrito ainda pode deixar de contemplar um ou mais desses
-elementos com clareza, não hesite em marcar 0 nesses casos.
+inequivocamente no RESUMO GERADO (não no artigo original), com um trecho concreto do
+RESUMO GERADO que comprove isso. Não marque 1 por inferência, insinuação, ou porque
+"parece que está implícito". Um resumo bem escrito ainda pode deixar de contemplar um ou
+mais desses elementos com clareza, não hesite em marcar 0 nesses casos.
 
-Para cada elemento, retorne presente (0 ou 1) e evidencia (uma citação curta
-e literal do resumo gerado que comprove a marcação; string vazia "" se
-presente=0).
+REGRA CRÍTICA SOBRE A EVIDÊNCIA: a evidência DEVE ser uma frase copiada literalmente do
+RESUMO GERADO (o texto fornecido depois de "RESUMO GERADO:" abaixo), nunca do ARTIGO
+ORIGINAL. O artigo original é mais longo, costuma ter citações bibliográficas como
+"[Autor, ano]" e frases diferentes do resumo. Se você citar uma frase que só existe no
+artigo original e não no resumo gerado, isso é um erro grave. Antes de escrever cada
+evidência, confirme mentalmente que aquela frase exata aparece no texto do RESUMO GERADO.
 
-Retorne exclusivamente este JSON, sem texto adicional:
+Retorne exclusivamente este JSON plano, sem aninhamento e sem texto adicional:
 {{
-  "problema": {{"presente": 0 ou 1, "evidencia": "..."}},
-  "objetivo": {{"presente": 0 ou 1, "evidencia": "..."}},
-  "metodo": {{"presente": 0 ou 1, "evidencia": "..."}},
-  "resultados": {{"presente": 0 ou 1, "evidencia": "..."}},
-  "contribuicao": {{"presente": 0 ou 1, "evidencia": "..."}}
+  "problema_presente": 0 ou 1,
+  "problema_evidencia": "...",
+  "objetivo_presente": 0 ou 1,
+  "objetivo_evidencia": "...",
+  "metodo_presente": 0 ou 1,
+  "metodo_evidencia": "...",
+  "resultados_presente": 0 ou 1,
+  "resultados_evidencia": "...",
+  "contribuicao_presente": 0 ou 1,
+  "contribuicao_evidencia": "..."
 }}
 
-Artigo original: {texto_original}
+ARTIGO ORIGINAL: {texto_original}
 
-Resumo gerado: {resumo_gerado}
+RESUMO GERADO: {resumo_gerado}
 """.strip()
 
     resposta = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model=MODELO,
         messages=[{"role": "user", "content": prompt}],
         temperature=0,
+        extra_body={"options": {"num_ctx": 16384}},
+        response_format={"type": "json_object"},
     ).choices[0].message.content
 
     try:
         bruto = json.loads(_limpar_json(resposta))
         cobertura = {
-            elemento: bruto.get(elemento, {}).get("presente")
+            elemento: bruto.get(f"{elemento}_presente")
             for elemento in ELEMENTOS_COBERTURA
         }
         evidencias = {
-            elemento: bruto.get(elemento, {}).get("evidencia", "")
+            elemento: bruto.get(f"{elemento}_evidencia", "")
             for elemento in ELEMENTOS_COBERTURA
         }
     except (json.JSONDecodeError, AttributeError):
+        print(f"  [AVISO] Falha ao parsear JSON de cobertura. Resposta bruta: {resposta[:300]}")
         cobertura = {elemento: None for elemento in ELEMENTOS_COBERTURA}
         evidencias = {elemento: "" for elemento in ELEMENTOS_COBERTURA}
 
-    return cobertura, evidencias
+    evidencias_suspeitas = {
+        elemento: not _evidencia_esta_no_resumo(evidencias.get(elemento, ""), resumo_gerado)
+        for elemento in ELEMENTOS_COBERTURA
+    }
+
+    return cobertura, evidencias, evidencias_suspeitas
+
 
 def _rodar_avaliacao_fidelidade_uma_vez(texto_original, resumo_gerado):
     resposta = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model=MODELO,
         messages=[{"role": "user", "content": _montar_prompt_fidelidade(texto_original, resumo_gerado)}],
         temperature=0,
+        extra_body={"options": {"num_ctx": 16384}},
+        response_format={"type": "json_object"},
     ).choices[0].message.content
 
     try:
         return json.loads(_limpar_json(resposta))
     except json.JSONDecodeError:
+        print(f"  [AVISO] Falha ao parsear JSON de fidelidade. Resposta bruta: {resposta[:300]}")
         return {"nota_fidelidade": None, "afirmacoes_nao_suportadas": []}
 
 
@@ -110,7 +155,27 @@ def _montar_prompt_fidelidade(texto_original, resumo_gerado):
     return f"""
 Compare o resumo gerado com o artigo original.
 Primeiro, identifique qualquer afirmação, dado numérico, método ou conclusão
-presente no resumo que não tenha suporte direto no texto original.
+presente no resumo que não tenha suporte no texto original.
+
+IMPORTANTE sobre o que conta como "suporte" (leia com atenção antes de avaliar):
+- O resumo pode e deve parafrasear o artigo original com outras palavras. NÃO marque
+  uma afirmação como não suportada apenas porque a frase não é idêntica ou não usa as
+  mesmas palavras do texto original, verifique o SIGNIFICADO da afirmação contra o
+  significado do texto original, não a correspondência literal de string.
+- O resumo pode combinar, em uma única frase, informações que aparecem em frases ou
+  parágrafos diferentes do artigo original (ex.: unir o objetivo do estudo com o
+  contexto/problema, ou um resultado com o método que o gerou). Isso é esperado e não
+  é, por si só, motivo para marcar como não suportado, desde que cada fato individual
+  esteja presente no artigo e a combinação não crie uma relação de causa e efeito,
+  generalização ou atribuição de escopo que o artigo não estabelece explicitamente.
+- Números, datas, percentuais, nomes de ferramentas/sistemas e conclusões devem
+  corresponder ao que está no artigo original (aqui a precisão do dado em si importa),
+  mas a frase ao redor deles pode estar totalmente reescrita, resumida ou reorganizada.
+- Antes de marcar uma afirmação como não suportada, procure ativamente pelo SIGNIFICADO
+  dela em qualquer parte do artigo original (não apenas por correspondência textual
+  próxima). Só marque como não suportada se, mesmo assim, você não encontrar essa
+  informação, ou encontrar uma informação diferente, mais restrita, ou com escopo
+  distinto do que o resumo apresenta.
 
 Depois, atribua a nota_fidelidade seguindo ESTRITAMENTE esta régua, para
 manter a nota consistente com a lista de afirmações não suportadas que você
@@ -122,7 +187,7 @@ levantou:
 - 1: invenção de dado central (número, conclusão ou método incorretos)
 
 A nota_fidelidade deve ser sempre coerente com o tamanho e a gravidade da
-lista de afirmacoes_nao_suportadas -- não atribua uma nota alta se a lista
+lista de afirmacoes_nao_suportadas: não atribua uma nota alta se a lista
 tiver várias afirmações, nem uma nota baixa se a lista estiver vazia.
 
 Se o resumo for totalmente fiel, retorne uma lista vazia.
@@ -161,15 +226,10 @@ def avaliar_fidelidade(texto_original, resumo_gerado):
     afirmacoes_1 = rodada_1.get("afirmacoes_nao_suportadas", []) or []
     afirmacoes_2 = rodada_2.get("afirmacoes_nao_suportadas", []) or []
 
-    def _normalizar(texto):
-        return " ".join(texto.lower().split())
-
-    normalizadas_2 = [_normalizar(a) for a in afirmacoes_2]
+    normalizadas_2 = [_normalizar_texto(a) for a in afirmacoes_2]
     consenso = []
     for afirmacao in afirmacoes_1:
-        alvo = _normalizar(afirmacao)
-        # match aproximado: considera consenso se uma afirmação da rodada 1
-        # compartilha uma fração substancial de palavras com alguma da rodada 2
+        alvo = _normalizar_texto(afirmacao)
         for outra in normalizadas_2:
             palavras_alvo = set(alvo.split())
             palavras_outra = set(outra.split())
@@ -191,6 +251,7 @@ def avaliar_fidelidade(texto_original, resumo_gerado):
         ),
     }
 
+
 def avaliar_arquivo(nome_arquivo, abordagem):
     caminho_gold = os.path.join(PASTA_GOLD, nome_arquivo)
     caminho_gerado = os.path.join(PASTA_OUTPUTS, abordagem, nome_arquivo)
@@ -208,8 +269,11 @@ def avaliar_arquivo(nome_arquivo, abordagem):
 
     rouge = calcular_rouge(gold, gerado)
     bert = calcular_bertscore(gold, gerado)
-    cobertura, evidencias_cobertura = avaliar_cobertura_semantica(original, gerado)
+    cobertura, evidencias_cobertura, evidencias_suspeitas = avaliar_cobertura_semantica(original, gerado)
     fidelidade = avaliar_fidelidade(original, gerado)
+
+    valores_cobertura_validos = [v for v in cobertura.values() if v is not None]
+    cobertura_falhou = len(valores_cobertura_validos) == 0
 
     linha = {
         "arquivo": nome_arquivo,
@@ -220,7 +284,9 @@ def avaliar_arquivo(nome_arquivo, abordagem):
         "bertscore_precisao": round(bert["precisao"], 4),
         "bertscore_recall": round(bert["recall"], 4),
         "bertscore_f1": round(bert["f1"], 4),
-        "cobertura_score": sum(v for v in cobertura.values() if v is not None),
+        "cobertura_score": sum(valores_cobertura_validos) if not cobertura_falhou else None,
+        "cobertura_falha_parsing": cobertura_falhou,
+        "cobertura_evidencia_suspeita": any(evidencias_suspeitas.values()),
         "fidelidade_nota": fidelidade["nota_fidelidade"],
         "fidelidade_qtd_nao_suportadas": len(fidelidade["afirmacoes_nao_suportadas"]),
         "fidelidade_afirmacoes_nao_suportadas": " | ".join(fidelidade["afirmacoes_nao_suportadas"]),
@@ -231,8 +297,10 @@ def avaliar_arquivo(nome_arquivo, abordagem):
     for elemento in ELEMENTOS_COBERTURA:
         linha[f"cobertura_{elemento}"] = cobertura.get(elemento)
         linha[f"cobertura_{elemento}_evidencia"] = evidencias_cobertura.get(elemento, "")
+        linha[f"cobertura_{elemento}_evidencia_suspeita"] = evidencias_suspeitas.get(elemento, False)
 
     return linha
+
 
 def executar():
     os.makedirs(PASTA_RESULTADOS, exist_ok=True)
@@ -271,15 +339,16 @@ def executar():
     with open(caminho_csv, "w", newline="", encoding="utf-8-sig") as f:
         escritor = csv.DictWriter(f, fieldnames=resultados[0].keys(), delimiter=";")
         escritor.writeheader()
-        
+
         for linha in resultados:
             for k, v in linha.items():
                 if isinstance(v, float):
                     linha[k] = str(v).replace(".", ",")
-                    
+
         escritor.writerows(resultados)
 
     print(f"\nResultados salvos em {caminho_csv}")
+
 
 if __name__ == "__main__":
     executar()

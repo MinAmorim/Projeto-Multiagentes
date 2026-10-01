@@ -1,0 +1,9 @@
+A proteção da infraestrutura de rede está diretamente relacionada à
+definição adequada das regras de filtragem, processo técnico detalhado que pode
+ser comprometido por falhas operacionais. Assim, o presente texto apresenta
+o FirewallTester, uma ferramenta técnico-pedagógica que aplica princípios de
+automação de testes de software à validação dinâmica de regras de firewall. A
+solução integra GNS3 e contêineres Docker para executar casos de teste em
+ambientes de alta fidelidade, permitindo a verificação sistemática de políticas de
+segurança. A avaliação com discentes de cibersegurança indicou elevada aceitabilidade, com o índice SUS obtendo uma avaliação de 77,11 pontos, evidenciando
+seu potencial como ferramenta de apoio à formação técnica na área.
